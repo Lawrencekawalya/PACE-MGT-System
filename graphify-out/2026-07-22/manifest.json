@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "database/seeders/DatabaseSeeder.php": {
-    "mtime": 1784728122.4258666,
-    "ast_hash": "a928fa75d1638ddf942cd3ca78b8e3f9",
+    "mtime": 1784731556.434815,
+    "ast_hash": "defe3ac0fefb75748114d20584517965",
     "semantic_hash": ""
   },
   "eslint.config.js": {
@@ -1890,8 +1890,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/CatalogueImportTest.php": {
-    "mtime": 1784730809.5741313,
-    "ast_hash": "ce1c627211587c1b5d9e50e0022fac98",
+    "mtime": 1784731556.6548145,
+    "ast_hash": "0e8c57a8f4d74e50137e192dcf97dff3",
     "semantic_hash": ""
   },
   "tests/Feature/CatalogueManagementTest.php": {
@@ -1902,6 +1902,11 @@
   "tests/Unit/CatalogueImportServiceTest.php": {
     "mtime": 1784730789.0841672,
     "ast_hash": "c6aa66476c75e4a302b8ed529d2a3687",
+    "semantic_hash": ""
+  },
+  "database/seeders/PaceCatalogueSeeder.php": {
+    "mtime": 1784731556.2148154,
+    "ast_hash": "383e19067bd1b4f19aff8602e3d49096",
     "semantic_hash": ""
   }
 }

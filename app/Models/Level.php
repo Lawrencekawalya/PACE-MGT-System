@@ -20,6 +20,12 @@ class Level extends Model
         return $this->hasMany(CurriculumRequirement::class)->orderBy('sort_order');
     }
 
+    /** @return HasMany<StudentEnrollment, $this> */
+    public function studentEnrollments(): HasMany
+    {
+        return $this->hasMany(StudentEnrollment::class);
+    }
+
     protected function casts(): array
     {
         return ['sort_order' => 'integer', 'is_active' => 'boolean'];

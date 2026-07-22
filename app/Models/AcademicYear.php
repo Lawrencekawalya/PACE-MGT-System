@@ -25,6 +25,12 @@ class AcademicYear extends Model
         return $this->hasMany(Term::class)->orderBy('sort_order');
     }
 
+    /** @return HasMany<StudentEnrollment, $this> */
+    public function studentEnrollments(): HasMany
+    {
+        return $this->hasMany(StudentEnrollment::class);
+    }
+
     protected function casts(): array
     {
         return ['starts_on' => 'date', 'ends_on' => 'date', 'is_active' => 'boolean', 'is_closed' => 'boolean'];

@@ -13,12 +13,21 @@ use App\Http\Controllers\Admin\StaffPasswordController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TermController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentEnrollmentController;
+use App\Http\Controllers\StudentStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'login'))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::resource('students', StudentController::class)->except('destroy');
+    Route::put('students/{student}/status', StudentStatusController::class)->name('students.status.update');
+    Route::get('students/{student}/enrollments/create', [StudentEnrollmentController::class, 'create'])->name('students.enrollments.create');
+    Route::post('students/{student}/enrollments', [StudentEnrollmentController::class, 'store'])->name('students.enrollments.store');
+    Route::get('students/{student}/enrollments/{enrollment}/edit', [StudentEnrollmentController::class, 'edit'])->name('students.enrollments.edit');
+    Route::put('students/{student}/enrollments/{enrollment}', [StudentEnrollmentController::class, 'update'])->name('students.enrollments.update');
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('school-settings', [SchoolSettingController::class, 'edit'])->name('school-settings.edit');

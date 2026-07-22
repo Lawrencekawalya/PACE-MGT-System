@@ -33,6 +33,12 @@ class Course extends Model
         return $this->hasMany(CurriculumRequirement::class);
     }
 
+    /** @return HasMany<StudentCourse, $this> */
+    public function studentCourses(): HasMany
+    {
+        return $this->hasMany(StudentCourse::class);
+    }
+
     protected function casts(): array
     {
         return ['is_pace_course' => 'boolean', 'is_active' => 'boolean'];

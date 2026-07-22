@@ -3,6 +3,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import {
     CalendarRange,
     FileSpreadsheet,
+    GraduationCap,
     LayoutDashboard,
     Library,
     ListTree,
@@ -31,6 +32,7 @@ import { index as curriculumIndex } from '@/routes/admin/curriculum';
 import { index as pacesIndex } from '@/routes/admin/paces';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
+import { index as studentsIndex } from '@/routes/students';
 import type { NavItem } from '@/types';
 
 const page = usePage();
@@ -48,6 +50,14 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'School settings',
             href: editSchoolSettings(),
             icon: School,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('register-students')) {
+        items.push({
+            title: 'Students',
+            href: studentsIndex(),
+            icon: GraduationCap,
         });
     }
 
