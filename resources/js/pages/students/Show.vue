@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3';
-import { BookOpenCheck, Pencil, Plus } from '@lucide/vue';
+import { ArrowRight, BookOpenCheck, Pencil, Plus } from '@lucide/vue';
+import PaceAssignmentController from '@/actions/App/Http/Controllers/PaceAssignmentController';
 import StudentStatusController from '@/actions/App/Http/Controllers/StudentStatusController';
 import Heading from '@/components/Heading.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { show as showAssignment } from '@/routes/pace-assignments';
 import { edit, show } from '@/routes/students';
 import {
     create as createEnrollment,
@@ -21,6 +23,21 @@ type Placement = {
     starting_pace: { number: string } | null;
     current_pace: { number: string } | null;
     assigned_by: { name: string } | null;
+    recommended_pace: {
+        id: number;
+        number: string;
+        title: string | null;
+    } | null;
+    pace_options: Array<{ id: number; number: string; title: string | null }>;
+    pace_assignments: Array<{
+        id: number;
+        status: string;
+        attempt_cycle: number;
+        assigned_at: string;
+        completed_at: string | null;
+        pace: { number: string; title: string | null };
+        assigned_by: { name: string } | null;
+    }>;
 };
 type Enrollment = {
     id: number;
@@ -114,6 +131,7 @@ defineOptions({
                     { value: 'overview', label: 'Overview' },
                     { value: 'enrollments', label: 'Enrolment history' },
                     { value: 'placements', label: 'Course placements' },
+                    { value: 'progress', label: 'PACE progress' },
                 ]"
                 :key="item.value"
                 variant="ghost"
@@ -264,7 +282,7 @@ defineOptions({
                 </tbody>
             </table>
         </div>
-        <div v-else class="space-y-7">
+        <div v-else-if="tab === 'placements'" class="space-y-7">
             <section
                 v-for="enrollment in student.enrollments"
                 :key="enrollment.id"
@@ -356,6 +374,171 @@ defineOptions({
             >
                 <BookOpenCheck class="mx-auto mb-3 size-6" />No course
                 placements yet.
+            </div>
+        </div>
+        <div v-else class="space-y-8">
+            <template
+                v-for="enrollment in student.enrollments"
+                :key="enrollment.id"
+            >
+                <section
+                    v-for="placement in enrollment.student_courses"
+                    :key="placement.id"
+                    class="space-y-4 border-b pb-8 last:border-0"
+                >
+                    <div
+                        class="flex flex-wrap items-start justify-between gap-3"
+                    >
+                        <div>
+                            <h2 class="font-semibold">
+                                {{ placement.course.name }}
+                            </h2>
+                            <p class="text-sm text-muted-foreground">
+                                {{ enrollment.academic_year.name }} ·
+                                {{ enrollment.term.name }} ·
+                                {{ placement.pace_assignments.length }}
+                                assignment record(s)
+                            </p>
+                        </div>
+                        <Badge variant="outline">{{ placement.status }}</Badge>
+                    </div>
+                    <Form
+                        v-if="
+                            canAssign &&
+                            enrollment.status === 'active' &&
+                            placement.status === 'active' &&
+                            placement.recommended_pace
+                        "
+                        v-bind="PaceAssignmentController.store.form()"
+                        class="grid gap-3 border-y py-4 lg:grid-cols-[1fr_1fr_auto]"
+                        v-slot="{ errors, processing }"
+                    >
+                        <input
+                            type="hidden"
+                            name="student_course_id"
+                            :value="placement.id"
+                        />
+                        <div class="grid gap-1.5">
+                            <label
+                                class="text-sm font-medium"
+                                :for="`pace-${placement.id}`"
+                                >Next PACE</label
+                            >
+                            <select
+                                :id="`pace-${placement.id}`"
+                                name="pace_id"
+                                class="h-9 rounded-md border bg-transparent px-3 text-sm"
+                                required
+                            >
+                                <option
+                                    v-for="pace in placement.pace_options"
+                                    :key="pace.id"
+                                    :value="pace.id"
+                                    :selected="
+                                        pace.id ===
+                                        placement.recommended_pace?.id
+                                    "
+                                >
+                                    {{ pace.number
+                                    }}{{ pace.title ? ` · ${pace.title}` : '' }}
+                                </option>
+                            </select>
+                            <span class="text-xs text-destructive">{{
+                                errors.pace_id
+                            }}</span>
+                        </div>
+                        <div class="grid gap-1.5">
+                            <label
+                                class="text-sm font-medium"
+                                :for="`override-${placement.id}`"
+                                >Override reason</label
+                            >
+                            <Input
+                                :id="`override-${placement.id}`"
+                                name="override_reason"
+                                placeholder="Required for administrator override"
+                            />
+                        </div>
+                        <Button
+                            class="self-end"
+                            type="submit"
+                            :disabled="processing"
+                            ><Plus class="size-4" />Assign PACE</Button
+                        >
+                    </Form>
+                    <div
+                        v-else-if="
+                            placement.status === 'active' &&
+                            placement.pace_assignments.some(
+                                (item) =>
+                                    ![
+                                        'passed',
+                                        'reassigned',
+                                        'cancelled',
+                                    ].includes(item.status),
+                            )
+                        "
+                        class="border-y px-1 py-3 text-sm text-muted-foreground"
+                    >
+                        Complete or cancel the active assignment before
+                        assigning the next PACE.
+                    </div>
+                    <ol
+                        v-if="placement.pace_assignments.length"
+                        class="divide-y rounded-md border"
+                    >
+                        <li
+                            v-for="assignment in placement.pace_assignments"
+                            :key="assignment.id"
+                            class="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+                        >
+                            <div>
+                                <div class="font-mono font-semibold">
+                                    PACE {{ assignment.pace.number }}
+                                    <span
+                                        class="font-sans text-xs font-normal text-muted-foreground"
+                                        >cycle
+                                        {{ assignment.attempt_cycle }}</span
+                                    >
+                                </div>
+                                <div class="text-xs text-muted-foreground">
+                                    Assigned
+                                    {{
+                                        new Date(
+                                            assignment.assigned_at,
+                                        ).toLocaleDateString()
+                                    }}
+                                    by
+                                    {{
+                                        assignment.assigned_by?.name ||
+                                        'Unknown'
+                                    }}
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <Badge variant="outline">{{
+                                    assignment.status.replaceAll('_', ' ')
+                                }}</Badge
+                                ><Button size="icon" variant="ghost" as-child
+                                    ><Link
+                                        :href="showAssignment(assignment.id)"
+                                        :aria-label="`View PACE ${assignment.pace.number} assignment`"
+                                        ><ArrowRight class="size-4" /></Link
+                                ></Button>
+                            </div>
+                        </li>
+                    </ol>
+                    <p v-else class="text-sm text-muted-foreground">
+                        No PACE has been assigned for this course.
+                    </p>
+                </section>
+            </template>
+            <div
+                v-if="student.enrollments.length === 0"
+                class="py-12 text-center text-muted-foreground"
+            >
+                <BookOpenCheck class="mx-auto mb-3 size-6" />No course progress
+                to show.
             </div>
         </div>
     </div>

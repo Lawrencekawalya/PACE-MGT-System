@@ -8,6 +8,7 @@ use App\Models\AcademicYear;
 use App\Models\Level;
 use App\Models\Student;
 use App\Services\ActivityLogger;
+use App\Services\PaceAssignmentService;
 use App\Services\StudentRegistrationService;
 use App\StudentStatus;
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +19,7 @@ use Inertia\Response;
 
 class StudentController extends Controller
 {
-    public function __construct(private StudentRegistrationService $students, private ActivityLogger $activityLogger) {}
+    public function __construct(private StudentRegistrationService $students, private ActivityLogger $activityLogger, private PaceAssignmentService $paceAssignments) {}
 
     public function index(Request $request): Response
     {
@@ -78,11 +79,20 @@ class StudentController extends Controller
                 'academicYear:id,name', 'term:id,name', 'level:id,name',
                 'studentCourses.course.subject:id,name', 'studentCourses.startingPace:id,number',
                 'studentCourses.currentPace:id,number', 'studentCourses.assignedBy:id,name',
+                'studentCourses.paceAssignments.pace:id,course_id,number,title',
+                'studentCourses.paceAssignments.assignedBy:id,name',
             ])->latest('enrolled_on')]);
+
+        $student->enrollments->each(function ($enrollment): void {
+            $enrollment->studentCourses->each(function ($studentCourse): void {
+                $studentCourse->setAttribute('recommended_pace', $this->paceAssignments->recommend($studentCourse)?->only(['id', 'number', 'title']));
+                $studentCourse->setAttribute('pace_options', $this->paceAssignments->sequence($studentCourse)->map->only(['id', 'number', 'title'])->values());
+            });
+        });
 
         return Inertia::render('students/Show', [
             'student' => $student,
-            'tab' => in_array($request->string('tab')->toString(), ['overview', 'enrollments', 'placements'], true)
+            'tab' => in_array($request->string('tab')->toString(), ['overview', 'enrollments', 'placements', 'progress'], true)
                 ? $request->string('tab')->toString() : 'overview',
             'statuses' => collect(StudentStatus::cases())->map(fn (StudentStatus $status) => ['value' => $status->value, 'label' => $status->label()]),
             'canAssign' => $request->user()?->can('assign-paces') ?? false,

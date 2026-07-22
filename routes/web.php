@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\StaffPasswordController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TermController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PaceAssignmentController;
+use App\Http\Controllers\PaceAssignmentStatusController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentEnrollmentController;
 use App\Http\Controllers\StudentStatusController;
@@ -22,6 +24,8 @@ Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'logi
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::resource('pace-assignments', PaceAssignmentController::class)->only(['index', 'show', 'store']);
+    Route::put('pace-assignments/{pace_assignment}/status', PaceAssignmentStatusController::class)->name('pace-assignments.status.update');
     Route::resource('students', StudentController::class)->except('destroy');
     Route::put('students/{student}/status', StudentStatusController::class)->name('students.status.update');
     Route::get('students/{student}/enrollments/create', [StudentEnrollmentController::class, 'create'])->name('students.enrollments.create');

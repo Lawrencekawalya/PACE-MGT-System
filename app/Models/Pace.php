@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['course_id', 'number', 'title', 'edition', 'sequence_order', 'is_active'])]
 class Pace extends Model
@@ -27,6 +28,12 @@ class Pace extends Model
         return $this->belongsToMany(CurriculumRequirement::class)
             ->withPivot('sequence_order')
             ->withTimestamps();
+    }
+
+    /** @return HasMany<PaceAssignment, $this> */
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(PaceAssignment::class);
     }
 
     protected function casts(): array

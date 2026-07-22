@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebar.vue": {
-    "mtime": 1784730693.7553353,
-    "ast_hash": "96446185937f22fd32b36ce06f3a0000",
+    "mtime": 1784733367.9136226,
+    "ast_hash": "96cc1b08e89806f9d61690b9adf6886b",
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebarHeader.vue": {
@@ -1230,8 +1230,8 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1784730426.1558068,
-    "ast_hash": "400727906b4ebe29b6de72e1ba0ceb03",
+    "mtime": 1784733131.9790385,
+    "ast_hash": "9df7a9aa54916df1d73b4605a943047d",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/AuthenticationTest.php": {
@@ -1745,8 +1745,8 @@
     "semantic_hash": ""
   },
   "app/Models/AcademicYear.php": {
-    "mtime": 1784731063.0036845,
-    "ast_hash": "0693c8d0ec9cae2637fafa07999b8b88",
+    "mtime": 1784732946.9353645,
+    "ast_hash": "829b1332ee9f46acb005fdc78e4ca52c",
     "semantic_hash": ""
   },
   "app/Models/CatalogueImport.php": {
@@ -1760,8 +1760,8 @@
     "semantic_hash": ""
   },
   "app/Models/Course.php": {
-    "mtime": 1784730950.952882,
-    "ast_hash": "94f688a95027a4ce8358ff216b976806",
+    "mtime": 1784732947.6343632,
+    "ast_hash": "45aecf481f21075b0e2fb6a8ba408652",
     "semantic_hash": ""
   },
   "app/Models/CurriculumRequirement.php": {
@@ -1770,8 +1770,8 @@
     "semantic_hash": ""
   },
   "app/Models/Level.php": {
-    "mtime": 1784730950.4888828,
-    "ast_hash": "3d8b6d31c86cd8c3a565ea72ecdf97a4",
+    "mtime": 1784732947.3973637,
+    "ast_hash": "337c593b780b1beca41ec9be22718ec0",
     "semantic_hash": ""
   },
   "app/Models/Pace.php": {
@@ -1785,8 +1785,8 @@
     "semantic_hash": ""
   },
   "app/Models/Term.php": {
-    "mtime": 1784731063.2286842,
-    "ast_hash": "a2ad0c6e7fca2a3d1cbc1c73a67476a0",
+    "mtime": 1784732947.169364,
+    "ast_hash": "94d0a5e9b0fd930b3f2bb999074fcbda",
     "semantic_hash": ""
   },
   "app/Services/AcademicPeriodService.php": {
@@ -1907,6 +1907,151 @@
   "database/seeders/PaceCatalogueSeeder.php": {
     "mtime": 1784731556.2148154,
     "ast_hash": "383e19067bd1b4f19aff8602e3d49096",
+    "semantic_hash": ""
+  },
+  "app/EnrollmentStatus.php": {
+    "mtime": 1784732931.2273922,
+    "ast_hash": "85fee260d49242324be27f6d01e14518",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/StudentController.php": {
+    "mtime": 1784733478.1904283,
+    "ast_hash": "9be9f7ff66b3d8c503b7bdc38f491a3a",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/StudentEnrollmentController.php": {
+    "mtime": 1784733119.3080606,
+    "ast_hash": "04077710dfded81220e7d7114906167d",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/StudentStatusController.php": {
+    "mtime": 1784733664.3351002,
+    "ast_hash": "9897f450aaea306ebc491aa7ec82f49f",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/SaveStudentEnrollmentRequest.php": {
+    "mtime": 1784733528.25734,
+    "ast_hash": "15f6201f87bac39022853f42f12e5a82",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/StoreStudentRequest.php": {
+    "mtime": 1784733041.7071974,
+    "ast_hash": "ce22925b62c317a10a644f4ab6c29242",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/UpdateStudentRequest.php": {
+    "mtime": 1784733042.2231965,
+    "ast_hash": "6381b76884e163ab33e6d3770e7fe7ff",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/UpdateStudentStatusRequest.php": {
+    "mtime": 1784733042.7381957,
+    "ast_hash": "4cc69a8c99169765a388700580e17f47",
+    "semantic_hash": ""
+  },
+  "app/Models/Student.php": {
+    "mtime": 1784733527.5613413,
+    "ast_hash": "4981b2269f79864d74568a79485e6495",
+    "semantic_hash": ""
+  },
+  "app/Models/StudentCourse.php": {
+    "mtime": 1784733528.0303404,
+    "ast_hash": "fe3fb89c458dd82c2d13af96d377867d",
+    "semantic_hash": ""
+  },
+  "app/Models/StudentEnrollment.php": {
+    "mtime": 1784733527.7983408,
+    "ast_hash": "9cd2c874527997d63e797b0e16ed48a7",
+    "semantic_hash": ""
+  },
+  "app/Policies/StudentPolicy.php": {
+    "mtime": 1784733484.4862134,
+    "ast_hash": "1b7bbd5f2772d594f34a6ed5ab08077c",
+    "semantic_hash": ""
+  },
+  "app/Services/StudentEnrollmentService.php": {
+    "mtime": 1784733588.2322342,
+    "ast_hash": "ee83e3b178d56377165b4555259325d2",
+    "semantic_hash": ""
+  },
+  "app/Services/StudentRegistrationService.php": {
+    "mtime": 1784733000.2812705,
+    "ast_hash": "83c8ffe4b09672335a4274317aa74957",
+    "semantic_hash": ""
+  },
+  "app/StudentCourseStatus.php": {
+    "mtime": 1784732931.4513917,
+    "ast_hash": "6b2701af0afe921ad39197ea76304597",
+    "semantic_hash": ""
+  },
+  "app/StudentStatus.php": {
+    "mtime": 1784732930.9963925,
+    "ast_hash": "199ec72a71dbd40df66ede02d5c43d36",
+    "semantic_hash": ""
+  },
+  "database/factories/StudentCourseFactory.php": {
+    "mtime": 1784733484.862252,
+    "ast_hash": "1dd03fcb16482f35f88a6f715bcbde6c",
+    "semantic_hash": ""
+  },
+  "database/factories/StudentEnrollmentFactory.php": {
+    "mtime": 1784733484.8740463,
+    "ast_hash": "56a39c9a910b31a57310bc1d6c8f66e3",
+    "semantic_hash": ""
+  },
+  "database/factories/StudentFactory.php": {
+    "mtime": 1784733484.8522844,
+    "ast_hash": "270836fc2ad132637307dccbb9e5ca03",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_22_180735_create_student_enrollment_tables.php": {
+    "mtime": 1784732930.764393,
+    "ast_hash": "4cb486fb2b024ef15b61f7e948cfce1a",
+    "semantic_hash": ""
+  },
+  "resources/js/components/students/StudentFields.vue": {
+    "mtime": 1784733486.6704133,
+    "ast_hash": "4fcaf4fc40e6f6ace5382cba21c9b01c",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/students/Create.vue": {
+    "mtime": 1784733488.9744093,
+    "ast_hash": "78162f78db35f53776e350853d18ad04",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/students/Edit.vue": {
+    "mtime": 1784733489.0344093,
+    "ast_hash": "15d0a45d4cd67e91fd8a64af0b9b622d",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/students/Index.vue": {
+    "mtime": 1784733489.3054087,
+    "ast_hash": "a15d573f95e96c0b1cd761c974735dfa",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/students/Show.vue": {
+    "mtime": 1784733551.1602998,
+    "ast_hash": "5c42a8ba803980ab01bb7b299227cdad",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/students/enrollments/Form.vue": {
+    "mtime": 1784733550.9223,
+    "ast_hash": "ce0988204659093ad129b9ed4f111343",
+    "semantic_hash": ""
+  },
+  "tests/Feature/StudentAuthorizationTest.php": {
+    "mtime": 1784733459.7344608,
+    "ast_hash": "74f49793778600503eff18ed529a5c80",
+    "semantic_hash": ""
+  },
+  "tests/Feature/StudentEnrollmentTest.php": {
+    "mtime": 1784733628.4871633,
+    "ast_hash": "9af4cff1308fb3a84909facc7738fdaa",
+    "semantic_hash": ""
+  },
+  "tests/Feature/StudentRegistrationTest.php": {
+    "mtime": 1784733675.91708,
+    "ast_hash": "d8296d27e10500d0926a35509f5c7399",
     "semantic_hash": ""
   }
 }

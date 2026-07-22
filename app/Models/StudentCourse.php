@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /** @property StudentCourseStatus $status */
 #[Fillable(['student_enrollment_id', 'course_id', 'starting_pace_id', 'current_pace_id', 'status', 'is_curriculum_required', 'placement_reason', 'assigned_by'])]
@@ -44,6 +45,12 @@ class StudentCourse extends Model
     public function assignedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_by');
+    }
+
+    /** @return HasMany<PaceAssignment, $this> */
+    public function paceAssignments(): HasMany
+    {
+        return $this->hasMany(PaceAssignment::class)->orderByDesc('assigned_at');
     }
 
     protected function casts(): array

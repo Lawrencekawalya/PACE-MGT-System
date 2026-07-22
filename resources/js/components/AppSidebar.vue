@@ -6,6 +6,7 @@ import {
     GraduationCap,
     LayoutDashboard,
     Library,
+    ListChecks,
     ListTree,
     School,
     Settings2,
@@ -32,6 +33,7 @@ import { index as curriculumIndex } from '@/routes/admin/curriculum';
 import { index as pacesIndex } from '@/routes/admin/paces';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
+import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
 import { index as studentsIndex } from '@/routes/students';
 import type { NavItem } from '@/types';
 
@@ -58,6 +60,17 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'Students',
             href: studentsIndex(),
             icon: GraduationCap,
+        });
+    }
+
+    if (
+        page.props.auth.permissions.includes('assign-paces') ||
+        page.props.auth.permissions.includes('issue-paces')
+    ) {
+        items.push({
+            title: 'PACE work queue',
+            href: paceAssignmentsIndex(),
+            icon: ListChecks,
         });
     }
 
