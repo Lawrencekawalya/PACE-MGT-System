@@ -10,8 +10,11 @@ use App\Models\Student;
 use App\Models\User;
 use App\PaceAssignmentStatus;
 use App\RetryApprovalStatus;
+use App\RoleName;
 use App\StockMovementType;
 use App\StudentStatus;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class DashboardReportService
 {
@@ -21,7 +24,7 @@ class DashboardReportService
         if (! $user->can('view-academic-reports')) {
             return null;
         }
-        $overdue = PaceAssignment::query()->where(function ($query): void {
+        $overdue = PaceAssignment::query()->visibleTo($user)->where(function ($query): void {
             $query->where(fn ($query) => $query->whereIn('status', [PaceAssignmentStatus::Assigned, PaceAssignmentStatus::InProgress])->where('assigned_at', '<=', now()->subDays(14)))
                 ->orWhere(fn ($query) => $query->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->where('submitted_at', '<=', now()->subDays(3)))
                 ->orWhere(fn ($query) => $query->where('status', PaceAssignmentStatus::Failed)->where('updated_at', '<=', now()->subDays(7)));
@@ -40,11 +43,11 @@ class DashboardReportService
 
         return [
             'metrics' => [
-                'active_students' => Student::query()->where('status', StudentStatus::Active)->count(),
-                'active_assignments' => PaceAssignment::query()->whereIn('status', collect(PaceAssignmentStatus::cases())->reject->isTerminal()->map->value)->count(),
-                'pending_tests' => PaceAssignment::query()->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->count(),
-                'pending_approvals' => PaceRetryApproval::query()->where('status', RetryApprovalStatus::Pending)->count(),
-                'completed_this_week' => PaceAssignment::query()->where('status', PaceAssignmentStatus::Passed)->where('completed_at', '>=', now()->subDays(7))->count(),
+                'active_students' => Student::query()->visibleTo($user)->where('status', StudentStatus::Active)->count(),
+                'active_assignments' => PaceAssignment::query()->visibleTo($user)->whereIn('status', collect(PaceAssignmentStatus::cases())->reject->isTerminal()->map->value)->count(),
+                'pending_tests' => PaceAssignment::query()->visibleTo($user)->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->count(),
+                'pending_approvals' => PaceRetryApproval::query()->where('status', RetryApprovalStatus::Pending)->whereHas('assignment.studentCourse.enrollment.student', fn ($query) => $this->scopeStudentTeacher($query, $user))->count(),
+                'completed_this_week' => PaceAssignment::query()->visibleTo($user)->where('status', PaceAssignmentStatus::Passed)->where('completed_at', '>=', now()->subDays(7))->count(),
                 'overdue' => (clone $overdue)->count(),
             ],
             'queue' => $queue,
@@ -80,5 +83,13 @@ class DashboardReportService
             ],
             'queue' => $lowItems,
         ];
+    }
+
+    /** @param Builder<Model> $query */
+    private function scopeStudentTeacher(Builder $query, User $user): void
+    {
+        if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
+            $query->where('teacher_id', $user->id);
+        }
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\ReportExport;
 use App\PaceAssignmentStatus;
 use App\ReportType;
+use App\RoleName;
 use App\Services\ReportDataService;
 use App\StudentStatus;
 use Illuminate\Http\Request;
@@ -38,6 +39,9 @@ class ReportController extends Controller
         ]);
         if (! $type->isInventory() && empty($filters['academic_year_id'])) {
             $filters['academic_year_id'] = AcademicYear::query()->where('is_active', true)->value('id');
+        }
+        if (! $type->isInventory() && $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator)) {
+            $filters['teacher_id'] = $request->user()->id;
         }
         $result = $this->reports->data($type, $filters);
         $page = max(1, $request->integer('page', 1));

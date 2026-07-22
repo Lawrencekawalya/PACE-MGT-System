@@ -88,7 +88,8 @@ function createReportFixture(): array
         'level_id' => $level->id, 'course_id' => $course->id, 'is_active' => true,
     ]);
     $requirement->paces()->attach($paces->mapWithKeys(fn ($pace, int $index) => [$pace->id => ['sequence_order' => $index + 1]]));
-    $student = Student::factory()->create([
+    $teacher = createStaffWithRole(RoleName::Teacher);
+    $student = Student::factory()->supervisedBy($teacher)->create([
         'admission_number' => 'FICA-0001', 'first_name' => 'Grace', 'last_name' => 'Auma', 'status' => StudentStatus::Active,
     ]);
     $enrollment = StudentEnrollment::factory()->create([
@@ -99,7 +100,6 @@ function createReportFixture(): array
         'student_enrollment_id' => $enrollment->id, 'course_id' => $course->id,
         'starting_pace_id' => $paces[0]->id, 'current_pace_id' => $paces[1]->id,
     ]);
-    $teacher = createStaffWithRole(RoleName::Teacher);
     $passed = PaceAssignment::factory()->create([
         'student_course_id' => $studentCourse->id, 'pace_id' => $paces[0]->id,
         'academic_year_id' => $year->id, 'term_id' => $term->id,

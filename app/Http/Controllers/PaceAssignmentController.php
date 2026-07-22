@@ -35,7 +35,7 @@ class PaceAssignmentController extends Controller
             'date_to' => $request->date('date_to')?->toDateString(),
             'exceptions' => $request->boolean('exceptions'),
         ];
-        $query = PaceAssignment::query()->with([
+        $query = PaceAssignment::query()->visibleTo($request->user())->with([
             'pace:id,course_id,number,title', 'studentCourse.course:id,name',
             'studentCourse.enrollment.student:id,admission_number,first_name,last_name,other_names', 'assignedBy:id,name',
         ]);
@@ -59,9 +59,9 @@ class PaceAssignmentController extends Controller
             'statuses' => collect(PaceAssignmentStatus::cases())->map(fn (PaceAssignmentStatus $status) => ['value' => $status->value, 'label' => $status->label()]),
             'courses' => Course::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
             'summary' => [
-                'active' => PaceAssignment::query()->whereIn('status', collect(PaceAssignmentStatus::cases())->reject->isTerminal()->map->value)->count(),
-                'awaiting_test' => PaceAssignment::query()->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->count(),
-                'exceptions' => PaceAssignment::query()->whereNotNull('override_reason')->orWhere(fn ($query) => $query->whereIn('status', ['assigned', 'in_progress'])->where('assigned_at', '<=', now()->subDays(14)))->count(),
+                'active' => PaceAssignment::query()->visibleTo($request->user())->whereIn('status', collect(PaceAssignmentStatus::cases())->reject->isTerminal()->map->value)->count(),
+                'awaiting_test' => PaceAssignment::query()->visibleTo($request->user())->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->count(),
+                'exceptions' => PaceAssignment::query()->visibleTo($request->user())->where(fn ($query) => $query->whereNotNull('override_reason')->orWhere(fn ($query) => $query->whereIn('status', ['assigned', 'in_progress'])->where('assigned_at', '<=', now()->subDays(14))))->count(),
             ],
         ]);
     }

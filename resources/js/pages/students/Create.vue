@@ -14,6 +14,8 @@ defineOptions({
         ],
     },
 });
+type Teacher = { id: number; name: string };
+defineProps<{ teachers: Teacher[]; canAssignTeacher: boolean }>();
 </script>
 <template>
     <Head title="Register student" />
@@ -29,7 +31,11 @@ defineOptions({
             v-bind="StudentController.store.form()"
             class="space-y-8"
             v-slot="{ errors, processing }"
-            ><StudentFields :errors="errors" />
+            ><StudentFields
+                :errors="errors"
+                :teachers="teachers"
+                :can-assign-teacher="canAssignTeacher"
+            />
             <div class="flex justify-end border-t pt-5">
                 <Button type="submit" :disabled="processing"
                     ><UserPlus class="size-4" />Register and continue</Button

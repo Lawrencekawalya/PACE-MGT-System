@@ -54,7 +54,7 @@ function enrollmentData(array $fixture, array $overrides = []): array
 
 test('student is independently placed in each prescribed course', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->create();
+    $student = Student::factory()->supervisedBy($teacher)->create();
     $fixture = enrollmentFixture();
 
     $this->actingAs($teacher)->post(route('students.enrollments.store', $student), enrollmentData($fixture))->assertRedirect();
@@ -68,7 +68,7 @@ test('student is independently placed in each prescribed course', function () {
 
 test('enrollment rejects a starting pace from another course', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->create();
+    $student = Student::factory()->supervisedBy($teacher)->create();
     $fixture = enrollmentFixture();
     $data = enrollmentData($fixture);
     $data['courses'][0]['starting_pace_id'] = $fixture['courses'][1]->paces[0]->id;
@@ -78,7 +78,7 @@ test('enrollment rejects a starting pace from another course', function () {
 
 test('curriculum additions or removals require an override reason', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->create();
+    $student = Student::factory()->supervisedBy($teacher)->create();
     $fixture = enrollmentFixture();
     $data = enrollmentData($fixture);
     array_pop($data['courses']);
@@ -90,7 +90,7 @@ test('curriculum additions or removals require an override reason', function () 
 
 test('editing placement retains removed course history as withdrawn', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->create();
+    $student = Student::factory()->supervisedBy($teacher)->create();
     $fixture = enrollmentFixture();
     $this->actingAs($teacher)->post(route('students.enrollments.store', $student), enrollmentData($fixture))->assertRedirect();
     $enrollment = $student->enrollments()->sole();
@@ -108,7 +108,7 @@ test('editing placement retains removed course history as withdrawn', function (
 
 test('enrollment history is preserved across academic years and duplicates are rejected', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->create();
+    $student = Student::factory()->supervisedBy($teacher)->create();
     $first = enrollmentFixture('2025');
     $second = enrollmentFixture('2026');
 

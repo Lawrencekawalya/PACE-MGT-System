@@ -21,7 +21,7 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        return $user->hasPermission(PermissionName::RegisterStudents);
+        return $user->hasPermission(PermissionName::RegisterStudents) && $student->isManagedBy($user);
     }
 
     /**
@@ -37,7 +37,7 @@ class StudentPolicy
      */
     public function update(User $user, Student $student): bool
     {
-        return $user->hasPermission(PermissionName::RegisterStudents);
+        return $user->hasPermission(PermissionName::RegisterStudents) && $student->isManagedBy($user);
     }
 
     /**

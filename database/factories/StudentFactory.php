@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Student;
+use App\Models\User;
 use App\StudentStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -31,5 +32,13 @@ class StudentFactory extends Factory
             'status' => StudentStatus::Active,
             'notes' => null,
         ];
+    }
+
+    public function supervisedBy(User $teacher): static
+    {
+        return $this->state(fn (): array => [
+            'teacher_id' => $teacher->id,
+            'registered_by' => $teacher->id,
+        ]);
     }
 }

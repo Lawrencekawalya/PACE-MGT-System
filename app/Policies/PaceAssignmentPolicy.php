@@ -21,7 +21,7 @@ class PaceAssignmentPolicy
      */
     public function view(User $user, PaceAssignment $paceAssignment): bool
     {
-        return $this->viewAny($user);
+        return $this->viewAny($user) && $paceAssignment->isManagedBy($user);
     }
 
     /**
@@ -37,7 +37,7 @@ class PaceAssignmentPolicy
      */
     public function update(User $user, PaceAssignment $paceAssignment): bool
     {
-        return $this->viewAny($user);
+        return $this->viewAny($user) && $paceAssignment->isManagedBy($user);
     }
 
     /**

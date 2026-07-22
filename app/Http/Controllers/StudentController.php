@@ -7,12 +7,15 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Models\AcademicYear;
 use App\Models\Level;
 use App\Models\Student;
+use App\Models\User;
+use App\RoleName;
 use App\Services\ActivityLogger;
 use App\Services\PaceAssignmentService;
 use App\Services\StudentRegistrationService;
 use App\StudentStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -32,7 +35,8 @@ class StudentController extends Controller
         ];
 
         $students = Student::query()
-            ->with(['enrollments' => fn ($query) => $query->with(['academicYear:id,name', 'level:id,name'])->latest('enrolled_on')])
+            ->visibleTo($request->user())
+            ->with(['teacher:id,name', 'enrollments' => fn ($query) => $query->with(['academicYear:id,name', 'level:id,name'])->latest('enrolled_on')])
             ->when($filters['search'], fn ($query, $search) => $query->where(fn ($query) => $query
                 ->where('admission_number', 'like', "%{$search}%")
                 ->orWhere('first_name', 'like', "%{$search}%")
@@ -55,17 +59,20 @@ class StudentController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create(Request $request): Response
     {
         Gate::authorize('create', Student::class);
 
-        return Inertia::render('students/Create');
+        return Inertia::render('students/Create', [
+            'teachers' => $this->teacherOptions($request->user()),
+            'canAssignTeacher' => $request->user()->hasRole(RoleName::Administrator),
+        ]);
     }
 
     public function store(StoreStudentRequest $request): RedirectResponse
     {
-        $student = $this->students->create($request->validated());
-        $this->activityLogger->record($request->user(), 'student.created', $student, newValues: $student->only(['admission_number', 'first_name', 'last_name', 'guardian_name', 'status']));
+        $student = $this->students->create($request->validated(), $request->user());
+        $this->activityLogger->record($request->user(), 'student.created', $student, newValues: $student->only(['admission_number', 'teacher_id', 'registered_by', 'first_name', 'last_name', 'guardian_name', 'status']));
         Inertia::flash('toast', ['type' => 'success', 'message' => "Student {$student->admission_number} registered. Continue with enrolment."]);
 
         return redirect()->route('students.enrollments.create', $student);
@@ -74,7 +81,7 @@ class StudentController extends Controller
     public function show(Request $request, Student $student): Response
     {
         Gate::authorize('view', $student);
-        $student->load(['enrollments' => fn ($query) => $query
+        $student->load(['teacher:id,name', 'registeredBy:id,name', 'enrollments' => fn ($query) => $query
             ->with([
                 'academicYear:id,name', 'term:id,name', 'level:id,name',
                 'studentCourses.course.subject:id,name', 'studentCourses.startingPace:id,number',
@@ -99,25 +106,42 @@ class StudentController extends Controller
         ]);
     }
 
-    public function edit(Student $student): Response
+    public function edit(Request $request, Student $student): Response
     {
         Gate::authorize('update', $student);
 
         return Inertia::render('students/Edit', [
             'student' => [
                 ...$student->only(['id', 'admission_number', 'first_name', 'last_name', 'other_names', 'gender', 'guardian_name', 'guardian_phone', 'guardian_email', 'notes']),
+                'teacher_id' => $student->teacher_id,
                 'date_of_birth' => $student->date_of_birth?->toDateString(),
             ],
+            'teachers' => $this->teacherOptions($request->user()),
+            'canAssignTeacher' => $request->user()->hasRole(RoleName::Administrator),
         ]);
     }
 
     public function update(UpdateStudentRequest $request, Student $student): RedirectResponse
     {
-        $old = $student->only(['first_name', 'last_name', 'other_names', 'date_of_birth', 'gender', 'guardian_name', 'guardian_phone', 'guardian_email', 'notes']);
+        $old = $student->only(['teacher_id', 'first_name', 'last_name', 'other_names', 'date_of_birth', 'gender', 'guardian_name', 'guardian_phone', 'guardian_email', 'notes']);
         $student->update($request->validated());
         $this->activityLogger->record($request->user(), 'student.updated', $student, $old, $student->only(array_keys($old)));
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Student profile updated.']);
 
         return redirect()->route('students.show', $student);
+    }
+
+    /** @return Collection<int, User> */
+    private function teacherOptions(User $user): Collection
+    {
+        if (! $user->hasRole(RoleName::Administrator)) {
+            return collect();
+        }
+
+        return User::query()
+            ->where('is_active', true)
+            ->whereHas('roles', fn ($query) => $query->where('name', RoleName::Teacher->value))
+            ->orderBy('name')
+            ->get(['id', 'name']);
     }
 }

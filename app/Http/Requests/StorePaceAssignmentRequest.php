@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\PaceAssignment;
+use App\Models\StudentCourse;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +14,13 @@ class StorePaceAssignmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->can('create', PaceAssignment::class) ?? false;
+        if (! ($this->user()?->can('create', PaceAssignment::class) ?? false)) {
+            return false;
+        }
+
+        $studentCourse = StudentCourse::query()->find($this->integer('student_course_id'));
+
+        return $studentCourse !== null && $studentCourse->isManagedBy($this->user());
     }
 
     /**

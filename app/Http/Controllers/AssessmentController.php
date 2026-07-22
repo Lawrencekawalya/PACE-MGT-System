@@ -19,6 +19,7 @@ class AssessmentController extends Controller
         abort_unless($request->user()?->can('enter-test-results') || $request->user()?->can('approve-retests') || $request->user()?->can('view-academic-reports'), 403);
         $search = $request->string('search')->trim()->toString();
         $assignments = PaceAssignment::query()
+            ->visibleTo($request->user())
             ->with(['pace:id,course_id,number,title', 'studentCourse.course:id,name', 'studentCourse.enrollment.student:id,admission_number,first_name,last_name'])
             ->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])
             ->when($search, fn ($query) => $query->where(fn ($query) => $query
@@ -32,6 +33,10 @@ class AssessmentController extends Controller
         $approvals = PaceRetryApproval::query()
             ->with(['assignment.pace:id,course_id,number', 'assignment.studentCourse.course:id,name', 'assignment.studentCourse.enrollment.student:id,admission_number,first_name,last_name', 'requestedBy:id,name'])
             ->where('status', RetryApprovalStatus::Pending)
+            ->when(
+                $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator),
+                fn ($query) => $query->whereHas('assignment.studentCourse.enrollment.student', fn ($query) => $query->where('teacher_id', $request->user()->id)),
+            )
             ->oldest('requested_at')->get();
 
         return Inertia::render('assessments/Index', [

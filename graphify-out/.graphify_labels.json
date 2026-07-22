@@ -173,5 +173,16 @@
   "171": "@laravel/vite-plugin-wayfinder",
   "172": "@stylistic/eslint-plugin",
   "173": "vite",
-  "174": "reports.php"
+  "174": "reports.php",
+  "175": "Illuminate\\Console\\Command",
+  "176": "DashboardReportService",
+  "177": "StoreInventoryItemRequest",
+  "178": "DecidePaceRetryApprovalRequest",
+  "179": ".save",
+  "180": "DropdownMenuCheckboxItem.vue",
+  "181": "SaveLevelRequest",
+  "182": "StoreStaffRequest",
+  "183": "UpdateStaffRequest",
+  "184": "StudentFactory",
+  "185": "2026_07_22_235900_add_teacher_ownership_to_students_table.php"
 }

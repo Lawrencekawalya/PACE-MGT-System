@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Pace;
 use App\Models\PaceAssignment;
 use App\Models\SchoolSetting;
+use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Subject;
@@ -36,12 +37,13 @@ function assessmentFixture(): array
     $paces = collect([1, 2])->map(fn (int $position) => Pace::factory()->create([
         'course_id' => $course->id, 'number' => (string) (1200 + $position), 'sequence_order' => $position,
     ]));
-    $enrollment = StudentEnrollment::factory()->create(['academic_year_id' => $year->id, 'term_id' => $term->id]);
+    $teacher = createStaffWithRole(RoleName::Teacher);
+    $student = Student::factory()->supervisedBy($teacher)->create();
+    $enrollment = StudentEnrollment::factory()->create(['student_id' => $student->id, 'academic_year_id' => $year->id, 'term_id' => $term->id]);
     $studentCourse = StudentCourse::factory()->create([
         'student_enrollment_id' => $enrollment->id, 'course_id' => $course->id,
         'starting_pace_id' => $paces[0]->id, 'current_pace_id' => $paces[0]->id,
     ]);
-    $teacher = createStaffWithRole(RoleName::Teacher);
     $assignmentService = app(PaceAssignmentService::class);
     $assignment = $assignmentService->assign($studentCourse, $paces[0], $teacher);
     $assignment = $assignmentService->transition($assignment, PaceAssignmentStatus::InProgress, $teacher);

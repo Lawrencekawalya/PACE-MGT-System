@@ -36,7 +36,41 @@ test('authorized staff register students with unique generated admission numbers
     expect($numbers)->toHaveCount(2)
         ->and($numbers[0])->toMatch('/^FICA-\d{4}-\d{6}$/')
         ->and($numbers[0])->not->toBe($numbers[1])
+        ->and(Student::query()->where('teacher_id', $teacher->id)->count())->toBe(2)
+        ->and(Student::query()->where('registered_by', $teacher->id)->count())->toBe(2)
         ->and(ActivityLog::query()->where('event', 'student.created')->count())->toBe(2);
+});
+
+test('administrator must assign a teacher and can later reassign the student', function () {
+    $administrator = createStaffWithRole(RoleName::Administrator);
+    $firstTeacher = createStaffWithRole(RoleName::Teacher);
+    $secondTeacher = createStaffWithRole(RoleName::Teacher);
+
+    $this->actingAs($administrator)->post(route('students.store'), validStudentData())
+        ->assertSessionHasErrors('teacher_id');
+    $this->actingAs($administrator)->post(route('students.store'), validStudentData([
+        'teacher_id' => $firstTeacher->id,
+    ]))->assertRedirect();
+
+    $student = Student::query()->sole();
+    expect($student->teacher_id)->toBe($firstTeacher->id)
+        ->and($student->registered_by)->toBe($administrator->id);
+
+    $this->actingAs($administrator)->put(route('students.update', $student), validStudentData([
+        'teacher_id' => $secondTeacher->id,
+    ]))->assertRedirect();
+
+    expect($student->fresh()->teacher_id)->toBe($secondTeacher->id)
+        ->and($student->fresh()->registered_by)->toBe($administrator->id);
+});
+
+test('administrator cannot assign a student to non-teaching staff', function () {
+    $administrator = createStaffWithRole(RoleName::Administrator);
+    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+
+    $this->actingAs($administrator)->post(route('students.store'), validStudentData([
+        'teacher_id' => $storekeeper->id,
+    ]))->assertSessionHasErrors('teacher_id');
 });
 
 test('student registration validates identity guardian and birth date', function () {
@@ -48,7 +82,7 @@ test('student registration validates identity guardian and birth date', function
 
 test('student status changes require reasons and are audited', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->create();
+    $student = Student::factory()->supervisedBy($teacher)->create();
     $enrollment = StudentEnrollment::factory()->create(['student_id' => $student->id]);
     $placement = StudentCourse::factory()->create(['student_enrollment_id' => $enrollment->id]);
 
@@ -65,7 +99,7 @@ test('student list searches and filters by academic year and level', function ()
     $teacher = createStaffWithRole(RoleName::Teacher);
     $year = AcademicYear::factory()->create();
     $level = Level::factory()->create();
-    $student = Student::factory()->create(['first_name' => 'UniqueStudent']);
+    $student = Student::factory()->supervisedBy($teacher)->create(['first_name' => 'UniqueStudent']);
     StudentEnrollment::factory()->create(['student_id' => $student->id, 'academic_year_id' => $year->id, 'level_id' => $level->id]);
     Student::factory()->create();
 

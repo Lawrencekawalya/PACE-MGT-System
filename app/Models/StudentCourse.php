@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\RoleName;
 use App\StudentCourseStatus;
 use Database\Factories\StudentCourseFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,6 +56,19 @@ class StudentCourse extends Model
     public function paceAssignments(): HasMany
     {
         return $this->hasMany(PaceAssignment::class)->orderByDesc('assigned_at');
+    }
+
+    /** @param Builder<StudentCourse> $query */
+    public function scopeVisibleTo(Builder $query, User $user): void
+    {
+        if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
+            $query->whereHas('enrollment.student', fn (Builder $query) => $query->where('teacher_id', $user->id));
+        }
+    }
+
+    public function isManagedBy(User $user): bool
+    {
+        return $this->enrollment->student->isManagedBy($user);
     }
 
     protected function casts(): array

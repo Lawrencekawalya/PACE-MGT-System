@@ -17,6 +17,8 @@ type Placement = {
     id: number;
     course_id: number;
     status: string;
+    teacher: { id: number; name: string } | null;
+    registered_by: { id: number; name: string } | null;
     is_curriculum_required: boolean;
     placement_reason: string | null;
     course: { name: string; subject: { name: string } };
@@ -61,6 +63,8 @@ type Student = {
     guardian_email: string | null;
     notes: string | null;
     status: string;
+    teacher: { id: number; name: string } | null;
+    registered_by: { id: number; name: string } | null;
     enrollments: Enrollment[];
 };
 const props = defineProps<{
@@ -151,6 +155,10 @@ defineOptions({
                 <dl class="grid grid-cols-[9rem_1fr] gap-x-4 gap-y-3 text-sm">
                     <dt class="text-muted-foreground">Admission number</dt>
                     <dd class="font-mono">{{ student.admission_number }}</dd>
+                    <dt class="text-muted-foreground">Supervising teacher</dt>
+                    <dd>{{ student.teacher?.name || 'Unassigned' }}</dd>
+                    <dt class="text-muted-foreground">Registered by</dt>
+                    <dd>{{ student.registered_by?.name || 'Not recorded' }}</dd>
                     <dt class="text-muted-foreground">Date of birth</dt>
                     <dd>
                         {{

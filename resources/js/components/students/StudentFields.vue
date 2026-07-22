@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 type StudentValues = {
+    teacher_id?: number | null;
     first_name?: string;
     last_name?: string;
     other_names?: string | null;
@@ -14,7 +15,13 @@ type StudentValues = {
     guardian_email?: string | null;
     notes?: string | null;
 };
-defineProps<{ student?: StudentValues; errors: Record<string, string> }>();
+type Teacher = { id: number; name: string };
+defineProps<{
+    student?: StudentValues;
+    errors: Record<string, string>;
+    teachers?: Teacher[];
+    canAssignTeacher?: boolean;
+}>();
 </script>
 
 <template>
@@ -26,6 +33,28 @@ defineProps<{ student?: StudentValues; errors: Record<string, string> }>();
             </p>
         </div>
         <div class="grid gap-5 md:grid-cols-2">
+            <div v-if="canAssignTeacher" class="grid gap-2 md:col-span-2">
+                <Label for="teacher_id">Supervising teacher</Label>
+                <select
+                    id="teacher_id"
+                    name="teacher_id"
+                    class="h-9 rounded-md border bg-transparent px-3 text-sm"
+                    required
+                >
+                    <option value="" disabled :selected="!student?.teacher_id">
+                        Select a teacher
+                    </option>
+                    <option
+                        v-for="teacher in teachers"
+                        :key="teacher.id"
+                        :value="teacher.id"
+                        :selected="student?.teacher_id === teacher.id"
+                    >
+                        {{ teacher.name }}
+                    </option>
+                </select>
+                <InputError :message="errors.teacher_id" />
+            </div>
             <div class="grid gap-2">
                 <Label for="first_name">First name</Label
                 ><Input

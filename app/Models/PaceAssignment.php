@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\PaceAssignmentStatus;
+use App\RoleName;
 use Database\Factories\PaceAssignmentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -83,6 +85,19 @@ class PaceAssignment extends Model
     public function stockMovements(): HasMany
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    /** @param Builder<PaceAssignment> $query */
+    public function scopeVisibleTo(Builder $query, User $user): void
+    {
+        if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
+            $query->whereHas('studentCourse.enrollment.student', fn (Builder $query) => $query->where('teacher_id', $user->id));
+        }
+    }
+
+    public function isManagedBy(User $user): bool
+    {
+        return $this->studentCourse->isManagedBy($user);
     }
 
     protected function casts(): array

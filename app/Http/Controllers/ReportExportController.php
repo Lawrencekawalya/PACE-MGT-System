@@ -8,6 +8,7 @@ use App\Models\ReportExport;
 use App\ReportExportStatus;
 use App\ReportFormat;
 use App\ReportType;
+use App\RoleName;
 use App\Services\ReportDataService;
 use App\Services\ReportExportGenerator;
 use Illuminate\Http\RedirectResponse;
@@ -29,6 +30,9 @@ class ReportExportController extends Controller
             ->except(['report_type', 'format'])
             ->filter(fn ($value) => filled($value))
             ->all();
+        if (! $reportType->isInventory() && $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator)) {
+            $filters['teacher_id'] = $request->user()->id;
+        }
         $export = ReportExport::query()->create([
             'user_id' => $request->user()->id,
             'report_type' => $reportType,

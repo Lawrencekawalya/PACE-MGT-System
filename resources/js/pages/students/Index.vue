@@ -23,6 +23,7 @@ type Student = {
     guardian_name: string;
     guardian_phone: string;
     status: string;
+    teacher: Option | null;
     enrollments: Enrollment[];
 };
 const props = defineProps<{
@@ -138,6 +139,7 @@ defineOptions({
                         <th class="px-4 py-3">Current level</th>
                         <th class="px-4 py-3">Academic year</th>
                         <th class="px-4 py-3">Guardian</th>
+                        <th class="px-4 py-3">Teacher</th>
                         <th class="px-4 py-3">Status</th>
                         <th></th>
                     </tr>
@@ -169,6 +171,9 @@ defineOptions({
                             </div>
                         </td>
                         <td class="px-4 py-3">
+                            {{ student.teacher?.name || 'Unassigned' }}
+                        </td>
+                        <td class="px-4 py-3">
                             <Badge
                                 :variant="
                                     student.status === 'active'
@@ -189,7 +194,7 @@ defineOptions({
                     </tr>
                     <tr v-if="students.data.length === 0">
                         <td
-                            colspan="7"
+                            colspan="8"
                             class="px-4 py-12 text-center text-muted-foreground"
                         >
                             No students match these filters.

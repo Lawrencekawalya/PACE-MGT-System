@@ -16,7 +16,8 @@ class SaveStudentEnrollmentRequest extends FormRequest
 
         return $student instanceof Student
             && $this->user()->can(PermissionName::RegisterStudents->value)
-            && $this->user()->can(PermissionName::AssignPaces->value);
+            && $this->user()->can(PermissionName::AssignPaces->value)
+            && $this->user()->can('update', $student);
     }
 
     /** @return array<string, mixed> */
