@@ -213,6 +213,23 @@ class PaceAssignmentService
         }, 3);
     }
 
+    public function reversePhysicalIssue(PaceAssignment $assignment, User $actor, string $reason): PaceAssignment
+    {
+        return DB::transaction(function () use ($assignment, $actor, $reason): PaceAssignment {
+            $assignment = PaceAssignment::query()->lockForUpdate()->findOrFail($assignment->id);
+            if ($assignment->status !== PaceAssignmentStatus::InProgress || $assignment->attempts()->exists()) {
+                throw ValidationException::withMessages(['movement' => 'This issue cannot be reversed after the PACE has entered assessment.']);
+            }
+            $assignment->update([
+                'status' => PaceAssignmentStatus::Assigned,
+                'issued_by' => null, 'issued_at' => null, 'started_at' => null,
+            ]);
+            $this->event($assignment, PaceAssignmentStatus::InProgress, PaceAssignmentStatus::Assigned, $actor, "Physical issue reversed: {$reason}");
+
+            return $assignment->refresh();
+        }, 3);
+    }
+
     private function validatePlacement(StudentCourse $studentCourse, Pace $pace): void
     {
         if ($studentCourse->status !== StudentCourseStatus::Active

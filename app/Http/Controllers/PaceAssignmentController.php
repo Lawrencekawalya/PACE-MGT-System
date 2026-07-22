@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePaceAssignmentRequest;
+use App\InventoryItemType;
 use App\Models\Course;
+use App\Models\InventoryItem;
 use App\Models\Pace;
 use App\Models\PaceAssignment;
 use App\Models\SchoolSetting;
@@ -85,6 +87,7 @@ class PaceAssignmentController extends Controller
             $attempt->setAttribute('effective_outcome', $correction->outcome->value);
         });
         $settings = SchoolSetting::current();
+        $inventoryItem = InventoryItem::query()->where('pace_id', $paceAssignment->pace_id)->where('item_type', InventoryItemType::PaceBooklet)->first();
 
         return Inertia::render('pace-assignments/Show', [
             'assignment' => $paceAssignment,
@@ -103,6 +106,11 @@ class PaceAssignmentController extends Controller
             ],
             'nextRecommendation' => $paceAssignment->status === PaceAssignmentStatus::Passed
                 ? $this->assignments->recommend($paceAssignment->studentCourse)?->only(['id', 'number', 'title']) : null,
+            'inventory' => $inventoryItem === null ? null : [
+                'id' => $inventoryItem->id, 'sku' => $inventoryItem->sku,
+                'on_hand' => $inventoryItem->onHand(), 'reorder_level' => $inventoryItem->reorder_level,
+                'is_active' => $inventoryItem->is_active,
+            ],
         ]);
     }
 

@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\InventoryItem;
 use App\Models\PaceAssignment;
 use App\Models\User;
 use App\RoleName;
 use App\Services\PaceAssignmentService;
+use App\Services\StockLedgerService;
+use App\StockMovementType;
 use Database\Seeders\AccessControlSeeder;
 
 beforeEach(function () {
@@ -26,6 +29,8 @@ test('storekeeper can physically issue while teacher cannot', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
     $storekeeper = createStaffWithRole(RoleName::Storekeeper);
     $assignment = app(PaceAssignmentService::class)->assign($fixture['studentCourse'], $fixture['paces'][1], $teacher);
+    $item = InventoryItem::query()->where('pace_id', $fixture['paces'][1]->id)->sole();
+    app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'AUTH-ISSUE-001', null, $storekeeper);
 
     $this->actingAs($teacher)->put(route('pace-assignments.status.update', $assignment), ['status' => 'in_progress'])->assertForbidden();
     $this->actingAs($storekeeper)->put(route('pace-assignments.status.update', $assignment), ['status' => 'in_progress'])->assertRedirect();

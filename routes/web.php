@@ -14,11 +14,15 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TermController;
 use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\PaceAssignmentController;
 use App\Http\Controllers\PaceAssignmentStatusController;
 use App\Http\Controllers\PaceAttemptController;
 use App\Http\Controllers\PaceAttemptCorrectionController;
 use App\Http\Controllers\PaceRetryApprovalController;
+use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\StockMovementCorrectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentEnrollmentController;
 use App\Http\Controllers\StudentStatusController;
@@ -28,6 +32,13 @@ Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'logi
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('inventory', [InventoryController::class, 'index'])->name('inventory.index');
+    Route::get('inventory/ledger', [InventoryController::class, 'ledger'])->name('inventory.ledger');
+    Route::post('inventory-items', [InventoryItemController::class, 'store'])->name('inventory-items.store');
+    Route::get('inventory-items/{inventory_item}', [InventoryItemController::class, 'show'])->name('inventory-items.show');
+    Route::put('inventory-items/{inventory_item}', [InventoryItemController::class, 'update'])->name('inventory-items.update');
+    Route::post('inventory-items/{inventory_item}/movements', [StockMovementController::class, 'store'])->name('inventory-items.movements.store');
+    Route::post('stock-movements/{stock_movement}/corrections', [StockMovementCorrectionController::class, 'store'])->name('stock-movements.corrections.store');
     Route::get('assessments', AssessmentController::class)->name('assessments.index');
     Route::post('pace-assignments/{pace_assignment}/attempts', [PaceAttemptController::class, 'store'])->name('pace-assignments.attempts.store');
     Route::post('pace-assignments/{pace_assignment}/retry-approvals', [PaceRetryApprovalController::class, 'store'])->name('pace-assignments.retry-approvals.store');

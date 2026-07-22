@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Observers\PaceObserver;
 use Database\Factories\PaceFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy(PaceObserver::class)]
 #[Fillable(['course_id', 'number', 'title', 'edition', 'sequence_order', 'is_active'])]
 class Pace extends Model
 {
@@ -34,6 +37,12 @@ class Pace extends Model
     public function assignments(): HasMany
     {
         return $this->hasMany(PaceAssignment::class);
+    }
+
+    /** @return HasMany<InventoryItem, $this> */
+    public function inventoryItems(): HasMany
+    {
+        return $this->hasMany(InventoryItem::class);
     }
 
     protected function casts(): array

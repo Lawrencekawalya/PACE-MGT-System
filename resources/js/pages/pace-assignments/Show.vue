@@ -104,6 +104,13 @@ const props = defineProps<{
         number: string;
         title: string | null;
     } | null;
+    inventory: {
+        id: number;
+        sku: string;
+        on_hand: number;
+        reorder_level: number;
+        is_active: boolean;
+    } | null;
 }>();
 function attemptsFor(type: string): Attempt[] {
     return props.assignment.attempts.filter(
@@ -543,7 +550,12 @@ defineOptions({
                     >
                 </Form>
                 <Form
-                    v-if="assignment.status === 'assigned' && canIssue"
+                    v-if="
+                        assignment.status === 'assigned' &&
+                        canIssue &&
+                        inventory?.is_active &&
+                        inventory.on_hand > 0
+                    "
                     v-bind="PaceAssignmentStatusController.form(assignment.id)"
                     @submit="
                         (event) =>
@@ -564,6 +576,31 @@ defineOptions({
                         ><PackageCheck class="size-4" />Issue and start</Button
                     ></Form
                 >
+                <div
+                    v-if="
+                        assignment.status === 'assigned' &&
+                        canIssue &&
+                        (!inventory ||
+                            !inventory.is_active ||
+                            inventory.on_hand <= 0)
+                    "
+                    class="border-l-4 border-destructive px-3 py-2 text-sm"
+                >
+                    <div class="font-medium">PACE cannot be issued</div>
+                    <span v-if="!inventory"
+                        >No booklet inventory item exists.</span
+                    ><span v-else-if="!inventory.is_active"
+                        >The inventory item is inactive.</span
+                    ><span v-else
+                        >Out of stock. Record a receipt before issuing.</span
+                    >
+                </div>
+                <div
+                    v-if="assignment.status === 'assigned' && inventory"
+                    class="text-xs text-muted-foreground"
+                >
+                    {{ inventory.sku }} · {{ inventory.on_hand }} on hand
+                </div>
                 <Form
                     v-if="
                         assignment.status === 'in_progress' &&

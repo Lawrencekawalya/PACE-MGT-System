@@ -73,6 +73,12 @@ class PaceAssignment extends Model
         return $this->hasMany(PaceRetryApproval::class)->orderByDesc('requested_at');
     }
 
+    /** @return HasMany<StockMovement, $this> */
+    public function stockMovements(): HasMany
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
     protected function casts(): array
     {
         return [

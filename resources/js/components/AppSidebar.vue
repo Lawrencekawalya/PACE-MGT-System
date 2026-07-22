@@ -9,6 +9,7 @@ import {
     Library,
     ListChecks,
     ListTree,
+    PackageOpen,
     School,
     Settings2,
     Users,
@@ -35,6 +36,7 @@ import { index as pacesIndex } from '@/routes/admin/paces';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
 import { index as assessmentsIndex } from '@/routes/assessments';
+import { index as inventoryIndex } from '@/routes/inventory';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
 import { index as studentsIndex } from '@/routes/students';
 import type { NavItem } from '@/types';
@@ -85,6 +87,18 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'Assessments',
             href: assessmentsIndex(),
             icon: ClipboardCheck,
+        });
+    }
+
+    if (
+        page.props.auth.permissions.includes('view-inventory-reports') ||
+        page.props.auth.permissions.includes('adjust-inventory') ||
+        page.props.auth.permissions.includes('issue-paces')
+    ) {
+        items.push({
+            title: 'Inventory',
+            href: inventoryIndex(),
+            icon: PackageOpen,
         });
     }
 

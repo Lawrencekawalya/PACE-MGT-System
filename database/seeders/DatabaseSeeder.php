@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             Role::query()->where('name', RoleName::Administrator->value)->value('id'),
         );
 
-        $this->call(PaceCatalogueSeeder::class);
+        $this->call([
+            PaceCatalogueSeeder::class,
+            InventoryItemSeeder::class,
+        ]);
     }
 }
