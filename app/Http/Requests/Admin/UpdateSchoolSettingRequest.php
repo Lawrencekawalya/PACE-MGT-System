@@ -42,6 +42,7 @@ class UpdateSchoolSettingRequest extends FormRequest
             'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048'],
             'remove_logo' => ['sometimes', 'boolean'],
             'self_test_pass_mark' => ['required', 'numeric', 'between:0,100'],
+            'pace_test_pass_mark' => ['required', 'numeric', 'between:0,100'],
             'self_test_retry_limit' => ['required', 'integer', 'between:1,10'],
         ];
     }

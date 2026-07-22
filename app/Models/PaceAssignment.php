@@ -61,6 +61,18 @@ class PaceAssignment extends Model
         return $this->hasMany(PaceStatusEvent::class)->orderBy('changed_at');
     }
 
+    /** @return HasMany<PaceAttempt, $this> */
+    public function attempts(): HasMany
+    {
+        return $this->hasMany(PaceAttempt::class)->orderBy('assessment_type')->orderBy('attempt_number');
+    }
+
+    /** @return HasMany<PaceRetryApproval, $this> */
+    public function retryApprovals(): HasMany
+    {
+        return $this->hasMany(PaceRetryApproval::class)->orderByDesc('requested_at');
+    }
+
     protected function casts(): array
     {
         return [

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\AssessmentType;
 use App\EnrollmentStatus;
 use App\Models\AcademicYear;
 use App\Models\CurriculumRequirement;
@@ -11,6 +12,7 @@ use App\Models\StudentCourse;
 use App\Models\Term;
 use App\Models\User;
 use App\PaceAssignmentStatus;
+use App\RetryApprovalStatus;
 use App\RoleName;
 use App\StudentCourseStatus;
 use App\StudentStatus;
@@ -128,6 +130,18 @@ class PaceAssignmentService
             if (! in_array($to, $from->allowedNext(), true)) {
                 throw ValidationException::withMessages(['status' => "A PACE cannot move from {$from->label()} to {$to->label()}."]);
             }
+            if ($from === PaceAssignmentStatus::InProgress && $to === PaceAssignmentStatus::AwaitingSelfTest) {
+                $nextAttempt = $assignment->attempts()->where('assessment_type', AssessmentType::SelfTest)->count() + 1;
+                if ($nextAttempt > 1 && ! $assignment->retryApprovals()->where('assessment_type', AssessmentType::SelfTest)->where('attempt_number', $nextAttempt)->where('status', RetryApprovalStatus::Approved)->exists()) {
+                    throw ValidationException::withMessages(['status' => 'The next Self Test attempt requires approval before submission.']);
+                }
+            }
+            if ($from === PaceAssignmentStatus::Failed && $to === PaceAssignmentStatus::AwaitingPaceTest) {
+                $nextAttempt = $assignment->attempts()->where('assessment_type', AssessmentType::PaceTest)->count() + 1;
+                if (! $assignment->retryApprovals()->where('assessment_type', AssessmentType::PaceTest)->where('attempt_number', $nextAttempt)->where('status', RetryApprovalStatus::Approved)->exists()) {
+                    throw ValidationException::withMessages(['status' => 'The next PACE Test attempt requires an approved retest.']);
+                }
+            }
             if ($to === PaceAssignmentStatus::Cancelled && blank($reason)) {
                 throw ValidationException::withMessages(['reason' => 'A cancellation reason is required.']);
             }
@@ -161,6 +175,41 @@ class PaceAssignmentService
             $assignment = $this->transition($assignment, PaceAssignmentStatus::Reassigned, $actor, $reason);
 
             return $this->assign($assignment->studentCourse, $assignment->pace, $actor);
+        }, 3);
+    }
+
+    public function correctAssessmentStatus(PaceAssignment $assignment, PaceAssignmentStatus $to, User $actor, string $reason): PaceAssignment
+    {
+        return DB::transaction(function () use ($assignment, $to, $actor, $reason): PaceAssignment {
+            $assignment = PaceAssignment::query()->lockForUpdate()->findOrFail($assignment->id);
+            $from = $assignment->status;
+            $allowed = [
+                PaceAssignmentStatus::InProgress->value => [PaceAssignmentStatus::AwaitingPaceTest],
+                PaceAssignmentStatus::AwaitingPaceTest->value => [PaceAssignmentStatus::InProgress],
+                PaceAssignmentStatus::Failed->value => [PaceAssignmentStatus::Passed],
+                PaceAssignmentStatus::Passed->value => [PaceAssignmentStatus::Failed],
+            ];
+            if (! in_array($to, $allowed[$from->value] ?? [], true)) {
+                throw ValidationException::withMessages(['score' => 'The assignment has progressed beyond the state that can be corrected safely.']);
+            }
+
+            $assignment->update([
+                'status' => $to,
+                'completed_at' => $to === PaceAssignmentStatus::Passed ? now() : null,
+            ]);
+            $this->event($assignment, $from, $to, $actor, "Assessment correction: {$reason}");
+
+            if ($to === PaceAssignmentStatus::Passed) {
+                $next = $this->recommend($assignment->studentCourse);
+                $assignment->studentCourse->update([
+                    'current_pace_id' => $next?->id,
+                    'status' => $next === null ? StudentCourseStatus::Completed : StudentCourseStatus::Active,
+                ]);
+            } elseif ($from === PaceAssignmentStatus::Passed && $to === PaceAssignmentStatus::Failed) {
+                $assignment->studentCourse->update(['current_pace_id' => $assignment->pace_id, 'status' => StudentCourseStatus::Active]);
+            }
+
+            return $assignment->refresh();
         }, 3);
     }
 

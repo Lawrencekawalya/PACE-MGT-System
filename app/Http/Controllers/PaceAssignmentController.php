@@ -6,8 +6,10 @@ use App\Http\Requests\StorePaceAssignmentRequest;
 use App\Models\Course;
 use App\Models\Pace;
 use App\Models\PaceAssignment;
+use App\Models\SchoolSetting;
 use App\Models\StudentCourse;
 use App\PaceAssignmentStatus;
+use App\RoleName;
 use App\Services\ActivityLogger;
 use App\Services\PaceAssignmentService;
 use Illuminate\Http\RedirectResponse;
@@ -68,7 +70,21 @@ class PaceAssignmentController extends Controller
         $paceAssignment->load([
             'pace.course.subject:id,name', 'academicYear:id,name', 'term:id,name',
             'studentCourse.enrollment.student', 'assignedBy:id,name', 'issuedBy:id,name', 'statusEvents.changedBy:id,name',
+            'attempts.recordedBy:id,name', 'attempts.approvedBy:id,name', 'attempts.corrections.correctedBy:id,name',
+            'retryApprovals.requestedBy:id,name', 'retryApprovals.decidedBy:id,name',
         ]);
+        $paceAssignment->attempts->each(function ($attempt): void {
+            if ($attempt->corrections->isEmpty()) {
+                $attempt->setAttribute('effective_score', $attempt->score);
+                $attempt->setAttribute('effective_outcome', $attempt->outcome->value);
+
+                return;
+            }
+            $correction = $attempt->corrections->last();
+            $attempt->setAttribute('effective_score', $correction->score);
+            $attempt->setAttribute('effective_outcome', $correction->outcome->value);
+        });
+        $settings = SchoolSetting::current();
 
         return Inertia::render('pace-assignments/Show', [
             'assignment' => $paceAssignment,
@@ -78,6 +94,15 @@ class PaceAssignmentController extends Controller
             'canIssue' => request()->user()?->can('issue-paces') ?? false,
             'canAssign' => request()->user()?->can('assign-paces') ?? false,
             'canApproveRepeat' => request()->user()?->can('approve-retests') ?? false,
+            'canEnterResults' => request()->user()?->can('enter-test-results') ?? false,
+            'canCorrectResults' => request()->user()?->hasRole(RoleName::Administrator) ?? false,
+            'assessmentRules' => [
+                'self_test_pass_mark' => $settings->self_test_pass_mark,
+                'pace_test_pass_mark' => $settings->pace_test_pass_mark,
+                'self_test_retry_limit' => $settings->self_test_retry_limit,
+            ],
+            'nextRecommendation' => $paceAssignment->status === PaceAssignmentStatus::Passed
+                ? $this->assignments->recommend($paceAssignment->studentCourse)?->only(['id', 'number', 'title']) : null,
         ]);
     }
 

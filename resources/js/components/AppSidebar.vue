@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     CalendarRange,
+    ClipboardCheck,
     FileSpreadsheet,
     GraduationCap,
     LayoutDashboard,
@@ -33,6 +34,7 @@ import { index as curriculumIndex } from '@/routes/admin/curriculum';
 import { index as pacesIndex } from '@/routes/admin/paces';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
+import { index as assessmentsIndex } from '@/routes/assessments';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
 import { index as studentsIndex } from '@/routes/students';
 import type { NavItem } from '@/types';
@@ -71,6 +73,18 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'PACE work queue',
             href: paceAssignmentsIndex(),
             icon: ListChecks,
+        });
+    }
+
+    if (
+        page.props.auth.permissions.includes('enter-test-results') ||
+        page.props.auth.permissions.includes('approve-retests') ||
+        page.props.auth.permissions.includes('view-academic-reports')
+    ) {
+        items.push({
+            title: 'Assessments',
+            href: assessmentsIndex(),
+            icon: ClipboardCheck,
         });
     }
 

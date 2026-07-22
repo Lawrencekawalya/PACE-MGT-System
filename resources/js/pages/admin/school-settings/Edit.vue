@@ -19,6 +19,7 @@ type SchoolSettings = {
     time_format: string;
     logo_url: string | null;
     self_test_pass_mark: string;
+    pace_test_pass_mark: string;
     self_test_retry_limit: number;
 };
 
@@ -220,7 +221,7 @@ defineOptions({
                         their original rules.
                     </p>
                 </div>
-                <div class="grid max-w-2xl gap-5 md:grid-cols-2">
+                <div class="grid max-w-3xl gap-5 md:grid-cols-3">
                     <div class="grid gap-2">
                         <Label for="self_test_pass_mark">Pass mark (%)</Label>
                         <Input
@@ -234,6 +235,22 @@ defineOptions({
                             required
                         />
                         <InputError :message="errors.self_test_pass_mark" />
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="pace_test_pass_mark"
+                            >PACE Test pass mark (%)</Label
+                        >
+                        <Input
+                            id="pace_test_pass_mark"
+                            name="pace_test_pass_mark"
+                            type="number"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            :default-value="settings.pace_test_pass_mark"
+                            required
+                        />
+                        <InputError :message="errors.pace_test_pass_mark" />
                     </div>
                     <div class="grid gap-2">
                         <Label for="self_test_retry_limit"

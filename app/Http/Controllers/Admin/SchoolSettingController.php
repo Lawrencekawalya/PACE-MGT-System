@@ -33,6 +33,7 @@ class SchoolSettingController extends Controller
                     'date_format',
                     'time_format',
                     'self_test_pass_mark',
+                    'pace_test_pass_mark',
                     'self_test_retry_limit',
                 ]),
                 'logo_url' => $settings->logo_path === null ? null : Storage::disk('public')->url($settings->logo_path),
@@ -46,7 +47,7 @@ class SchoolSettingController extends Controller
         Gate::authorize('update', $settings);
         $trackedFields = [
             'official_name', 'short_name', 'slogan', 'country_code', 'timezone',
-            'date_format', 'time_format', 'logo_path', 'self_test_pass_mark', 'self_test_retry_limit',
+            'date_format', 'time_format', 'logo_path', 'self_test_pass_mark', 'pace_test_pass_mark', 'self_test_retry_limit',
         ];
         $oldValues = $settings->only($trackedFields);
         $data = $request->safe()->except(['logo', 'remove_logo']);

@@ -12,9 +12,13 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StaffPasswordController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TermController;
+use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaceAssignmentController;
 use App\Http\Controllers\PaceAssignmentStatusController;
+use App\Http\Controllers\PaceAttemptController;
+use App\Http\Controllers\PaceAttemptCorrectionController;
+use App\Http\Controllers\PaceRetryApprovalController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentEnrollmentController;
 use App\Http\Controllers\StudentStatusController;
@@ -24,6 +28,11 @@ Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'logi
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('assessments', AssessmentController::class)->name('assessments.index');
+    Route::post('pace-assignments/{pace_assignment}/attempts', [PaceAttemptController::class, 'store'])->name('pace-assignments.attempts.store');
+    Route::post('pace-assignments/{pace_assignment}/retry-approvals', [PaceRetryApprovalController::class, 'store'])->name('pace-assignments.retry-approvals.store');
+    Route::put('pace-retry-approvals/{pace_retry_approval}', [PaceRetryApprovalController::class, 'update'])->name('pace-retry-approvals.update');
+    Route::post('pace-attempts/{pace_attempt}/corrections', [PaceAttemptCorrectionController::class, 'store'])->name('pace-attempts.corrections.store');
     Route::resource('pace-assignments', PaceAssignmentController::class)->only(['index', 'show', 'store']);
     Route::put('pace-assignments/{pace_assignment}/status', PaceAssignmentStatusController::class)->name('pace-assignments.status.update');
     Route::resource('students', StudentController::class)->except('destroy');

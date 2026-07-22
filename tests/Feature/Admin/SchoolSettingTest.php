@@ -24,6 +24,7 @@ test('administrator can view school settings with approved defaults', function (
             ->where('settings.short_name', 'FICA')
             ->where('settings.timezone', 'Africa/Kampala')
             ->where('settings.self_test_pass_mark', '80.00')
+            ->where('settings.pace_test_pass_mark', '80.00')
             ->where('settings.self_test_retry_limit', 2));
 });
 
@@ -40,12 +41,14 @@ test('administrator can update identity and assessment defaults with an audit re
             'date_format' => 'DD/MM/YYYY',
             'time_format' => '12-hour',
             'self_test_pass_mark' => 85,
+            'pace_test_pass_mark' => 82,
             'self_test_retry_limit' => 3,
         ])
         ->assertRedirect();
 
     $settings = SchoolSetting::current();
     expect($settings->self_test_pass_mark)->toBe('85.00')
+        ->and($settings->pace_test_pass_mark)->toBe('82.00')
         ->and($settings->self_test_retry_limit)->toBe(3);
 
     expect(ActivityLog::query()->where('event', 'school-settings.updated')->exists())->toBeTrue();
@@ -64,6 +67,7 @@ test('school assessment settings reject invalid values', function () {
             'date_format' => 'DD/MM/YYYY',
             'time_format' => '12-hour',
             'self_test_pass_mark' => 120,
+            'pace_test_pass_mark' => 80,
             'self_test_retry_limit' => 0,
         ])
         ->assertRedirect(route('admin.school-settings.edit'))

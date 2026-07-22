@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
     'time_format',
     'logo_path',
     'self_test_pass_mark',
+    'pace_test_pass_mark',
     'self_test_retry_limit',
 ])]
 class SchoolSetting extends Model
@@ -31,6 +32,7 @@ class SchoolSetting extends Model
     {
         return [
             'self_test_pass_mark' => 'decimal:2',
+            'pace_test_pass_mark' => 'decimal:2',
             'self_test_retry_limit' => 'integer',
         ];
     }
@@ -54,6 +56,7 @@ class SchoolSetting extends Model
             'date_format' => 'DD/MM/YYYY',
             'time_format' => '12-hour',
             'self_test_pass_mark' => '80.00',
+            'pace_test_pass_mark' => '80.00',
             'self_test_retry_limit' => 2,
         ];
     }

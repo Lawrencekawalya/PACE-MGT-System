@@ -1,16 +1,16 @@
 # Graph Report - PMS  (2026-07-22)
 
 ## Corpus Check
-- 405 files · ~62,096 words
+- 426 files · ~67,048 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1767 nodes · 2969 edges · 157 communities (140 shown, 17 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 39 edges (avg confidence: 0.76)
+- 1876 nodes · 3289 edges · 162 communities (136 shown, 26 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.78)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `26ffd517`
+- Built from commit: `498eb677`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -106,6 +106,7 @@
 - button/index.ts
 - DropdownMenu.vue
 - DropdownMenuItem.vue
+- DropdownMenuLabel.vue
 - DropdownMenuRadioGroup.vue
 - DropdownMenuSub.vue
 - DropdownMenuSubTrigger.vue
@@ -143,39 +144,41 @@
 - prettier-plugin-tailwindcss
 - @stylistic/eslint-plugin
 - @tailwindcss/vite
+- StoreStudentRequest
+- tw-animate-css
 
 ## God Nodes (most connected - your core abstractions)
 1. `cn()` - 93 edges
-2. `User` - 61 edges
-3. `ActivityLogger` - 44 edges
-4. `Course` - 34 edges
-5. `Controller` - 33 edges
-6. `Level` - 31 edges
-7. `Student` - 31 edges
-8. `SchoolSetting` - 26 edges
-9. `AcademicYear` - 21 edges
-10. `Pace` - 20 edges
+2. `User` - 79 edges
+3. `ActivityLogger` - 50 edges
+4. `Course` - 38 edges
+5. `Controller` - 35 edges
+6. `PaceAssignment` - 34 edges
+7. `Level` - 33 edges
+8. `Student` - 32 edges
+9. `StudentCourse` - 28 edges
+10. `SchoolSetting` - 26 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `enrollmentFixture()` --calls--> `AcademicYear`  [INFERRED]
   tests/Feature/StudentEnrollmentTest.php → app/Models/AcademicYear.php
-- `enrollmentFixture()` --calls--> `CurriculumRequirement`  [INFERRED]
-  tests/Feature/StudentEnrollmentTest.php → app/Models/CurriculumRequirement.php
+- `paceAssignmentFixture()` --calls--> `CurriculumRequirement`  [INFERRED]
+  tests/Feature/PaceAssignmentTest.php → app/Models/CurriculumRequirement.php
+- `paceAssignmentFixture()` --calls--> `Pace`  [INFERRED]
+  tests/Feature/PaceAssignmentTest.php → app/Models/Pace.php
+- `enrollmentFixture()` --calls--> `Pace`  [INFERRED]
+  tests/Feature/StudentEnrollmentTest.php → app/Models/Pace.php
 - `createStaffWithRole()` --calls--> `Role`  [INFERRED]
   tests/Pest.php → app/Models/Role.php
-- `enrollmentFixture()` --calls--> `Course`  [EXTRACTED]
-  tests/Feature/StudentEnrollmentTest.php → app/Models/Course.php
-- `enrollmentFixture()` --calls--> `Level`  [EXTRACTED]
-  tests/Feature/StudentEnrollmentTest.php → app/Models/Level.php
 
 ## Import Cycles
 - 3-file cycle: `resources/js/components/ui/sidebar/SidebarMenuButton.vue -> resources/js/components/ui/sidebar/SidebarMenuButtonChild.vue -> resources/js/components/ui/sidebar/index.ts -> resources/js/components/ui/sidebar/SidebarMenuButton.vue`
 
-## Communities (157 total, 17 thin omitted)
+## Communities (162 total, 26 thin omitted)
 
 ### Community 0 - "lib/utils.ts"
 Cohesion: 0.06
-Nodes (26): props, SidebarProps, { isMobile, state, openMobile, setOpenMobile }, props, props, props, props, props (+18 more)
+Nodes (29): props, SidebarMenuButtonVariants, props, props, props, props, props, props (+21 more)
 
 ### Community 1 - "ProfileController.php"
 Cohesion: 0.17
@@ -198,8 +201,8 @@ Cohesion: 0.06
 Nodes (23): emits, forwarded, props, props, delegatedProps, emits, forwarded, props (+15 more)
 
 ### Community 6 - "Sidebar.vue"
-Cohesion: 0.11
-Nodes (11): emits, forwarded, props, props, delegatedProps, props, props, props (+3 more)
+Cohesion: 0.10
+Nodes (14): emits, forwarded, props, props, delegatedProps, props, props, props (+6 more)
 
 ### Community 7 - "AGENTS.md"
 Cohesion: 0.06
@@ -218,8 +221,8 @@ Cohesion: 0.11
 Nodes (17): AccessOption, passwordInput, Props, { verify, isLoading, error, isSupported }, inputRef, props, showPassword, Props (+9 more)
 
 ### Community 11 - "useAppearance.ts"
-Cohesion: 0.21
-Nodes (11): { appearance, updateAppearance }, tabs, appearance, getStoredAppearance(), handleSystemThemeChange(), initializeTheme(), mediaQuery(), prefersDark() (+3 more)
+Cohesion: 0.12
+Nodes (16): { appearance, updateAppearance }, tabs, appearance, getStoredAppearance(), handleSystemThemeChange(), initializeTheme(), mediaQuery(), prefersDark() (+8 more)
 
 ### Community 12 - "navigation-menu/index.ts"
 Cohesion: 0.06
@@ -227,11 +230,11 @@ Nodes (27): navigationMenuTriggerStyle, delegatedProps, emits, forwarded, props,
 
 ### Community 13 - "User.php"
 Cohesion: 0.13
-Nodes (4): Illuminate\Notifications\Notifiable, Laravel\Fortify\Contracts\PasskeyUser, Laravel\Fortify\PasskeyAuthenticatable, Laravel\Fortify\TwoFactorAuthenticatable
+Nodes (5): Illuminate\Notifications\Notifiable, Illuminate\Support\Facades\Notification, Laravel\Fortify\Contracts\PasskeyUser, Laravel\Fortify\PasskeyAuthenticatable, Laravel\Fortify\TwoFactorAuthenticatable
 
 ### Community 14 - "types/index.ts"
-Cohesion: 0.19
-Nodes (9): className, Props, Props, Props, Props, Props, { breadcrumbs = [] }, BreadcrumbItem (+1 more)
+Cohesion: 0.07
+Nodes (28): className, Props, auth, { isCurrentUrl, whenCurrentUrl }, mainNavItems, page, Props, rightNavItems (+20 more)
 
 ### Community 15 - "InputOTPSlot.vue"
 Cohesion: 0.11
@@ -247,27 +250,27 @@ Nodes (16): Available Features, Best Practices, Custom Authentication Logic, Doc
 
 ### Community 18 - "dependencies"
 Cohesion: 0.12
-Nodes (17): class-variance-authority, laravel-vite-plugin, @lucide/vue, dependencies, class-variance-authority, laravel-vite-plugin, @lucide/vue, reka-ui (+9 more)
+Nodes (17): class-variance-authority, @laravel/passkeys, laravel-vite-plugin, @lucide/vue, dependencies, class-variance-authority, @laravel/passkeys, laravel-vite-plugin (+9 more)
 
 ### Community 19 - "sidebar/index.ts"
-Cohesion: 0.07
-Nodes (11): ResetUserPassword, SecurityController, ResetStaffPasswordRequest, SaveCourseRequest, SaveCurriculumRequirementRequest, PasswordUpdateRequest, ProfileDeleteRequest, TwoFactorAuthenticationRequest (+3 more)
+Cohesion: 0.21
+Nodes (4): ResetUserPassword, PasswordUpdateRequest, ProfileDeleteRequest, Laravel\Fortify\Contracts\ResetsUserPasswords
 
 ### Community 20 - "aliases"
 Cohesion: 0.12
 Nodes (15): aliases, components, composables, lib, ui, utils, iconLibrary, $schema (+7 more)
 
 ### Community 21 - "TwoFactorSetupModal.vue"
-Cohesion: 0.11
-Nodes (6): AcademicPeriodController, TermController, SaveAcademicYearRequest, SaveTermRequest, AcademicYear, AcademicPeriodService
+Cohesion: 0.09
+Nodes (10): AcademicPeriodController, TermController, SaveTermRequest, AcademicYear, Term, AcademicPeriodService, PaceAssignmentFactory, StudentEnrollmentFactory (+2 more)
 
 ### Community 22 - "breadcrumb/index.ts"
 Cohesion: 0.13
 Nodes (7): props, props, props, props, props, props, props
 
 ### Community 23 - "card/index.ts"
-Cohesion: 0.08
-Nodes (16): Props, delegatedProps, props, props, props, props, props, props (+8 more)
+Cohesion: 0.09
+Nodes (14): Props, props, props, props, props, props, props, props (+6 more)
 
 ### Community 24 - "Tailwind CSS Development"
 Cohesion: 0.14
@@ -282,20 +285,20 @@ Cohesion: 0.15
 Nodes (13): lightningcss-linux-x64-gnu, lightningcss-win32-x64-msvc, optionalDependencies, lightningcss-linux-x64-gnu, lightningcss-win32-x64-msvc, @rollup/rollup-linux-x64-gnu, @rollup/rollup-win32-x64-msvc, @tailwindcss/oxide-linux-x64-gnu (+5 more)
 
 ### Community 27 - "AppHeader.vue"
-Cohesion: 0.14
-Nodes (9): auth, { isCurrentUrl, whenCurrentUrl }, mainNavItems, page, Props, rightNavItems, Props, props (+1 more)
+Cohesion: 0.25
+Nodes (4): props, delegatedProps, props, props
 
 ### Community 28 - "TwoFactorChallenge.vue"
-Cohesion: 0.17
-Nodes (9): Props, Props, emit, handleDelete(), isDeleting, props, Props, Passkey (+1 more)
+Cohesion: 0.15
+Nodes (8): Props, Props, { hasSetupData, clearTwoFactorAuthData }, Props, showSetupModal, StudentValues, Props, Student
 
 ### Community 29 - "TwoFactorRecoveryCodes.vue"
-Cohesion: 0.07
-Nodes (24): Props, uniqueErrors, { hasSetupData, clearTwoFactorAuthData }, Props, showSetupModal, isRecoveryCodesVisible, recoveryCodeSectionRef, { recoveryCodesList, fetchRecoveryCodes, errors } (+16 more)
+Cohesion: 0.08
+Nodes (21): Props, uniqueErrors, isRecoveryCodesVisible, recoveryCodeSectionRef, { recoveryCodesList, fetchRecoveryCodes, errors }, code, { copy, copied }, isOpen (+13 more)
 
 ### Community 30 - "UserInfo.vue"
-Cohesion: 0.15
-Nodes (12): { isMobile, state }, page, user, { getInitials }, Props, showAvatar, Props, getInitial() (+4 more)
+Cohesion: 0.20
+Nodes (8): { isMobile, state }, page, user, { getInitials }, Props, showAvatar, Props, User
 
 ### Community 31 - "Architecture Best Practices"
 Cohesion: 0.17
@@ -309,17 +312,13 @@ Nodes (11): Audit Dependencies, Authorize Every Action, CSRF Protection, Encrypt
 Cohesion: 0.17
 Nodes (12): require-dev, fakerphp/faker, larastan/larastan, laravel/boost, laravel/pail, laravel/pao, laravel/pint, laravel/sail (+4 more)
 
-### Community 34 - "ManageTwoFactor.vue"
-Cohesion: 0.16
-Nodes (5): CatalogueImportController, DashboardController, StoreCatalogueImportRequest, Illuminate\Http\Request, Inertia\Response
-
 ### Community 35 - "Queue & Job Best Practices"
 Cohesion: 0.18
 Nodes (10): Always Implement `failed()`, Batch Related Jobs, Implement `ShouldBeUnique`, Queue & Job Best Practices, Rate Limit External API Calls in Jobs, `retryUntil()` Needs `$tries = 0`, Set `retry_after` Greater Than `timeout`, Use Exponential Backoff (+2 more)
 
 ### Community 36 - "Layout.vue"
-Cohesion: 0.19
-Nodes (10): mainNavItems, page, { isCurrentUrl }, currentUrlReactive, page, useCurrentUrl(), UseCurrentUrlReturn, { isCurrentOrParentUrl } (+2 more)
+Cohesion: 0.07
+Nodes (13): NotifyStalePaceAssignments, PaceAssignmentStatusController, TransitionPaceAssignmentRequest, PaceAssignment, StalePaceAssignmentNotification, PaceAssignmentService, PaceIssueService, PaceStatusEventFactory (+5 more)
 
 ### Community 37 - "Advanced Query Patterns"
 Cohesion: 0.20
@@ -353,6 +352,10 @@ Nodes (8): Apply Global Scopes Sparingly, Avoid Hardcoded Table Names in Queries
 Cohesion: 0.22
 Nodes (8): Add Indexes in the Migration, Generate Migrations with Artisan, Keep Migrations Focused, Migration Best Practices, Mirror Defaults in Model `$attributes`, Never Modify Deployed Migrations, Use `constrained()` for Foreign Keys, Write Reversible `down()` Methods by Default
 
+### Community 45 - "FortifyServiceProvider.php"
+Cohesion: 0.18
+Nodes (3): AppServiceProvider, FortifyServiceProvider, Illuminate\Support\ServiceProvider
+
 ### Community 46 - "scripts"
 Cohesion: 0.22
 Nodes (9): scripts, build, build:ssr, dev, format, format:check, lint, lint:check (+1 more)
@@ -361,13 +364,9 @@ Nodes (9): scripts, build, build:ssr, dev, format, format:check, lint, lint:chec
 Cohesion: 0.22
 Nodes (5): emits, forwarded, props, props, props
 
-### Community 48 - "NavigationMenu.vue"
-Cohesion: 0.21
-Nodes (4): LevelController, ProfileController, SaveLevelRequest, Illuminate\Http\RedirectResponse
-
 ### Community 49 - "global.d.ts"
-Cohesion: 0.25
-Nodes (8): Auth, ComponentCustomProperties, ImportMeta, ImportMetaEnv, InertiaConfig, @inertiajs/core, vite/client, vue
+Cohesion: 0.11
+Nodes (17): emit, handleDelete(), isDeleting, props, authConfigContent, code, showRecoveryInput, Auth (+9 more)
 
 ### Community 50 - "Blade & Views Best Practices"
 Cohesion: 0.25
@@ -385,6 +384,10 @@ Nodes (7): Task Scheduling Best Practices, Use `environments()` to Restrict Task
 Cohesion: 0.25
 Nodes (7): Call `Event::fake()` After Factory Setup, Testing Best Practices, Use `Exceptions::fake()` to Assert Exception Reporting, Use Factory States and Sequences, Use `LazilyRefreshDatabase` Over `RefreshDatabase`, Use Model Assertions Over Raw Database Assertions, Use `recycle()` to Share Relationship Instances Across Factories
 
+### Community 54 - "ProfileValidationRules.php"
+Cohesion: 0.18
+Nodes (4): SaveCurriculumRequirementRequest, SavePaceRequest, UpdateStudentRequest, Illuminate\Foundation\Http\FormRequest
+
 ### Community 55 - "composer.json"
 Cohesion: 0.25
 Nodes (7): description, license, minimum-stability, name, prefer-stable, $schema, type
@@ -394,16 +397,16 @@ Cohesion: 0.22
 Nodes (9): require, inertiajs/inertia-laravel, laravel/chisel, laravel/fortify, laravel/framework, laravel/tinker, laravel/wayfinder, php (+1 more)
 
 ### Community 57 - "PasskeyRegister.vue"
-Cohesion: 0.25
-Nodes (4): emit, name, { register, isLoading, error, isSupported }, showForm
+Cohesion: 0.10
+Nodes (13): emit, handleSubmit(), name, { register, isLoading, error, isSupported }, showForm, Assignment, Event, confirmStatus() (+5 more)
 
 ### Community 58 - "Alert.vue"
 Cohesion: 0.29
 Nodes (4): props, props, props, AlertVariants
 
 ### Community 60 - "dropdown-menu/index.ts"
-Cohesion: 0.33
-Nodes (3): props, forwardedProps, props
+Cohesion: 0.20
+Nodes (6): props, emits, forwarded, props, forwardedProps, props
 
 ### Community 61 - "Collection Best Practices"
 Cohesion: 0.29
@@ -430,16 +433,16 @@ Cohesion: 0.29
 Nodes (6): Always Use `validated()`, Array vs. String Notation for Rules, Use Form Request Classes, Use `Rule::when()` for Conditional Validation, Use the `after()` Method for Custom Validation, Validation & Forms Best Practices
 
 ### Community 67 - "PasswordValidationRules.php"
-Cohesion: 0.20
-Nodes (8): courseId, levelId, Option, Pace, props, search, status, subjectId
+Cohesion: 0.18
+Nodes (8): Assignment, courseId, dateFrom, dateTo, exceptions, props, search, status
 
 ### Community 68 - "config"
 Cohesion: 0.29
 Nodes (7): pestphp/pest-plugin, php-http/discovery, config, allow-plugins, optimize-autoloader, preferred-install, sort-packages
 
 ### Community 70 - "AppSidebar.vue"
-Cohesion: 0.15
-Nodes (4): StaffController, StoreStaffRequest, UpdateStaffRequest, Role
+Cohesion: 0.16
+Nodes (5): StaffController, Permission, Role, AccessControlSeeder, Illuminate\Database\Eloquent\Relations\BelongsToMany
 
 ### Community 71 - "SidebarMenuSkeleton.vue"
 Cohesion: 0.29
@@ -450,8 +453,8 @@ Cohesion: 0.17
 Nodes (10): Configuration Best Practices, `env()` Only in Config Files, Use `App::environment()` for Environment Checks, Use Constants and Language Files, Use Encrypted Env or External Secrets, Consistency First, Decision Rules, How to Apply (+2 more)
 
 ### Community 73 - "laravel-best-practices/SKILL.md"
-Cohesion: 0.10
-Nodes (6): CatalogueImportRow, CurriculumRequirement, StudentCourse, StudentEnrollment, Illuminate\Database\Eloquent\Factories\HasFactory, Illuminate\Database\Eloquent\Relations\BelongsTo
+Cohesion: 0.07
+Nodes (13): ActivityLog, CatalogueImportRow, PaceStatusEvent, StudentCourse, StudentEnrollment, StudentCourseFactory, Illuminate\Database\Eloquent\Factories\HasFactory, Illuminate\Database\Eloquent\Model (+5 more)
 
 ### Community 74 - "FortifyServiceProvider"
 Cohesion: 0.18
@@ -478,24 +481,20 @@ Cohesion: 0.40
 Nodes (5): extra, laravel, post-create-project, dont-discover, installer
 
 ### Community 80 - "DatabaseSeeder.php"
-Cohesion: 0.13
-Nodes (9): AccessControlSeeder, DatabaseSeeder, PaceCatalogueSeeder, SchoolSettingSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Seeder, Illuminate\Http\UploadedFile, paceWorkbook() (+1 more)
+Cohesion: 0.25
+Nodes (5): DatabaseSeeder, PaceCatalogueSeeder, SchoolSettingSeeder, Illuminate\Database\Console\Seeds\WithoutModelEvents, Illuminate\Database\Seeder
 
 ### Community 81 - "Badge.vue"
-Cohesion: 0.10
-Nodes (14): delegatedProps, props, BadgeVariants, Import, CatalogueImport, ImportRow, canManage, Pace (+6 more)
-
-### Community 82 - "DropdownMenuCheckboxItem.vue"
-Cohesion: 0.18
-Nodes (3): Level, CurriculumRequirementFactory, LevelFactory
+Cohesion: 0.09
+Nodes (17): delegatedProps, props, BadgeVariants, Import, CatalogueImport, ImportRow, courseId, levelId (+9 more)
 
 ### Community 83 - "DropdownMenuContent.vue"
 Cohesion: 0.27
 Nodes (6): CreateNewUser, emailRules(), nameRules(), profileRules(), ProfileUpdateRequest, Laravel\Fortify\Contracts\CreatesNewUsers
 
 ### Community 84 - "DropdownMenuRadioItem.vue"
-Cohesion: 0.13
-Nodes (6): Course, Subject, CourseFactory, PaceFactory, SubjectFactory, Illuminate\Database\Eloquent\Relations\HasMany
+Cohesion: 0.05
+Nodes (17): LevelController, CatalogueImport, Course, Level, Subject, AcademicYearFactory, CatalogueImportFactory, CatalogueImportRowFactory (+9 more)
 
 ### Community 85 - "DropdownMenuSubContent.vue"
 Cohesion: 0.25
@@ -510,24 +509,20 @@ Cohesion: 0.50
 Nodes (3): private, $schema, type
 
 ### Community 88 - "button/index.ts"
-Cohesion: 0.13
-Nodes (5): StudentController, StoreStudentRequest, UpdateStudentRequest, Student, StudentRegistrationService
-
-### Community 89 - "DropdownMenu.vue"
-Cohesion: 0.14
-Nodes (6): ActivityLog, Pace, Permission, Illuminate\Database\Eloquent\Model, Illuminate\Database\Eloquent\Relations\BelongsToMany, Illuminate\Database\Eloquent\Relations\MorphTo
+Cohesion: 0.11
+Nodes (6): StudentController, StudentEnrollmentController, SaveStudentEnrollmentRequest, Student, StudentEnrollmentService, StudentRegistrationService
 
 ### Community 90 - "DropdownMenuItem.vue"
 Cohesion: 0.50
 Nodes (3): delegatedProps, forwardedProps, props
 
 ### Community 92 - "DropdownMenuRadioGroup.vue"
-Cohesion: 0.25
-Nodes (3): StudentEnrollmentController, SaveStudentEnrollmentRequest, StudentEnrollmentService
+Cohesion: 0.33
+Nodes (3): SecurityController, TwoFactorAuthenticationRequest, Laravel\Fortify\InteractsWithTwoFactorState
 
 ### Community 94 - "DropdownMenuSubTrigger.vue"
-Cohesion: 0.12
-Nodes (11): StudentValues, Props, ButtonVariants, Course, Level, Subject, AccessOption, page (+3 more)
+Cohesion: 0.16
+Nodes (9): Props, ButtonVariants, Course, Level, Subject, AccessOption, page, props (+1 more)
 
 ### Community 95 - "Input.vue"
 Cohesion: 0.50
@@ -561,25 +556,17 @@ Nodes (4): delegatedProps, emits, forwarded, props
 Cohesion: 0.18
 Nodes (8): Enrollment, levelId, Option, props, search, status, Student, yearId
 
-### Community 111 - "vue"
-Cohesion: 0.32
-Nodes (6): SidebarMenuButtonVariants, delegatedProps, { isMobile, state }, props, props, SidebarMenuButtonProps
-
 ### Community 112 - "vue-sonner"
-Cohesion: 0.29
-Nodes (3): Term, StudentEnrollmentFactory, enrollmentFixture()
+Cohesion: 0.25
+Nodes (3): CurriculumController, CurriculumRequirement, enrollmentFixture()
 
 ### Community 117 - "cache.php"
-Cohesion: 0.12
-Nodes (8): AcademicYearFactory, CatalogueImportFactory, CatalogueImportRowFactory, SchoolSettingFactory, StudentCourseFactory, StudentFactory, TermFactory, Illuminate\Database\Eloquent\Factories\Factory
-
-### Community 126 - "Welcome.vue"
-Cohesion: 0.24
-Nodes (5): { title = '', description = '' }, initializeFlashToast(), Appearance, FlashToast, ResolvedAppearance
+Cohesion: 0.60
+Nodes (4): getInitial(), getInitials(), useInitials(), UseInitialsReturn
 
 ### Community 128 - "web.php"
-Cohesion: 0.12
-Nodes (10): CatalogueSetupController, CourseController, CurriculumController, StaffPasswordController, SubjectController, Controller, StudentStatusController, SaveSubjectRequest (+2 more)
+Cohesion: 0.09
+Nodes (15): CatalogueImportController, CatalogueSetupController, CourseController, SchoolSettingController, StaffPasswordController, SubjectController, Controller, DashboardController (+7 more)
 
 ### Community 134 - "ProfileController.php"
 Cohesion: 0.33
@@ -593,10 +580,6 @@ Nodes (7): delegatedProps, emits, forwarded, props, SheetContentProps, delegated
 Cohesion: 0.40
 Nodes (3): props, search, StaffMember
 
-### Community 137 - "Index.vue"
-Cohesion: 0.40
-Nodes (3): authConfigContent, code, showRecoveryInput
-
 ### Community 142 - "tw-animate-css"
 Cohesion: 0.50
 Nodes (3): emits, forwarded, props
@@ -609,33 +592,29 @@ Nodes (3): delegatedProps, forwardedProps, props
 Cohesion: 0.50
 Nodes (3): emits, forwarded, props
 
-### Community 146 - "DropdownMenuSub.vue"
-Cohesion: 0.50
-Nodes (3): emits, forwarded, props
-
 ### Community 147 - "DropdownMenuSubTrigger.vue"
 Cohesion: 0.50
 Nodes (3): delegatedProps, forwardedProps, props
 
 ## Knowledge Gaps
-- **777 isolated node(s):** `$schema`, `style`, `config`, `css`, `baseColor` (+772 more)
+- **786 isolated node(s):** `$schema`, `style`, `config`, `css`, `baseColor` (+781 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `lib/utils.ts` to `select/index.ts`, `dialog/index.ts`, `ProfileController.php`, `SheetContent.vue`, `Sidebar.vue`, `InputError.vue`, `navigation-menu/index.ts`, `InputOTPSlot.vue`, `DropdownMenuLabel.vue`, `DropdownMenuSubTrigger.vue`, `eslint-config-prettier`, `breadcrumb/index.ts`, `card/index.ts`, `TooltipContent.vue`, `SidebarProvider.vue`, `Alert.vue`, `SidebarMenuSkeleton.vue`, `Checkbox.vue`, `Badge.vue`, `DropdownMenuItem.vue`, `DropdownMenuSubTrigger.vue`, `Input.vue`, `DropdownMenuSeparator.vue`, `clsx`, `@inertiajs/vite`, `@inertiajs/vue3`, `vue`?**
-  _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Why does `User` connect `NavigationMenuLink.vue` to `web.php`, `ManageTwoFactor.vue`, `AppSidebar.vue`, `laravel-best-practices/SKILL.md`, `FortifyServiceProvider`, `DropdownMenuLabel.vue`, `TestCase`, `User.php`, `DatabaseSeeder.php`, `PlaceholderPattern.vue`, `sidebar/index.ts`, `DropdownMenuContent.vue`, `DropdownMenuCheckboxItem.vue`, `button/index.ts`, `DropdownMenu.vue`, `AvatarFallback.vue`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
-- **Why does `Controller` connect `web.php` to `ManageTwoFactor.vue`, `AppSidebar.vue`, `NavigationMenu.vue`, `sidebar/index.ts`, `TwoFactorSetupModal.vue`, `ProfileValidationRules.php`, `button/index.ts`, `DropdownMenuRadioGroup.vue`, `DropdownMenuSub.vue`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Are the 4 inferred relationships involving `User` (e.g. with `.__invoke()` and `.configureAuthentication()`) actually correct?**
-  _`User` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `cn()` connect `lib/utils.ts` to `select/index.ts`, `dialog/index.ts`, `ProfileController.php`, `SheetContent.vue`, `Sidebar.vue`, `InputError.vue`, `navigation-menu/index.ts`, `types/index.ts`, `InputOTPSlot.vue`, `DropdownMenuLabel.vue`, `DropdownMenuSubTrigger.vue`, `breadcrumb/index.ts`, `card/index.ts`, `TooltipContent.vue`, `AppHeader.vue`, `SidebarProvider.vue`, `Alert.vue`, `SidebarMenuSkeleton.vue`, `Checkbox.vue`, `Badge.vue`, `DropdownMenuItem.vue`, `DropdownMenuSubTrigger.vue`, `Input.vue`, `DropdownMenuSeparator.vue`, `clsx`, `@inertiajs/vite`, `@inertiajs/vue3`?**
+  _High betweenness centrality (0.066) - this node is a cross-community bridge._
+- **Why does `User` connect `NavigationMenuLink.vue` to `web.php`, `Layout.vue`, `AppSidebar.vue`, `laravel-best-practices/SKILL.md`, `FortifyServiceProvider`, `TestCase`, `User.php`, `FortifyServiceProvider.php`, `vue`, `DatabaseSeeder.php`, `DropdownMenuCheckboxItem.vue`, `sidebar/index.ts`, `DropdownMenuContent.vue`, `DropdownMenuRadioItem.vue`, `TwoFactorSetupModal.vue`, `button/index.ts`?**
+  _High betweenness centrality (0.037) - this node is a cross-community bridge._
+- **Why does `Course` connect `DropdownMenuRadioItem.vue` to `web.php`, `laravel-best-practices/SKILL.md`, `vue-sonner`, `TwoFactorSetupModal.vue`, `button/index.ts`, `DropdownMenu.vue`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Are the 7 inferred relationships involving `User` (e.g. with `.handle()` and `.__invoke()`) actually correct?**
+  _`User` has 7 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `style`, `config` to the rest of the system?**
-  _777 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _786 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `lib/utils.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.061170212765957445 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05731523378582202 - nodes in this community are weakly interconnected._
 - **Should `scripts` be split into smaller, more focused modules?**
   _Cohesion score 0.052564102564102565 - nodes in this community are weakly interconnected._
