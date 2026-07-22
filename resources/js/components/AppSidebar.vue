@@ -12,6 +12,7 @@ import {
     PackageOpen,
     ChartNoAxesCombined,
     School,
+    ServerCog,
     Settings2,
     Users,
 } from '@lucide/vue';
@@ -29,6 +30,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { systemStatus } from '@/routes/admin';
 import { index as academicPeriodsIndex } from '@/routes/admin/academic-periods';
 import { index as catalogueImportsIndex } from '@/routes/admin/catalogue-imports';
 import { index as catalogueSetupIndex } from '@/routes/admin/catalogue-setup';
@@ -58,6 +60,11 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'School settings',
             href: editSchoolSettings(),
             icon: School,
+        });
+        items.push({
+            title: 'System status',
+            href: systemStatus(),
+            icon: ServerCog,
         });
     }
 

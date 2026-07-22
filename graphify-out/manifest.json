@@ -70,8 +70,8 @@
     "semantic_hash": ""
   },
   "app/Providers/AppServiceProvider.php": {
-    "mtime": 1784727955.1741614,
-    "ast_hash": "82dd69447900e89141698e6ceba290f7",
+    "mtime": 1784754945.5638459,
+    "ast_hash": "21d8ca319a3fa18e2f5bf6e1192c4ba9",
     "semantic_hash": ""
   },
   "app/Providers/FortifyServiceProvider.php": {
@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "bootstrap/app.php": {
-    "mtime": 1784728766.4378052,
-    "ast_hash": "2fa680f4e625676fa98dbf62d8eaea16",
+    "mtime": 1784754933.262872,
+    "ast_hash": "5fc575da5688e2376e69321a39fe8d4b",
     "semantic_hash": ""
   },
   "bootstrap/providers.php": {
@@ -110,8 +110,8 @@
     "semantic_hash": ""
   },
   "config/app.php": {
-    "mtime": 1784726404.491894,
-    "ast_hash": "54f35eb968453c77ae29beb18fc8db8a",
+    "mtime": 1784754803.992147,
+    "ast_hash": "9c5ffe80e09a87350f131fd3ec04c4fe",
     "semantic_hash": ""
   },
   "config/auth.php": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "config/queue.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "f98ce92e7bf51db1fabaf8a30e12fc5a",
+    "mtime": 1784755643.2094204,
+    "ast_hash": "f7a9842fcdac66cdd3ccb808b13528dc",
     "semantic_hash": ""
   },
   "config/services.php": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebar.vue": {
-    "mtime": 1784748596.3617864,
-    "ast_hash": "c87e394bd388e0197f0e80bbe4d4b7e4",
+    "mtime": 1784756144.42427,
+    "ast_hash": "28754aad778b4ede2613508e9113a33f",
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebarHeader.vue": {
@@ -1220,8 +1220,8 @@
     "semantic_hash": ""
   },
   "routes/console.php": {
-    "mtime": 1784748351.0812187,
-    "ast_hash": "6a071049300b99936ffa63ecd2b4851f",
+    "mtime": 1784756622.7759438,
+    "ast_hash": "fa740e70eb303575f9950f06c99a9681",
     "semantic_hash": ""
   },
   "routes/settings.php": {
@@ -1230,8 +1230,8 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1784748351.3012183,
-    "ast_hash": "00f22ee165c4c09e0fe7cf6aa0cd40a9",
+    "mtime": 1784754920.8835673,
+    "ast_hash": "c47bf7a9680800f32bbe9a54499eea6f",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/AuthenticationTest.php": {
@@ -1460,8 +1460,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1784725011.4933488,
-    "ast_hash": "b6a945a53cd79d1b18566ff978574bbf",
+    "mtime": 1784755787.5448012,
+    "ast_hash": "aab75cc244f4f1f4da44662e5952852b",
     "semantic_hash": ""
   },
   "pnpm-workspace.yaml": {
@@ -2365,8 +2365,8 @@
     "semantic_hash": ""
   },
   "app/Jobs/GenerateReportExport.php": {
-    "mtime": 1784751257.9100962,
-    "ast_hash": "a247a6c26a0acde9f8f5df4ae08260f5",
+    "mtime": 1784755643.0134213,
+    "ast_hash": "8d6608c0d427e12db43aa8029673ee8a",
     "semantic_hash": ""
   },
   "app/Models/InventoryItem.php": {
@@ -2535,8 +2535,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/ReportTest.php": {
-    "mtime": 1784748926.4902415,
-    "ast_hash": "1cd4fc0f1063031b6961b5ad2b4c84ce",
+    "mtime": 1784755806.722719,
+    "ast_hash": "953c950f1b211e262ded94e467edd8ab",
     "semantic_hash": ""
   },
   "database/migrations/2026_07_22_235900_add_teacher_ownership_to_students_table.php": {
@@ -2547,6 +2547,141 @@
   "tests/Feature/TeacherStudentScopeTest.php": {
     "mtime": 1784753663.229394,
     "ast_hash": "86cce6550875e304c4892e6ecff59a17",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/BackupDatabase.php": {
+    "mtime": 1784755131.68145,
+    "ast_hash": "0850f8c3efecd996cf60ea532e62d7bd",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/CreateAdministrator.php": {
+    "mtime": 1784755642.7984223,
+    "ast_hash": "4b23c83ecdebce7a457e8c5dfb214435",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/PruneOperationalData.php": {
+    "mtime": 1784755133.6564457,
+    "ast_hash": "80f47bec97d2e38959bd5ad65361323c",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/ReconcileCatalogue.php": {
+    "mtime": 1784755479.6331222,
+    "ast_hash": "ee62f5acc03c6bab323c2c5720fe81c1",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/RestoreDatabase.php": {
+    "mtime": 1784755132.6484478,
+    "ast_hash": "5b8b7d7e2d6a9b8ed26bc786353e9b0c",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/SystemCheck.php": {
+    "mtime": 1784754845.6100583,
+    "ast_hash": "405837070f46959371f4cd4b4899b250",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/SystemHeartbeat.php": {
+    "mtime": 1784754844.6370604,
+    "ast_hash": "a46272cf35f84484796adf40f7850e6f",
+    "semantic_hash": ""
+  },
+  "app/Console/Commands/ValidateSystemData.php": {
+    "mtime": 1784755478.6301265,
+    "ast_hash": "8db887fec38aa1ce398cd814e16e0352",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/SystemStatusController.php": {
+    "mtime": 1784754841.8420665,
+    "ast_hash": "dbc36f782fd31bd695e930bd87963bfa",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/ReadinessController.php": {
+    "mtime": 1784754842.7690644,
+    "ast_hash": "b778c5a2bbf408634264eeb1c109838b",
+    "semantic_hash": ""
+  },
+  "app/Http/Middleware/AddSecurityHeaders.php": {
+    "mtime": 1784754843.7000625,
+    "ast_hash": "4cdf7a0bcab60aa994fa412763d65e58",
+    "semantic_hash": ""
+  },
+  "app/Services/DataIntegrityService.php": {
+    "mtime": 1784755970.772015,
+    "ast_hash": "6b125c1ab89a3e5a37bf4916b891ff70",
+    "semantic_hash": ""
+  },
+  "app/Services/DatabaseBackupService.php": {
+    "mtime": 1784755726.4330635,
+    "ast_hash": "398e58a02d3fe6411dee5891b9d5a28d",
+    "semantic_hash": ""
+  },
+  "app/Services/SystemHealthService.php": {
+    "mtime": 1784756621.833951,
+    "ast_hash": "436438c9836298d587f0a2a50e9934b1",
+    "semantic_hash": ""
+  },
+  "config/operations.php": {
+    "mtime": 1784754802.9981492,
+    "ast_hash": "cf924dc63f34e4c7adc158cf997f5525",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_23_002133_add_release_query_indexes.php": {
+    "mtime": 1784755480.6541178,
+    "ast_hash": "f95c01c348b598a00af1f2e18c30e378",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/system-status/Index.vue": {
+    "mtime": 1784754895.7249517,
+    "ast_hash": "df7b866bd5d837c0abf4312650e0f5c4",
+    "semantic_hash": ""
+  },
+  "tests/Feature/CreateAdministratorTest.php": {
+    "mtime": 1784755643.833418,
+    "ast_hash": "81eb162b3eb3eb6eae2964278766b19f",
+    "semantic_hash": ""
+  },
+  "tests/Feature/DataIntegrityTest.php": {
+    "mtime": 1784755598.355613,
+    "ast_hash": "d3d25baad1bd4220233084dada3a824f",
+    "semantic_hash": ""
+  },
+  "tests/Feature/DatabaseBackupTest.php": {
+    "mtime": 1784755185.741335,
+    "ast_hash": "1c60c6b0ae475d19ff2df589fdfb733a",
+    "semantic_hash": ""
+  },
+  "tests/Feature/OperationalRetentionTest.php": {
+    "mtime": 1784755255.1880853,
+    "ast_hash": "da6802a2f56cef508937c79ee03e0f9c",
+    "semantic_hash": ""
+  },
+  "tests/Feature/SystemHealthTest.php": {
+    "mtime": 1784756637.0762322,
+    "ast_hash": "541fbf9844c846bb7979115a7e198bca",
+    "semantic_hash": ""
+  },
+  "docs/BACKUP_AND_RECOVERY.md": {
+    "mtime": 1784755790.18779,
+    "ast_hash": "f6ac517822e804a7c4e56a0700d97e07",
+    "semantic_hash": ""
+  },
+  "docs/DEPLOYMENT.md": {
+    "mtime": 1784756624.6599293,
+    "ast_hash": "4a06d62b989d9e617f4c61f80c05be96",
+    "semantic_hash": ""
+  },
+  "docs/PHASE_8_RELEASE_CHECKLIST.md": {
+    "mtime": 1784755792.221781,
+    "ast_hash": "1769aca628fde8851bbf66d665c42069",
+    "semantic_hash": ""
+  },
+  "docs/ROLE_AND_ACCEPTANCE_GUIDE.md": {
+    "mtime": 1784755791.1857855,
+    "ast_hash": "cd4a4200ff67b00ae239e2b2fc25175f",
+    "semantic_hash": ""
+  },
+  "app/Jobs/QueueHeartbeat.php": {
+    "mtime": 1784756620.8859582,
+    "ast_hash": "f1c2444e980d97c1c23b65533188a5d2",
     "semantic_hash": ""
   }
 }

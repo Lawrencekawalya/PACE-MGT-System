@@ -7,10 +7,12 @@ use App\PermissionName;
 use App\RoleName;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Events\Login;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -54,6 +56,15 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+
+        if ((bool) config('app.force_https')) {
+            URL::forceScheme('https');
+        }
+
+        $trustedProxies = config('app.trusted_proxies');
+        if (is_array($trustedProxies) && $trustedProxies !== []) {
+            TrustProxies::at($trustedProxies);
+        }
     }
 
     private function configureAuthorization(): void

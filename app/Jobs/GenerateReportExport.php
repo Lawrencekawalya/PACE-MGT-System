@@ -18,6 +18,9 @@ class GenerateReportExport implements ShouldQueue
 
     public int $timeout = 120;
 
+    /** @var list<int> */
+    public array $backoff = [10, 30, 60];
+
     public function __construct(public ReportExport $export) {}
 
     public function handle(ReportExportGenerator $generator): void

@@ -91,7 +91,7 @@ test('inventory report reconciles balances and period movements', function () {
 
 test('student progress query count remains bounded as representative rows increase', function () {
     $fixture = createReportFixture();
-    foreach (range(1, 15) as $index) {
+    foreach (range(1, 100) as $index) {
         $student = Student::factory()->create();
         $enrollment = StudentEnrollment::factory()->create([
             'student_id' => $student->id, 'academic_year_id' => $fixture['year']->id,
@@ -109,6 +109,6 @@ test('student progress query count remains bounded as representative rows increa
     $queryCount = count(DB::getQueryLog());
     DB::disableQueryLog();
 
-    expect($result['rows'])->toHaveCount(16)
+    expect($result['rows'])->toHaveCount(101)
         ->and($queryCount)->toBeLessThanOrEqual(15);
 });

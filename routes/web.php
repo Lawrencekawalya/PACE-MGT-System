@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SchoolSettingController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StaffPasswordController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\SystemStatusController;
 use App\Http\Controllers\Admin\TermController;
 use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\DashboardController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\PaceAssignmentStatusController;
 use App\Http\Controllers\PaceAttemptController;
 use App\Http\Controllers\PaceAttemptCorrectionController;
 use App\Http\Controllers\PaceRetryApprovalController;
+use App\Http\Controllers\ReadinessController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportExportController;
 use App\Http\Controllers\ReportExportDownloadController;
@@ -32,6 +34,7 @@ use App\Http\Controllers\StudentStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'login'))->name('home');
+Route::get('ready', ReadinessController::class)->name('ready');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
@@ -61,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('school-settings', [SchoolSettingController::class, 'edit'])->name('school-settings.edit');
+        Route::get('system-status', SystemStatusController::class)->name('system-status');
         Route::post('school-settings', [SchoolSettingController::class, 'update'])->name('school-settings.update');
         Route::resource('staff', StaffController::class)
             ->parameters(['staff' => 'user'])
