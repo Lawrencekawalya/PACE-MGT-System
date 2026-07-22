@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** @property StudentCourseStatus $status */
+/**
+ * @property StudentCourseStatus $status
+ * @property Pace|null $currentPace
+ */
 #[Fillable(['student_enrollment_id', 'course_id', 'starting_pace_id', 'current_pace_id', 'status', 'is_curriculum_required', 'placement_reason', 'assigned_by'])]
 class StudentCourse extends Model
 {

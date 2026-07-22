@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** @property StockMovementType $type */
+/**
+ * @property StockMovementType $type
+ * @property Carbon $recorded_at
+ */
 #[Fillable(['inventory_item_id', 'type', 'quantity', 'balance_after', 'student_id', 'pace_assignment_id', 'academic_year_id', 'term_id', 'reference', 'reason', 'recorded_by', 'recorded_at', 'corrects_movement_id'])]
 class StockMovement extends Model
 {

@@ -9,9 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property PaceAssignmentStatus $status
+ * @property Carbon $assigned_at
+ * @property Carbon|null $issued_at
+ * @property Carbon|null $started_at
+ * @property Carbon|null $submitted_at
+ * @property Carbon|null $completed_at
  */
 #[Fillable(['student_course_id', 'pace_id', 'academic_year_id', 'term_id', 'status', 'attempt_cycle', 'assigned_by', 'assigned_at', 'issued_by', 'issued_at', 'started_at', 'submitted_at', 'completed_at', 'cancelled_at', 'reassigned_at', 'override_reason'])]
 class PaceAssignment extends Model

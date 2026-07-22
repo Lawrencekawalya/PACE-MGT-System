@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** @property InventoryItemType $item_type */
+/**
+ * @property InventoryItemType $item_type
+ * @property Pace|null $pace
+ */
 #[Fillable(['pace_id', 'item_type', 'sku', 'reorder_level', 'is_consumable', 'is_active'])]
 class InventoryItem extends Model
 {

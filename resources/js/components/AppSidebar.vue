@@ -10,6 +10,7 @@ import {
     ListChecks,
     ListTree,
     PackageOpen,
+    ChartNoAxesCombined,
     School,
     Settings2,
     Users,
@@ -38,6 +39,7 @@ import { index as staffIndex } from '@/routes/admin/staff';
 import { index as assessmentsIndex } from '@/routes/assessments';
 import { index as inventoryIndex } from '@/routes/inventory';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
+import { index as reportsIndex } from '@/routes/reports';
 import { index as studentsIndex } from '@/routes/students';
 import type { NavItem } from '@/types';
 
@@ -99,6 +101,17 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'Inventory',
             href: inventoryIndex(),
             icon: PackageOpen,
+        });
+    }
+
+    if (
+        page.props.auth.permissions.includes('view-academic-reports') ||
+        page.props.auth.permissions.includes('view-inventory-reports')
+    ) {
+        items.push({
+            title: 'Reports',
+            href: reportsIndex(),
+            icon: ChartNoAxesCombined,
         });
     }
 

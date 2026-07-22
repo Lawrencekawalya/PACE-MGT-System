@@ -21,6 +21,9 @@ use App\Http\Controllers\PaceAssignmentStatusController;
 use App\Http\Controllers\PaceAttemptController;
 use App\Http\Controllers\PaceAttemptCorrectionController;
 use App\Http\Controllers\PaceRetryApprovalController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportExportController;
+use App\Http\Controllers\ReportExportDownloadController;
 use App\Http\Controllers\StockMovementController;
 use App\Http\Controllers\StockMovementCorrectionController;
 use App\Http\Controllers\StudentController;
@@ -32,6 +35,9 @@ Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'logi
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('reports', ReportController::class)->name('reports.index');
+    Route::post('report-exports', [ReportExportController::class, 'store'])->name('report-exports.store');
+    Route::get('report-exports/{report_export}/download', ReportExportDownloadController::class)->name('report-exports.download');
     Route::get('inventory', [InventoryController::class, 'index'])->name('inventory.index');
     Route::get('inventory/ledger', [InventoryController::class, 'ledger'])->name('inventory.ledger');
     Route::post('inventory-items', [InventoryItemController::class, 'store'])->name('inventory-items.store');

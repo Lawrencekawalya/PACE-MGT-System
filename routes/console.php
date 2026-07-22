@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('pace-assignments:notify-stale')->dailyAt('07:00')->withoutOverlapping();
+Schedule::command('reports:prune')->dailyAt('02:00')->withoutOverlapping();
