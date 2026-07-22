@@ -1450,8 +1450,8 @@
     "semantic_hash": ""
   },
   ".github/workflows/tests.yml": {
-    "mtime": 1784724692.86538,
-    "ast_hash": "5662bb20171acdca7baa4cbe206f6fb8",
+    "mtime": 1784759606.2749472,
+    "ast_hash": "10c10516623ac810b4570664d667b106",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -2665,8 +2665,8 @@
     "semantic_hash": ""
   },
   "docs/DEPLOYMENT.md": {
-    "mtime": 1784756624.6599293,
-    "ast_hash": "4a06d62b989d9e617f4c61f80c05be96",
+    "mtime": 1784764148.5956044,
+    "ast_hash": "f2ea25e2c2aa7d0aa4e4cfe5f19cfdce",
     "semantic_hash": ""
   },
   "docs/PHASE_8_RELEASE_CHECKLIST.md": {
@@ -2682,6 +2682,11 @@
   "app/Jobs/QueueHeartbeat.php": {
     "mtime": 1784756620.8859582,
     "ast_hash": "f1c2444e980d97c1c23b65533188a5d2",
+    "semantic_hash": ""
+  },
+  "deploy/production.sh": {
+    "mtime": 1784764148.4506042,
+    "ast_hash": "d1bb40f711c4b773db6a016eedb848e2",
     "semantic_hash": ""
   }
 }

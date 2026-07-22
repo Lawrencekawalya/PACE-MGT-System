@@ -76,8 +76,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_assessmentoutcome",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "assessmentoutcome.php"
     },
     {
@@ -230,8 +230,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_console_commands_createadministrator_createadministrator",
-      "community": 175,
-      "community_name": "Illuminate\\Console\\Command",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "createadministrator"
     },
     {
@@ -241,8 +241,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_console_commands_createadministrator_createadministrator_handle",
-      "community": 175,
-      "community_name": "Illuminate\\Console\\Command",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".handle()"
     },
     {
@@ -263,8 +263,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_console_commands_notifystalepaceassignments_notifystalepaceassignments",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 22,
+      "community_name": "breadcrumb/index.ts",
       "norm_label": "notifystalepaceassignments"
     },
     {
@@ -274,8 +274,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_console_commands_notifystalepaceassignments_notifystalepaceassignments_handle",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 22,
+      "community_name": "breadcrumb/index.ts",
       "norm_label": ".handle()"
     },
     {
@@ -538,8 +538,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_enrollmentstatus",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "enrollmentstatus.php"
     },
     {
@@ -615,8 +615,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_catalogueimportcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "catalogueimportcontroller.php"
     },
     {
@@ -703,8 +703,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_cataloguesetupcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "cataloguesetupcontroller.php"
     },
     {
@@ -714,8 +714,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_admin_cataloguesetupcontroller_cataloguesetupcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "cataloguesetupcontroller"
     },
     {
@@ -791,8 +791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "curriculumcontroller.php"
     },
     {
@@ -802,8 +802,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "curriculumcontroller"
     },
     {
@@ -813,8 +813,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller_construct",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".__construct()"
     },
     {
@@ -835,8 +835,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller_store",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".store()"
     },
     {
@@ -846,8 +846,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_levelcontroller",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "levelcontroller.php"
     },
     {
@@ -857,8 +857,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_controllers_admin_levelcontroller_levelcontroller",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "levelcontroller"
     },
     {
@@ -868,8 +868,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_admin_levelcontroller_levelcontroller_construct",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".__construct()"
     },
     {
@@ -879,8 +879,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_admin_levelcontroller_levelcontroller_store",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".store()"
     },
     {
@@ -890,8 +890,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_http_controllers_admin_levelcontroller_levelcontroller_update",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".update()"
     },
     {
@@ -901,8 +901,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_pacecontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 153,
+      "community_name": "prettier",
       "norm_label": "pacecontroller.php"
     },
     {
@@ -978,8 +978,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 91,
+      "community_name": "DropdownMenuLabel.vue",
       "norm_label": "schoolsettingcontroller.php"
     },
     {
@@ -1011,8 +1011,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller_schoolsettingcontroller_edit",
-      "community": 74,
-      "community_name": "FortifyServiceProvider",
+      "community": 91,
+      "community_name": "DropdownMenuLabel.vue",
       "norm_label": ".edit()"
     },
     {
@@ -1033,8 +1033,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "staffcontroller.php"
     },
     {
@@ -1044,8 +1044,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "staffcontroller"
     },
     {
@@ -1055,8 +1055,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_construct",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".__construct()"
     },
     {
@@ -1077,8 +1077,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_create",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".create()"
     },
     {
@@ -1088,8 +1088,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_store",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".store()"
     },
     {
@@ -1099,8 +1099,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_edit",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".edit()"
     },
     {
@@ -1110,8 +1110,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_update",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".update()"
     },
     {
@@ -1121,8 +1121,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_accessoptions",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".accessoptions()"
     },
     {
@@ -1132,8 +1132,8 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffcontroller_staffcontroller_guardadministratorcontinuity",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".guardadministratorcontinuity()"
     },
     {
@@ -1176,8 +1176,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffpasswordcontroller_staffpasswordcontroller_invoke",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".__invoke()"
     },
     {
@@ -1242,8 +1242,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_systemstatuscontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "systemstatuscontroller.php"
     },
     {
@@ -1253,8 +1253,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_admin_systemstatuscontroller_systemstatuscontroller",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "systemstatuscontroller"
     },
     {
@@ -1330,8 +1330,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_assessmentcontroller",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "assessmentcontroller.php"
     },
     {
@@ -1363,8 +1363,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_controller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "controller.php"
     },
     {
@@ -1374,8 +1374,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_http_controllers_controller_controller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "controller"
     },
     {
@@ -1385,8 +1385,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_dashboardcontroller",
-      "community": 176,
-      "community_name": "DashboardReportService",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "dashboardcontroller.php"
     },
     {
@@ -1396,8 +1396,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_dashboardcontroller_dashboardcontroller",
-      "community": 176,
-      "community_name": "DashboardReportService",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "dashboardcontroller"
     },
     {
@@ -1429,8 +1429,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_inventorycontroller",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "inventorycontroller.php"
     },
     {
@@ -1473,8 +1473,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_inventoryitemcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 151,
+      "community_name": "eslint-plugin-import",
       "norm_label": "inventoryitemcontroller.php"
     },
     {
@@ -1517,8 +1517,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_http_controllers_inventoryitemcontroller_inventoryitemcontroller_show",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 151,
+      "community_name": "eslint-plugin-import",
       "norm_label": ".show()"
     },
     {
@@ -1539,8 +1539,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_paceassignmentcontroller",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "paceassignmentcontroller.php"
     },
     {
@@ -1550,8 +1550,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_http_controllers_paceassignmentcontroller_paceassignmentcontroller",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "paceassignmentcontroller"
     },
     {
@@ -1561,8 +1561,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_http_controllers_paceassignmentcontroller_paceassignmentcontroller_construct",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".__construct()"
     },
     {
@@ -1583,8 +1583,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "app_http_controllers_paceassignmentcontroller_paceassignmentcontroller_show",
-      "community": 74,
-      "community_name": "FortifyServiceProvider",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".show()"
     },
     {
@@ -1594,8 +1594,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "app_http_controllers_paceassignmentcontroller_paceassignmentcontroller_store",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".store()"
     },
     {
@@ -1825,8 +1825,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "reportcontroller.php"
     },
     {
@@ -1858,8 +1858,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_http_controllers_reportcontroller_reportcontroller_invoke",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".__invoke()"
     },
     {
@@ -1913,8 +1913,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_reportexportdownloadcontroller",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "reportexportdownloadcontroller.php"
     },
     {
@@ -1924,8 +1924,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_controllers_reportexportdownloadcontroller_reportexportdownloadcontroller",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "reportexportdownloadcontroller"
     },
     {
@@ -1935,8 +1935,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_reportexportdownloadcontroller_reportexportdownloadcontroller_invoke",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".__invoke()"
     },
     {
@@ -1957,8 +1957,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "app_http_controllers_settings_profilecontroller_profilecontroller",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "profilecontroller"
     },
     {
@@ -1979,8 +1979,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_http_controllers_settings_profilecontroller_profilecontroller_update",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".update()"
     },
     {
@@ -1990,8 +1990,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "app_http_controllers_settings_profilecontroller_profilecontroller_destroy",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".destroy()"
     },
     {
@@ -2001,8 +2001,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "securitycontroller.php"
     },
     {
@@ -2012,8 +2012,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller_securitycontroller",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "securitycontroller"
     },
     {
@@ -2023,8 +2023,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller_securitycontroller_edit",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".edit()"
     },
     {
@@ -2034,8 +2034,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller_securitycontroller_update",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".update()"
     },
     {
@@ -2144,8 +2144,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "studentcontroller"
     },
     {
@@ -2155,8 +2155,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller_construct",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".__construct()"
     },
     {
@@ -2177,8 +2177,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller_create",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".create()"
     },
     {
@@ -2188,8 +2188,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller_store",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".store()"
     },
     {
@@ -2210,8 +2210,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller_edit",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".edit()"
     },
     {
@@ -2232,8 +2232,8 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller_teacheroptions",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".teacheroptions()"
     },
     {
@@ -2243,8 +2243,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_studentenrollmentcontroller",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 83,
+      "community_name": "DropdownMenuContent.vue",
       "norm_label": "studentenrollmentcontroller.php"
     },
     {
@@ -2353,8 +2353,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": "studentstatuscontroller.php"
     },
     {
@@ -2364,8 +2364,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller_studentstatuscontroller",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": "studentstatuscontroller"
     },
     {
@@ -2375,8 +2375,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller_studentstatuscontroller_construct",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".__construct()"
     },
     {
@@ -2386,8 +2386,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller_studentstatuscontroller_invoke",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".__invoke()"
     },
     {
@@ -2573,8 +2573,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_resetstaffpasswordrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "resetstaffpasswordrequest.php"
     },
     {
@@ -2584,8 +2584,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_http_requests_admin_resetstaffpasswordrequest_resetstaffpasswordrequest",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "resetstaffpasswordrequest"
     },
     {
@@ -2595,8 +2595,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "app_http_requests_admin_resetstaffpasswordrequest_resetstaffpasswordrequest_authorize",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -2606,8 +2606,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_http_requests_admin_resetstaffpasswordrequest_resetstaffpasswordrequest_rules",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -2617,8 +2617,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_saveacademicyearrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 48,
+      "community_name": "NavigationMenu.vue",
       "norm_label": "saveacademicyearrequest.php"
     },
     {
@@ -2661,8 +2661,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecourserequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 13,
+      "community_name": "User.php",
       "norm_label": "savecourserequest.php"
     },
     {
@@ -2716,8 +2716,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "savecurriculumrequirementrequest.php"
     },
     {
@@ -2727,8 +2727,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest_savecurriculumrequirementrequest",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "savecurriculumrequirementrequest"
     },
     {
@@ -2738,8 +2738,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest_savecurriculumrequirementrequest_authorize",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -2749,8 +2749,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest_savecurriculumrequirementrequest_rules",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".rules()"
     },
     {
@@ -2760,8 +2760,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savelevelrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "savelevelrequest.php"
     },
     {
@@ -2771,8 +2771,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_admin_savelevelrequest_savelevelrequest",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "savelevelrequest"
     },
     {
@@ -2782,8 +2782,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_savelevelrequest_savelevelrequest_authorize",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".authorize()"
     },
     {
@@ -2793,8 +2793,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_admin_savelevelrequest_savelevelrequest_rules",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".rules()"
     },
     {
@@ -2804,8 +2804,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savepacerequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 153,
+      "community_name": "prettier",
       "norm_label": "savepacerequest.php"
     },
     {
@@ -2859,8 +2859,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savesubjectrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 114,
+      "community_name": "PlaceholderPattern.vue",
       "norm_label": "savesubjectrequest.php"
     },
     {
@@ -2903,8 +2903,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savetermrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 48,
+      "community_name": "NavigationMenu.vue",
       "norm_label": "savetermrequest.php"
     },
     {
@@ -2947,8 +2947,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_storecatalogueimportrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "storecatalogueimportrequest.php"
     },
     {
@@ -2991,8 +2991,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_storestaffrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "storestaffrequest.php"
     },
     {
@@ -3002,8 +3002,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_storestaffrequest_storestaffrequest",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "storestaffrequest"
     },
     {
@@ -3013,8 +3013,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_requests_admin_storestaffrequest_storestaffrequest_authorize",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -3024,8 +3024,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_http_requests_admin_storestaffrequest_storestaffrequest_rules",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3035,8 +3035,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_updateschoolsettingrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 91,
+      "community_name": "DropdownMenuLabel.vue",
       "norm_label": "updateschoolsettingrequest.php"
     },
     {
@@ -3090,8 +3090,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_updatestaffrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "updatestaffrequest.php"
     },
     {
@@ -3101,8 +3101,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_updatestaffrequest_updatestaffrequest",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "updatestaffrequest"
     },
     {
@@ -3112,8 +3112,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_requests_admin_updatestaffrequest_updatestaffrequest_authorize",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -3123,8 +3123,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_http_requests_admin_updatestaffrequest_updatestaffrequest_rules",
-      "community": 0,
-      "community_name": "lib/utils.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3134,8 +3134,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_correctstockmovementrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": "correctstockmovementrequest.php"
     },
     {
@@ -3266,8 +3266,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_settings_passwordupdaterequest",
-      "community": 45,
-      "community_name": "FortifyServiceProvider.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "passwordupdaterequest.php"
     },
     {
@@ -3277,8 +3277,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_settings_passwordupdaterequest_passwordupdaterequest",
-      "community": 45,
-      "community_name": "FortifyServiceProvider.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "passwordupdaterequest"
     },
     {
@@ -3288,8 +3288,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_requests_settings_passwordupdaterequest_passwordupdaterequest_rules",
-      "community": 45,
-      "community_name": "FortifyServiceProvider.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3365,8 +3365,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_settings_twofactorauthenticationrequest",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "twofactorauthenticationrequest.php"
     },
     {
@@ -3376,8 +3376,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_settings_twofactorauthenticationrequest_twofactorauthenticationrequest",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "twofactorauthenticationrequest"
     },
     {
@@ -3387,8 +3387,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_requests_settings_twofactorauthenticationrequest_twofactorauthenticationrequest_rules",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3442,8 +3442,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_storepaceassignmentrequest",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "storepaceassignmentrequest.php"
     },
     {
@@ -3453,8 +3453,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_http_requests_storepaceassignmentrequest_storepaceassignmentrequest",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "storepaceassignmentrequest"
     },
     {
@@ -3464,8 +3464,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "app_http_requests_storepaceassignmentrequest_storepaceassignmentrequest_authorize",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".authorize()"
     },
     {
@@ -3475,8 +3475,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_http_requests_storepaceassignmentrequest_storepaceassignmentrequest_rules",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".rules()"
     },
     {
@@ -3486,8 +3486,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_storepaceattemptcorrectionrequest",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": "storepaceattemptcorrectionrequest.php"
     },
     {
@@ -3706,8 +3706,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_storestudentrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "storestudentrequest.php"
     },
     {
@@ -3849,8 +3849,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "updatestudentrequest.php"
     },
     {
@@ -3915,8 +3915,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentstatusrequest_updatestudentstatusrequest",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": "updatestudentstatusrequest"
     },
     {
@@ -3926,8 +3926,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentstatusrequest_updatestudentstatusrequest_authorize",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".authorize()"
     },
     {
@@ -3937,8 +3937,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentstatusrequest_updatestudentstatusrequest_rules",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".rules()"
     },
     {
@@ -4069,8 +4069,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_academicyear",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "academicyear.php"
     },
     {
@@ -4080,8 +4080,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_models_academicyear_academicyear",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": "academicyear"
     },
     {
@@ -4091,8 +4091,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_models_academicyear_academicyear_terms",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".terms()"
     },
     {
@@ -4102,8 +4102,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_models_academicyear_academicyear_studentenrollments",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".studentenrollments()"
     },
     {
@@ -4113,8 +4113,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "app_models_academicyear_academicyear_casts",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".casts()"
     },
     {
@@ -4124,8 +4124,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_activitylog",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "activitylog.php"
     },
     {
@@ -4135,8 +4135,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_models_activitylog_activitylog",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "activitylog"
     },
     {
@@ -4157,8 +4157,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_models_activitylog_activitylog_subject",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": ".subject()"
     },
     {
@@ -4168,8 +4168,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "app_models_activitylog_activitylog_casts",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": ".casts()"
     },
     {
@@ -4179,8 +4179,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_catalogueimport",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "catalogueimport.php"
     },
     {
@@ -4311,8 +4311,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_models_course_course_subject",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".subject()"
     },
     {
@@ -4366,8 +4366,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_curriculumrequirement",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "curriculumrequirement.php"
     },
     {
@@ -4388,8 +4388,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_models_curriculumrequirement_curriculumrequirement_level",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".level()"
     },
     {
@@ -4399,8 +4399,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_models_curriculumrequirement_curriculumrequirement_course",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".course()"
     },
     {
@@ -4410,8 +4410,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_models_curriculumrequirement_curriculumrequirement_paces",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".paces()"
     },
     {
@@ -4553,8 +4553,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_pace",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "pace.php"
     },
     {
@@ -4586,8 +4586,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_models_pace_pace_curriculumrequirements",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".curriculumrequirements()"
     },
     {
@@ -4641,8 +4641,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "paceassignment"
     },
     {
@@ -4652,8 +4652,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_studentcourse",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".studentcourse()"
     },
     {
@@ -4663,8 +4663,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_pace",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".pace()"
     },
     {
@@ -4674,8 +4674,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_academicyear",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".academicyear()"
     },
     {
@@ -4685,8 +4685,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_term",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".term()"
     },
     {
@@ -4696,8 +4696,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_assignedby",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".assignedby()"
     },
     {
@@ -4707,8 +4707,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_issuedby",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".issuedby()"
     },
     {
@@ -4762,8 +4762,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_scopevisibleto",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 176,
+      "community_name": "DashboardReportService",
       "norm_label": ".scopevisibleto()"
     },
     {
@@ -4773,8 +4773,8 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_ismanagedby",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".ismanagedby()"
     },
     {
@@ -4784,8 +4784,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "app_models_paceassignment_paceassignment_casts",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".casts()"
     },
     {
@@ -4795,8 +4795,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_paceattempt",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "paceattempt.php"
     },
     {
@@ -4850,8 +4850,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "app_models_paceattempt_paceattempt_corrections",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 34,
+      "community_name": "ManageTwoFactor.vue",
       "norm_label": ".corrections()"
     },
     {
@@ -4872,8 +4872,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_paceattemptcorrection",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "paceattemptcorrection.php"
     },
     {
@@ -5059,8 +5059,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_models_permission_permission",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "permission"
     },
     {
@@ -5070,8 +5070,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "app_models_permission_permission_roles",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".roles()"
     },
     {
@@ -5081,8 +5081,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_models_permission_permission_users",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".users()"
     },
     {
@@ -5103,8 +5103,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_models_reportexport_reportexport",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "reportexport"
     },
     {
@@ -5114,8 +5114,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "app_models_reportexport_reportexport_user",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".user()"
     },
     {
@@ -5125,8 +5125,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "app_models_reportexport_reportexport_casts",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".casts()"
     },
     {
@@ -5147,8 +5147,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_models_role_role",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "role"
     },
     {
@@ -5158,8 +5158,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "app_models_role_role_permissions",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".permissions()"
     },
     {
@@ -5169,8 +5169,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_models_role_role_users",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".users()"
     },
     {
@@ -5257,8 +5257,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": "stockmovement"
     },
     {
@@ -5268,8 +5268,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_inventoryitem",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".inventoryitem()"
     },
     {
@@ -5279,8 +5279,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_student",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".student()"
     },
     {
@@ -5290,8 +5290,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_paceassignment",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".paceassignment()"
     },
     {
@@ -5301,8 +5301,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_academicyear",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".academicyear()"
     },
     {
@@ -5312,8 +5312,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_term",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".term()"
     },
     {
@@ -5323,8 +5323,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_recordedby",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".recordedby()"
     },
     {
@@ -5334,8 +5334,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_correctsmovement",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".correctsmovement()"
     },
     {
@@ -5345,8 +5345,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_casts",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".casts()"
     },
     {
@@ -5356,8 +5356,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "app_models_stockmovement_stockmovement_booted",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".booted()"
     },
     {
@@ -5378,8 +5378,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_models_student_student",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": "student"
     },
     {
@@ -5389,8 +5389,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "app_models_student_student_teacher",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".teacher()"
     },
     {
@@ -5400,8 +5400,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "app_models_student_student_registeredby",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".registeredby()"
     },
     {
@@ -5411,8 +5411,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "app_models_student_student_enrollments",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".enrollments()"
     },
     {
@@ -5422,8 +5422,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "app_models_student_student_getfullnameattribute",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".getfullnameattribute()"
     },
     {
@@ -5433,8 +5433,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "app_models_student_student_scopevisibleto",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 176,
+      "community_name": "DashboardReportService",
       "norm_label": ".scopevisibleto()"
     },
     {
@@ -5444,8 +5444,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "app_models_student_student_ismanagedby",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".ismanagedby()"
     },
     {
@@ -5455,8 +5455,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "app_models_student_student_casts",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".casts()"
     },
     {
@@ -5466,8 +5466,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_studentcourse",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "studentcourse.php"
     },
     {
@@ -5477,8 +5477,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "studentcourse"
     },
     {
@@ -5488,8 +5488,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_enrollment",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".enrollment()"
     },
     {
@@ -5499,8 +5499,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_course",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".course()"
     },
     {
@@ -5510,8 +5510,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_startingpace",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".startingpace()"
     },
     {
@@ -5521,8 +5521,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_currentpace",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".currentpace()"
     },
     {
@@ -5532,8 +5532,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_assignedby",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".assignedby()"
     },
     {
@@ -5543,8 +5543,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_paceassignments",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".paceassignments()"
     },
     {
@@ -5554,8 +5554,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_scopevisibleto",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 176,
+      "community_name": "DashboardReportService",
       "norm_label": ".scopevisibleto()"
     },
     {
@@ -5576,8 +5576,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "app_models_studentcourse_studentcourse_casts",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".casts()"
     },
     {
@@ -5587,8 +5587,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_studentenrollment",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "studentenrollment.php"
     },
     {
@@ -5730,8 +5730,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_models_term",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "term.php"
     },
     {
@@ -6071,8 +6071,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_permissionname",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "permissionname.php"
     },
     {
@@ -6082,8 +6082,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_permissionname_label",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "label()"
     },
     {
@@ -6192,8 +6192,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": "paceassignmentpolicy.php"
     },
     {
@@ -6203,8 +6203,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": "paceassignmentpolicy"
     },
     {
@@ -6214,8 +6214,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_viewany",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".viewany()"
     },
     {
@@ -6225,8 +6225,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_view",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".view()"
     },
     {
@@ -6236,8 +6236,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_create",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".create()"
     },
     {
@@ -6247,8 +6247,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_update",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".update()"
     },
     {
@@ -6258,8 +6258,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_delete",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".delete()"
     },
     {
@@ -6269,8 +6269,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_restore",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".restore()"
     },
     {
@@ -6280,8 +6280,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_policies_paceassignmentpolicy_paceassignmentpolicy_forcedelete",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 86,
+      "community_name": "NavigationMenuLink.vue",
       "norm_label": ".forcedelete()"
     },
     {
@@ -6291,8 +6291,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_policies_paceattemptpolicy",
-      "community": 34,
-      "community_name": "ManageTwoFactor.vue",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "paceattemptpolicy.php"
     },
     {
@@ -6401,8 +6401,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "reportexportpolicy.php"
     },
     {
@@ -6412,8 +6412,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": "reportexportpolicy"
     },
     {
@@ -6423,8 +6423,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_viewany",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".viewany()"
     },
     {
@@ -6434,8 +6434,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_view",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".view()"
     },
     {
@@ -6445,8 +6445,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_create",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".create()"
     },
     {
@@ -6456,8 +6456,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_update",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".update()"
     },
     {
@@ -6467,8 +6467,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_delete",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".delete()"
     },
     {
@@ -6478,8 +6478,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_restore",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".restore()"
     },
     {
@@ -6489,8 +6489,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_forcedelete",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".forcedelete()"
     },
     {
@@ -6500,8 +6500,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "app_policies_reportexportpolicy_reportexportpolicy_download",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 73,
+      "community_name": "laravel-best-practices/SKILL.md",
       "norm_label": ".download()"
     },
     {
@@ -6610,8 +6610,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": "stockmovementpolicy.php"
     },
     {
@@ -6621,8 +6621,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": "stockmovementpolicy"
     },
     {
@@ -6632,8 +6632,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_viewany",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".viewany()"
     },
     {
@@ -6643,8 +6643,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_view",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".view()"
     },
     {
@@ -6654,8 +6654,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_create",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".create()"
     },
     {
@@ -6665,8 +6665,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_update",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".update()"
     },
     {
@@ -6676,8 +6676,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_delete",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".delete()"
     },
     {
@@ -6687,8 +6687,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_restore",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".restore()"
     },
     {
@@ -6698,8 +6698,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_forcedelete",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".forcedelete()"
     },
     {
@@ -6709,8 +6709,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "app_policies_stockmovementpolicy_stockmovementpolicy_correct",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".correct()"
     },
     {
@@ -6720,8 +6720,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_policies_studentpolicy",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": "studentpolicy.php"
     },
     {
@@ -6731,8 +6731,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": "studentpolicy"
     },
     {
@@ -6742,8 +6742,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_viewany",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".viewany()"
     },
     {
@@ -6753,8 +6753,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_view",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".view()"
     },
     {
@@ -6764,8 +6764,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_create",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".create()"
     },
     {
@@ -6775,8 +6775,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_update",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".update()"
     },
     {
@@ -6786,8 +6786,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_delete",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".delete()"
     },
     {
@@ -6797,8 +6797,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_restore",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".restore()"
     },
     {
@@ -6808,8 +6808,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_policies_studentpolicy_studentpolicy_forcedelete",
-      "community": 86,
-      "community_name": "NavigationMenuLink.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".forcedelete()"
     },
     {
@@ -7182,8 +7182,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_academicperiodservice",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": "academicperiodservice.php"
     },
     {
@@ -7215,8 +7215,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "app_services_academicperiodservice_academicperiodservice_saveterm",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".saveterm()"
     },
     {
@@ -7226,8 +7226,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_activitylogger",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "activitylogger.php"
     },
     {
@@ -7248,8 +7248,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_services_activitylogger_activitylogger_record",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".record()"
     },
     {
@@ -7259,8 +7259,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_catalogueimportservice",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "catalogueimportservice.php"
     },
     {
@@ -7468,8 +7468,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_dataintegrityservice",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "dataintegrityservice.php"
     },
     {
@@ -7743,8 +7743,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_paceassessmentservice",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "paceassessmentservice.php"
     },
     {
@@ -7776,8 +7776,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_services_paceassessmentservice_paceassessmentservice_finalize",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": ".finalize()"
     },
     {
@@ -7787,8 +7787,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "assessmenttype",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": "assessmenttype"
     },
     {
@@ -7798,8 +7798,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "app_services_paceassessmentservice_paceassessmentservice_requestretry",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": ".requestretry()"
     },
     {
@@ -7809,8 +7809,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "app_services_paceassessmentservice_paceassessmentservice_decideretry",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": ".decideretry()"
     },
     {
@@ -7820,8 +7820,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "retryapprovalstatus",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": "retryapprovalstatus"
     },
     {
@@ -7831,8 +7831,8 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "app_services_paceassessmentservice_paceassessmentservice_correct",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": ".correct()"
     },
     {
@@ -7842,8 +7842,8 @@
       "source_location": "L173",
       "_origin": "ast",
       "id": "app_services_paceassessmentservice_paceassessmentservice_effectiveoutcome",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": ".effectiveoutcome()"
     },
     {
@@ -7853,8 +7853,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "assessmentoutcome",
-      "community": 73,
-      "community_name": "laravel-best-practices/SKILL.md",
+      "community": 82,
+      "community_name": "DropdownMenuCheckboxItem.vue",
       "norm_label": "assessmentoutcome"
     },
     {
@@ -7864,8 +7864,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_paceassignmentservice",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "paceassignmentservice.php"
     },
     {
@@ -7886,8 +7886,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_services_paceassignmentservice_paceassignmentservice_sequence",
-      "community": 36,
-      "community_name": "Layout.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".sequence()"
     },
     {
@@ -8029,8 +8029,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_services_paceissueservice_paceissueservice_issue",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".issue()"
     },
     {
@@ -8381,8 +8381,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_services_stockledgerservice_stockledgerservice_postmanual",
-      "community": 87,
-      "community_name": "package.json",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".postmanual()"
     },
     {
@@ -8392,8 +8392,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "stockmovementtype",
-      "community": 87,
-      "community_name": "package.json",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": "stockmovementtype"
     },
     {
@@ -8403,8 +8403,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "app_services_stockledgerservice_stockledgerservice_issueassignment",
-      "community": 87,
-      "community_name": "package.json",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".issueassignment()"
     },
     {
@@ -8414,8 +8414,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "app_services_stockledgerservice_stockledgerservice_correct",
-      "community": 87,
-      "community_name": "package.json",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".correct()"
     },
     {
@@ -8425,8 +8425,8 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "app_services_stockledgerservice_stockledgerservice_record",
-      "community": 87,
-      "community_name": "package.json",
+      "community": 21,
+      "community_name": "TwoFactorSetupModal.vue",
       "norm_label": ".record()"
     },
     {
@@ -8436,8 +8436,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_studentenrollmentservice",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "studentenrollmentservice.php"
     },
     {
@@ -8458,8 +8458,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_services_studentenrollmentservice_studentenrollmentservice_save",
-      "community": 83,
-      "community_name": "DropdownMenuContent.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".save()"
     },
     {
@@ -8491,8 +8491,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_studentregistrationservice",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": "studentregistrationservice.php"
     },
     {
@@ -8502,8 +8502,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_services_studentregistrationservice_studentregistrationservice",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": "studentregistrationservice"
     },
     {
@@ -8513,8 +8513,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "app_services_studentregistrationservice_studentregistrationservice_create",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 0,
+      "community_name": "lib/utils.ts",
       "norm_label": ".create()"
     },
     {
@@ -8524,8 +8524,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_services_systemhealthservice",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "systemhealthservice.php"
     },
     {
@@ -8689,8 +8689,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_studentcoursestatus",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "studentcoursestatus.php"
     },
     {
@@ -9591,8 +9591,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "composer_scripts_test",
-      "community": 2,
-      "community_name": "scripts",
+      "community": 117,
+      "community_name": "test",
       "norm_label": "test"
     },
     {
@@ -9602,8 +9602,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "ref_php_artisan_config_clear_ansi",
-      "community": 2,
-      "community_name": "scripts",
+      "community": 117,
+      "community_name": "test",
       "norm_label": "@php artisan config:clear --ansi"
     },
     {
@@ -9613,8 +9613,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "ref_lint_check",
-      "community": 2,
-      "community_name": "scripts",
+      "community": 117,
+      "community_name": "test",
       "norm_label": "@lint:check"
     },
     {
@@ -9624,8 +9624,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "ref_types_check",
-      "community": 2,
-      "community_name": "scripts",
+      "community": 117,
+      "community_name": "test",
       "norm_label": "@types:check"
     },
     {
@@ -9635,8 +9635,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "ref_php_artisan_test",
-      "community": 2,
-      "community_name": "scripts",
+      "community": 117,
+      "community_name": "test",
       "norm_label": "@php artisan test"
     },
     {
@@ -10130,8 +10130,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_catalogueimportfactory",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "catalogueimportfactory.php"
     },
     {
@@ -10141,8 +10141,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "database_factories_catalogueimportfactory_catalogueimportfactory",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "catalogueimportfactory"
     },
     {
@@ -10152,8 +10152,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "database_factories_catalogueimportfactory_catalogueimportfactory_definition",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": ".definition()"
     },
     {
@@ -10163,8 +10163,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_catalogueimportrowfactory",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "catalogueimportrowfactory.php"
     },
     {
@@ -10174,8 +10174,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "database_factories_catalogueimportrowfactory_catalogueimportrowfactory",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "catalogueimportrowfactory"
     },
     {
@@ -10185,8 +10185,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "database_factories_catalogueimportrowfactory_catalogueimportrowfactory_definition",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".definition()"
     },
     {
@@ -10273,8 +10273,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "database_factories_inventoryitemfactory_inventoryitemfactory",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 155,
+      "community_name": "@stylistic/eslint-plugin",
       "norm_label": "inventoryitemfactory"
     },
     {
@@ -10284,8 +10284,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "database_factories_inventoryitemfactory_inventoryitemfactory_definition",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 155,
+      "community_name": "@stylistic/eslint-plugin",
       "norm_label": ".definition()"
     },
     {
@@ -10328,8 +10328,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_paceassignmentfactory",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "paceassignmentfactory.php"
     },
     {
@@ -10339,8 +10339,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "database_factories_paceassignmentfactory_paceassignmentfactory",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": "paceassignmentfactory"
     },
     {
@@ -10350,8 +10350,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "database_factories_paceassignmentfactory_paceassignmentfactory_definition",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 27,
+      "community_name": "AppHeader.vue",
       "norm_label": ".definition()"
     },
     {
@@ -10361,8 +10361,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_paceattemptcorrectionfactory",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "paceattemptcorrectionfactory.php"
     },
     {
@@ -10372,8 +10372,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "database_factories_paceattemptcorrectionfactory_paceattemptcorrectionfactory",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "paceattemptcorrectionfactory"
     },
     {
@@ -10394,8 +10394,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_paceattemptfactory",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "paceattemptfactory.php"
     },
     {
@@ -10416,8 +10416,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "database_factories_paceattemptfactory_paceattemptfactory_definition",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": ".definition()"
     },
     {
@@ -10471,8 +10471,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "database_factories_paceretryapprovalfactory_paceretryapprovalfactory",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "paceretryapprovalfactory"
     },
     {
@@ -10482,8 +10482,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "database_factories_paceretryapprovalfactory_paceretryapprovalfactory_definition",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": ".definition()"
     },
     {
@@ -10493,8 +10493,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_pacestatuseventfactory",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 22,
+      "community_name": "breadcrumb/index.ts",
       "norm_label": "pacestatuseventfactory.php"
     },
     {
@@ -10504,8 +10504,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "database_factories_pacestatuseventfactory_pacestatuseventfactory",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 22,
+      "community_name": "breadcrumb/index.ts",
       "norm_label": "pacestatuseventfactory"
     },
     {
@@ -10515,8 +10515,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "database_factories_pacestatuseventfactory_pacestatuseventfactory_definition",
-      "community": 21,
-      "community_name": "TwoFactorSetupModal.vue",
+      "community": 22,
+      "community_name": "breadcrumb/index.ts",
       "norm_label": ".definition()"
     },
     {
@@ -10603,8 +10603,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "database_factories_stockmovementfactory_stockmovementfactory",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": "stockmovementfactory"
     },
     {
@@ -10625,8 +10625,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_studentcoursefactory",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "studentcoursefactory.php"
     },
     {
@@ -10636,8 +10636,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "database_factories_studentcoursefactory_studentcoursefactory",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": "studentcoursefactory"
     },
     {
@@ -10647,8 +10647,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "database_factories_studentcoursefactory_studentcoursefactory_definition",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 1,
+      "community_name": "ProfileController.php",
       "norm_label": ".definition()"
     },
     {
@@ -10658,8 +10658,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_studentenrollmentfactory",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "studentenrollmentfactory.php"
     },
     {
@@ -10779,8 +10779,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "database_factories_termfactory",
-      "community": 84,
-      "community_name": "DropdownMenuRadioItem.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "termfactory.php"
     },
     {
@@ -10801,8 +10801,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "database_factories_termfactory_termfactory_definition",
-      "community": 48,
-      "community_name": "NavigationMenu.vue",
+      "community": 84,
+      "community_name": "DropdownMenuRadioItem.vue",
       "norm_label": ".definition()"
     },
     {
@@ -11659,8 +11659,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "database_seeders_accesscontrolseeder_accesscontrolseeder",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "accesscontrolseeder"
     },
     {
@@ -11670,8 +11670,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "database_seeders_accesscontrolseeder_accesscontrolseeder_run",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": ".run()"
     },
     {
@@ -11805,6 +11805,156 @@
       "community": 59,
       "community_name": "AvatarFallback.vue",
       "norm_label": ".run()"
+    },
+    {
+      "label": "production.sh",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "deploy_production",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "production.sh"
+    },
+    {
+      "label": "production.sh script",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_sh__entry",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "production.sh script"
+    },
+    {
+      "label": "APP_ROOT",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L5",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_app_root",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "app_root"
+    },
+    {
+      "label": "REPOSITORY",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L6",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_repository",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "repository"
+    },
+    {
+      "label": "RELEASES",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L7",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_releases",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "releases"
+    },
+    {
+      "label": "SHARED",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L8",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_shared",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "shared"
+    },
+    {
+      "label": "CURRENT",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L9",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_current",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "current"
+    },
+    {
+      "label": "HEALTH_URL",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L10",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_health_url",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "health_url"
+    },
+    {
+      "label": "KEEP_RELEASES",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L11",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_keep_releases",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "keep_releases"
+    },
+    {
+      "label": "recover()",
+      "file_type": "code",
+      "source_file": "deploy/production.sh",
+      "source_location": "L35",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "deploy_production_recover",
+      "community": 89,
+      "community_name": "DropdownMenu.vue",
+      "norm_label": "recover()"
     },
     {
       "label": "eslint.config.js",
@@ -12022,8 +12172,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "package_devdependencies_laravel_vite_plugin_wayfinder",
-      "community": 171,
-      "community_name": "@laravel/vite-plugin-wayfinder",
+      "community": 126,
+      "community_name": "concurrently",
       "norm_label": "@laravel/vite-plugin-wayfinder"
     },
     {
@@ -12033,8 +12183,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "laravel_vite_plugin_wayfinder",
-      "community": 171,
-      "community_name": "@laravel/vite-plugin-wayfinder",
+      "community": 126,
+      "community_name": "concurrently",
       "norm_label": "@laravel/vite-plugin-wayfinder"
     },
     {
@@ -12396,8 +12546,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_vue_tsc",
-      "community": 146,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 134,
+      "community_name": "eslint-plugin-import",
       "norm_label": "vue-tsc"
     },
     {
@@ -12407,8 +12557,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "vue_tsc",
-      "community": 146,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 134,
+      "community_name": "eslint-plugin-import",
       "norm_label": "vue-tsc"
     },
     {
@@ -13364,8 +13514,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_navfooter",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "navfooter.vue"
     },
     {
@@ -13375,8 +13525,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "resources_js_components_navfooter_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "props"
     },
     {
@@ -14211,8 +14361,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_alert_alertdescription",
-      "community": 58,
-      "community_name": "Alert.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "alertdescription.vue"
     },
     {
@@ -14222,8 +14372,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "resources_js_components_ui_alert_alertdescription_props",
-      "community": 58,
-      "community_name": "Alert.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "props"
     },
     {
@@ -14420,8 +14570,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumb",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumb.vue"
     },
     {
@@ -14431,8 +14581,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumb_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14442,8 +14592,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbellipsis",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumbellipsis.vue"
     },
     {
@@ -14453,8 +14603,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbellipsis_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14464,8 +14614,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbitem",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumbitem.vue"
     },
     {
@@ -14475,8 +14625,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbitem_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14486,8 +14636,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumblink",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumblink.vue"
     },
     {
@@ -14497,8 +14647,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumblink_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14508,8 +14658,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumblist",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumblist.vue"
     },
     {
@@ -14519,8 +14669,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumblist_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14530,8 +14680,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbpage",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumbpage.vue"
     },
     {
@@ -14541,8 +14691,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbpage_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14552,8 +14702,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbseparator",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumbseparator.vue"
     },
     {
@@ -14563,8 +14713,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_breadcrumbseparator_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "props"
     },
     {
@@ -14574,8 +14724,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_breadcrumb_index",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 67,
+      "community_name": "PasswordValidationRules.php",
       "norm_label": "breadcrumb/index.ts"
     },
     {
@@ -17049,8 +17199,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_separator_separator",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 112,
+      "community_name": "Separator.vue",
       "norm_label": "separator.vue"
     },
     {
@@ -17060,8 +17210,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "resources_js_components_ui_separator_separator_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 112,
+      "community_name": "Separator.vue",
       "norm_label": "props"
     },
     {
@@ -17071,8 +17221,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "resources_js_components_ui_separator_separator_delegatedprops",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 112,
+      "community_name": "Separator.vue",
       "norm_label": "delegatedprops"
     },
     {
@@ -17082,8 +17232,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_separator_index",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 112,
+      "community_name": "Separator.vue",
       "norm_label": "separator/index.ts"
     },
     {
@@ -17159,8 +17309,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetcontent",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "sheetcontent.vue"
     },
     {
@@ -17170,8 +17320,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetcontent_sheetcontentprops",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "sheetcontentprops"
     },
     {
@@ -17181,8 +17331,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetcontent_props",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "props"
     },
     {
@@ -17192,8 +17342,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetcontent_emits",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "emits"
     },
     {
@@ -17203,8 +17353,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetcontent_delegatedprops",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "delegatedprops"
     },
     {
@@ -17214,8 +17364,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetcontent_forwarded",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "forwarded"
     },
     {
@@ -17280,8 +17430,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetheader",
-      "community": 6,
-      "community_name": "Sidebar.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sheetheader.vue"
     },
     {
@@ -17291,8 +17441,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetheader_props",
-      "community": 6,
-      "community_name": "Sidebar.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "props"
     },
     {
@@ -17302,8 +17452,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetoverlay",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "sheetoverlay.vue"
     },
     {
@@ -17313,8 +17463,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetoverlay_props",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "props"
     },
     {
@@ -17324,8 +17474,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "resources_js_components_ui_sheet_sheetoverlay_delegatedprops",
-      "community": 67,
-      "community_name": "PasswordValidationRules.php",
+      "community": 6,
+      "community_name": "Sidebar.vue",
       "norm_label": "delegatedprops"
     },
     {
@@ -17401,8 +17551,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebar",
-      "community": 6,
-      "community_name": "Sidebar.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sidebar.vue"
     },
     {
@@ -17412,8 +17562,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebar_props",
-      "community": 6,
-      "community_name": "Sidebar.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "props"
     },
     {
@@ -17423,8 +17573,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebar_ismobile_state_openmobile_setopenmobile",
-      "community": 6,
-      "community_name": "Sidebar.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "{ ismobile, state, openmobile, setopenmobile }"
     },
     {
@@ -17698,8 +17848,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubutton",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "sidebarmenubutton.vue"
     },
     {
@@ -17709,8 +17859,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubutton_props",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "props"
     },
     {
@@ -17720,8 +17870,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubutton_ismobile_state",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "{ ismobile, state }"
     },
     {
@@ -17731,8 +17881,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubutton_delegatedprops",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "delegatedprops"
     },
     {
@@ -17742,8 +17892,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubuttonchild",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "sidebarmenubuttonchild.vue"
     },
     {
@@ -17753,8 +17903,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubuttonchild_sidebarmenubuttonprops",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "sidebarmenubuttonprops"
     },
     {
@@ -17764,8 +17914,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarmenubuttonchild_props",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "props"
     },
     {
@@ -18006,8 +18156,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarrail",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sidebarrail.vue"
     },
     {
@@ -18017,8 +18167,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarrail_props",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "props"
     },
     {
@@ -18028,8 +18178,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarrail_togglesidebar",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "{ togglesidebar }"
     },
     {
@@ -18039,8 +18189,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarseparator",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 112,
+      "community_name": "Separator.vue",
       "norm_label": "sidebarseparator.vue"
     },
     {
@@ -18050,8 +18200,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebarseparator_props",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 112,
+      "community_name": "Separator.vue",
       "norm_label": "props"
     },
     {
@@ -18061,8 +18211,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebartrigger",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sidebartrigger.vue"
     },
     {
@@ -18072,8 +18222,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebartrigger_props",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "props"
     },
     {
@@ -18083,8 +18233,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_sidebartrigger_ismobile_state_togglesidebar",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "{ ismobile, state, togglesidebar }"
     },
     {
@@ -18094,8 +18244,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_index",
-      "community": 14,
-      "community_name": "types/index.ts",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sidebar/index.ts"
     },
     {
@@ -18105,8 +18255,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_index_sidebarprops",
-      "community": 6,
-      "community_name": "Sidebar.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sidebarprops"
     },
     {
@@ -18116,8 +18266,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_index_sidebarmenubuttonvariants",
-      "community": 25,
-      "community_name": "TooltipContent.vue",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "sidebarmenubuttonvariants"
     },
     {
@@ -18127,8 +18277,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_utils",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "sidebar/utils.ts"
     },
     {
@@ -18138,8 +18288,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "resources_js_components_ui_sidebar_utils_usesidebar_providesidebarcontext",
-      "community": 41,
-      "community_name": "SidebarProvider.vue",
+      "community": 23,
+      "community_name": "card/index.ts",
       "norm_label": "[usesidebar, providesidebarcontext]"
     },
     {
@@ -18534,8 +18684,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_composables_usecurrenturl",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "usecurrenturl.ts"
     },
     {
@@ -18545,8 +18695,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "resources_js_composables_usecurrenturl_usecurrenturlreturn",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "usecurrenturlreturn"
     },
     {
@@ -18556,8 +18706,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "resources_js_composables_usecurrenturl_page",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "page"
     },
     {
@@ -18567,8 +18717,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "resources_js_composables_usecurrenturl_currenturlreactive",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "currenturlreactive"
     },
     {
@@ -18578,8 +18728,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "resources_js_composables_usecurrenturl_usecurrenturl",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "usecurrenturl()"
     },
     {
@@ -18864,8 +19014,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "resources_js_layouts_settings_layout",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "layout.vue"
     },
     {
@@ -18875,8 +19025,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "resources_js_layouts_settings_layout_sidebarnavitems",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "sidebarnavitems"
     },
     {
@@ -18886,8 +19036,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "resources_js_layouts_settings_layout_iscurrentorparenturl",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "{ iscurrentorparenturl }"
     },
     {
@@ -18941,8 +19091,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "resources_js_lib_utils_tourl",
-      "community": 23,
-      "community_name": "card/index.ts",
+      "community": 14,
+      "community_name": "types/index.ts",
       "norm_label": "tourl()"
     },
     {
@@ -21460,8 +21610,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "routes_settings",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "settings.php"
     },
     {
@@ -21471,8 +21621,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "routes_web",
-      "community": 128,
-      "community_name": "web.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "web.php"
     },
     {
@@ -21482,8 +21632,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_academicperiodtest",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "academicperiodtest.php"
     },
     {
@@ -21614,8 +21764,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_catalogueimporttest",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "catalogueimporttest.php"
     },
     {
@@ -21625,8 +21775,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "tests_feature_catalogueimporttest_paceworkbook",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "paceworkbook()"
     },
     {
@@ -21636,8 +21786,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "uploadedfile",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "uploadedfile"
     },
     {
@@ -21647,8 +21797,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_cataloguemanagementtest",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "cataloguemanagementtest.php"
     },
     {
@@ -21691,8 +21841,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_dataintegritytest",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "dataintegritytest.php"
     },
     {
@@ -21779,8 +21929,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_paceassessmentauthorizationtest",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "paceassessmentauthorizationtest.php"
     },
     {
@@ -21790,8 +21940,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_paceassessmenttest",
-      "community": 22,
-      "community_name": "breadcrumb/index.ts",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "paceassessmenttest.php"
     },
     {
@@ -21823,8 +21973,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_paceassignmenttest",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "paceassignmenttest.php"
     },
     {
@@ -21900,8 +22050,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_studentenrollmenttest",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "studentenrollmenttest.php"
     },
     {
@@ -21922,8 +22072,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_feature_studentenrollmenttest_enrollmentdata",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "enrollmentdata()"
     },
     {
@@ -21933,8 +22083,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_feature_studentregistrationtest",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "studentregistrationtest.php"
     },
     {
@@ -21944,8 +22094,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "tests_feature_studentregistrationtest_validstudentdata",
-      "community": 155,
-      "community_name": "@stylistic/eslint-plugin",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "validstudentdata()"
     },
     {
@@ -21977,8 +22127,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_pest",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "pest.php"
     },
     {
@@ -21988,8 +22138,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_pest_something",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "something()"
     },
     {
@@ -22010,8 +22160,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_pest_php_rolename",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "rolename"
     },
     {
@@ -22065,8 +22215,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_unit_catalogueimportservicetest",
-      "community": 27,
-      "community_name": "AppHeader.vue",
+      "community": 92,
+      "community_name": "DropdownMenuRadioGroup.vue",
       "norm_label": "catalogueimportservicetest.php"
     },
     {
@@ -25802,7 +25952,7 @@
       "label": "Platform prerequisites",
       "file_type": "document",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L3",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "docs_deployment_platform_prerequisites",
       "community": 113,
@@ -25813,7 +25963,7 @@
       "label": "Production environment",
       "file_type": "document",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L14",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "docs_deployment_production_environment",
       "community": 113,
@@ -25824,7 +25974,7 @@
       "label": "First deployment",
       "file_type": "document",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L39",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "docs_deployment_first_deployment",
       "community": 113,
@@ -25835,7 +25985,7 @@
       "label": "Required processes",
       "file_type": "document",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L56",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "docs_deployment_required_processes",
       "community": 113,
@@ -25846,7 +25996,7 @@
       "label": "Subsequent deployment",
       "file_type": "document",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L81",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "docs_deployment_subsequent_deployment",
       "community": 113,
@@ -25857,7 +26007,7 @@
       "label": "Rollback",
       "file_type": "document",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L91",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "docs_deployment_rollback",
       "community": 113,
@@ -26025,8 +26175,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_http_redirectresponse",
-      "community": 114,
-      "community_name": "PlaceholderPattern.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "illuminate\\http\\redirectresponse"
     },
     {
@@ -26080,8 +26230,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "symfony_component_httpfoundation_streamedresponse",
-      "community": 122,
-      "community_name": "queue.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "symfony\\component\\httpfoundation\\streamedresponse"
     },
     {
@@ -26124,8 +26274,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_foundation_http_formrequest",
-      "community": 92,
-      "community_name": "DropdownMenuRadioGroup.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "illuminate\\foundation\\http\\formrequest"
     },
     {
@@ -26135,8 +26285,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "laravel_fortify_interactswithtwofactorstate",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "laravel\\fortify\\interactswithtwofactorstate"
     },
     {
@@ -26190,8 +26340,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_model",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 22,
+      "community_name": "breadcrumb/index.ts",
       "norm_label": "illuminate\\database\\eloquent\\model"
     },
     {
@@ -26223,8 +26373,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_morphto",
-      "community": 1,
-      "community_name": "ProfileController.php",
+      "community": 80,
+      "community_name": "DatabaseSeeder.php",
       "norm_label": "illuminate\\database\\eloquent\\relations\\morphto"
     },
     {
@@ -26234,8 +26384,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_relations_belongstomany",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 59,
+      "community_name": "AvatarFallback.vue",
       "norm_label": "illuminate\\database\\eloquent\\relations\\belongstomany"
     },
     {
@@ -26245,8 +26395,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_database_eloquent_builder",
-      "community": 89,
-      "community_name": "DropdownMenu.vue",
+      "community": 176,
+      "community_name": "DashboardReportService",
       "norm_label": "illuminate\\database\\eloquent\\builder"
     },
     {
@@ -26399,8 +26549,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "illuminate_http_uploadedfile",
-      "community": 80,
-      "community_name": "DatabaseSeeder.php",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "illuminate\\http\\uploadedfile"
     },
     {
@@ -62074,6 +62224,105 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_app_root",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_current",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_health_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_keep_releases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_recover",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_releases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_repository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "deploy/production.sh",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "deploy_production",
+      "target": "deploy_production_shared",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "eslint.config.js",
@@ -81345,7 +81594,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L39",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_deployment_deployment_and_rollback",
@@ -81356,7 +81605,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_deployment_deployment_and_rollback",
@@ -81367,7 +81616,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L14",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_deployment_deployment_and_rollback",
@@ -81378,7 +81627,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L56",
+      "source_location": "L60",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_deployment_deployment_and_rollback",
@@ -81389,7 +81638,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L91",
+      "source_location": "L95",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_deployment_deployment_and_rollback",
@@ -81400,7 +81649,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/DEPLOYMENT.md",
-      "source_location": "L81",
+      "source_location": "L85",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_deployment_deployment_and_rollback",
@@ -81508,5 +81757,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b3096da7a3ba6e138fc96c134fb936a2cf84db39"
+  "built_at_commit": "7d53edfa70211748a7b96df280e773d162baf3c5"
 }
