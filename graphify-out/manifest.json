@@ -85,7 +85,7 @@
     "semantic_hash": ""
   },
   "boost.json": {
-    "mtime": 1784724716.8464112,
+    "mtime": 1784729946.7691224,
     "ast_hash": "abc9074a48655a94fb2043779057cf16",
     "semantic_hash": ""
   },
@@ -105,8 +105,8 @@
     "semantic_hash": ""
   },
   "composer.json": {
-    "mtime": 1784724717.0146172,
-    "ast_hash": "8f099716815d5964fb588b74b1137404",
+    "mtime": 1784729932.9440858,
+    "ast_hash": "4522d00235867598276728f4c6126754",
     "semantic_hash": ""
   },
   "config/app.php": {
@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "database/seeders/DatabaseSeeder.php": {
-    "mtime": 1784728122.4258666,
-    "ast_hash": "a928fa75d1638ddf942cd3ca78b8e3f9",
+    "mtime": 1784731556.434815,
+    "ast_hash": "defe3ac0fefb75748114d20584517965",
     "semantic_hash": ""
   },
   "eslint.config.js": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebar.vue": {
-    "mtime": 1784728294.8915627,
-    "ast_hash": "7a2477a6dd222fcfc627ee62d19cf738",
+    "mtime": 1784730693.7553353,
+    "ast_hash": "96446185937f22fd32b36ce06f3a0000",
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebarHeader.vue": {
@@ -1230,8 +1230,8 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1784728754.7787523,
-    "ast_hash": "739c6db65036c8b6d2991546c0728dce",
+    "mtime": 1784730426.1558068,
+    "ast_hash": "400727906b4ebe29b6de72e1ba0ceb03",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/AuthenticationTest.php": {
@@ -1315,132 +1315,132 @@
     "semantic_hash": ""
   },
   ".agents/skills/fortify-development/SKILL.md": {
-    "mtime": 1784724716.0855198,
+    "mtime": 1784729946.757842,
     "ast_hash": "29b0c2cc19ef0c95ede2dcd7a1f1cf2e",
     "semantic_hash": ""
   },
   ".agents/skills/inertia-vue-development/SKILL.md": {
-    "mtime": 1784724716.0911818,
+    "mtime": 1784729946.768124,
     "ast_hash": "0912629c9b4b0926fe08b14ad310e036",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/SKILL.md": {
-    "mtime": 1784724716.0857456,
+    "mtime": 1784729946.7587054,
     "ast_hash": "c2c01a832148dafbd53386871ba74e77",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/advanced-queries.md": {
-    "mtime": 1784724716.0865004,
+    "mtime": 1784729946.7625856,
     "ast_hash": "9a78d2f8810d0c5a2b8b72df91ca4a18",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/architecture.md": {
-    "mtime": 1784724716.0870855,
+    "mtime": 1784729946.7630823,
     "ast_hash": "5ff00fd7c22c0e891f89040370b282f5",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/blade-views.md": {
-    "mtime": 1784724716.0873253,
+    "mtime": 1784729946.7635162,
     "ast_hash": "3c259ceaa9074c0e503c01c2d5d5de58",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/caching.md": {
-    "mtime": 1784724716.0875182,
+    "mtime": 1784729946.7639694,
     "ast_hash": "50bec263dad9c1611c697480671cdea7",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/collections.md": {
-    "mtime": 1784724716.0862653,
+    "mtime": 1784729946.7616282,
     "ast_hash": "a377a223899308ace42da6b71775b8d7",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/config.md": {
-    "mtime": 1784724716.0863209,
+    "mtime": 1784729946.7618632,
     "ast_hash": "3cf9e90d78c23ba56cc7158160868104",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/db-performance.md": {
-    "mtime": 1784724716.0864387,
+    "mtime": 1784729946.762369,
     "ast_hash": "30ca712aa13bb1acd2466d42eed36561",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/eloquent.md": {
-    "mtime": 1784724716.0872643,
+    "mtime": 1784729946.7633839,
     "ast_hash": "a12c2654d643934a4aeecad00d888e17",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/error-handling.md": {
-    "mtime": 1784724716.085978,
+    "mtime": 1784729946.759555,
     "ast_hash": "75ea9b08d01ff1159c7fc8e7da9b70b9",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/events-notifications.md": {
-    "mtime": 1784724716.086036,
+    "mtime": 1784729946.760016,
     "ast_hash": "696011b9584ae0df0ca483e55ecd86c9",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/http-client.md": {
-    "mtime": 1784724716.0863788,
+    "mtime": 1784729946.7620842,
     "ast_hash": "fef2e702533bc8049f57bd6991296174",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/mail.md": {
-    "mtime": 1784724716.0866215,
+    "mtime": 1784729946.7629025,
     "ast_hash": "895f4d0643171b04f7b399027cb00d6c",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/migrations.md": {
-    "mtime": 1784724716.0860949,
+    "mtime": 1784729946.7607694,
     "ast_hash": "c46b22f0a58df02235cada95208b3d8a",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/queue-jobs.md": {
-    "mtime": 1784724716.087456,
+    "mtime": 1784729946.763832,
     "ast_hash": "556b119d5ae10462c69908a8399025c0",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/routing.md": {
-    "mtime": 1784724716.0865657,
+    "mtime": 1784729946.7627482,
     "ast_hash": "6a10a65bd0b071eb2428ed6dd31ccf75",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/scheduling.md": {
-    "mtime": 1784724716.0861566,
+    "mtime": 1784729946.761204,
     "ast_hash": "ec51edae2effafe9633103a68ba023e6",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/security.md": {
-    "mtime": 1784724716.0859118,
+    "mtime": 1784729946.759323,
     "ast_hash": "66364ca65dbc9e2c782aaee470d9f280",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/style.md": {
-    "mtime": 1784724716.0873883,
+    "mtime": 1784729946.7636611,
     "ast_hash": "21afa41850594faff9b40c59bb2c242d",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/testing.md": {
-    "mtime": 1784724716.0862114,
+    "mtime": 1784729946.7614214,
     "ast_hash": "c31ca40674ed518d8570b089f3eabec4",
     "semantic_hash": ""
   },
   ".agents/skills/laravel-best-practices/rules/validation.md": {
-    "mtime": 1784724716.0871859,
+    "mtime": 1784729946.763238,
     "ast_hash": "901e4430821794a642694d445f43e43a",
     "semantic_hash": ""
   },
   ".agents/skills/pest-testing/SKILL.md": {
-    "mtime": 1784724716.0905595,
+    "mtime": 1784729946.7673097,
     "ast_hash": "9de773a573ae82db0da14182043ad939",
     "semantic_hash": ""
   },
   ".agents/skills/tailwindcss-development/SKILL.md": {
-    "mtime": 1784724716.09151,
+    "mtime": 1784729946.7685044,
     "ast_hash": "8d666b4230a49c0dfe147d2f440a4d40",
     "semantic_hash": ""
   },
   ".agents/skills/wayfinder-development/SKILL.md": {
-    "mtime": 1784724716.0895987,
+    "mtime": 1784729946.766626,
     "ast_hash": "a411e797e2776e04545e1ef23f74a384",
     "semantic_hash": ""
   },
@@ -1455,7 +1455,7 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1784724716.0660744,
+    "mtime": 1784729946.7346516,
     "ast_hash": "3f69362aefbdbf58492155335a5a27cb",
     "semantic_hash": ""
   },
@@ -1560,8 +1560,8 @@
     "semantic_hash": ""
   },
   "app/PermissionName.php": {
-    "mtime": 1784727731.2055562,
-    "ast_hash": "3401ffa5f9eb43464a47757ac4c8d11f",
+    "mtime": 1784730088.6654015,
+    "ast_hash": "b959543e2f85d2cc94050350a3c4c625",
     "semantic_hash": ""
   },
   "app/Policies/SchoolSettingPolicy.php": {
@@ -1610,8 +1610,8 @@
     "semantic_hash": ""
   },
   "database/seeders/AccessControlSeeder.php": {
-    "mtime": 1784728121.9648676,
-    "ast_hash": "c670db1c8c9068f38ac47efab096d45d",
+    "mtime": 1784730088.8954012,
+    "ast_hash": "fc5f005406700192e4b942f1b510a20f",
     "semantic_hash": ""
   },
   "database/seeders/SchoolSettingSeeder.php": {
@@ -1645,8 +1645,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/Admin/AuthorizationTest.php": {
-    "mtime": 1784728659.62292,
-    "ast_hash": "da47256c4748aabe3fbd037b157b4263",
+    "mtime": 1784730857.9443016,
+    "ast_hash": "927d1baa9be7ee0d9e6823742cdd8898",
     "semantic_hash": ""
   },
   "tests/Feature/Admin/SchoolSettingTest.php": {
@@ -1657,6 +1657,256 @@
   "tests/Feature/Admin/StaffManagementTest.php": {
     "mtime": 1784728696.0398557,
     "ast_hash": "0eee5b4506f9a42b3d8a9fe96176b713",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/AcademicPeriodController.php": {
+    "mtime": 1784731097.4506238,
+    "ast_hash": "3d8b5c97cafdef220008e2706c8e16a8",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/CatalogueImportController.php": {
+    "mtime": 1784730410.2628348,
+    "ast_hash": "ab1f1fc01dec278b75d9b6e48ba36a5d",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/CatalogueSetupController.php": {
+    "mtime": 1784730355.205932,
+    "ast_hash": "b41d75976ffddff498939165c198f8a4",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/CourseController.php": {
+    "mtime": 1784730355.8569307,
+    "ast_hash": "bed4bcf608fd39e3ad68336593749b7a",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/CurriculumController.php": {
+    "mtime": 1784730979.2658322,
+    "ast_hash": "e4df30747621f6c6007e486c4a1d537f",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/LevelController.php": {
+    "mtime": 1784730355.4189315,
+    "ast_hash": "b3c4b4de8b706d5e285bb45208d3c096",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/PaceController.php": {
+    "mtime": 1784730409.8358357,
+    "ast_hash": "a4ad2f5ce89f1b8a41c399c9404ed01f",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/SubjectController.php": {
+    "mtime": 1784730355.635931,
+    "ast_hash": "c85a2f95d839a9891e5f5f75cb09c755",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/TermController.php": {
+    "mtime": 1784730354.9819322,
+    "ast_hash": "b14c32c2afce859be3f2fda227cc14a0",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SaveAcademicYearRequest.php": {
+    "mtime": 1784730300.2380288,
+    "ast_hash": "baebf5da77959a45a41e4d8d9583d4ae",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SaveCourseRequest.php": {
+    "mtime": 1784730302.2260253,
+    "ast_hash": "3d3b81b126fff8b0edd929154984cbaa",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SaveCurriculumRequirementRequest.php": {
+    "mtime": 1784730303.1510236,
+    "ast_hash": "6dad553b106880580e45cde858a454ca",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SaveLevelRequest.php": {
+    "mtime": 1784730301.2880268,
+    "ast_hash": "c37481a79563ce5905bc7cb03f65a8e1",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SavePaceRequest.php": {
+    "mtime": 1784730302.7150245,
+    "ast_hash": "9e6b562cf0ecc91d33825bd5191b8e08",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SaveSubjectRequest.php": {
+    "mtime": 1784730301.7710261,
+    "ast_hash": "3a6cc6f9b61a846cc415c857c70c2ffb",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/SaveTermRequest.php": {
+    "mtime": 1784730952.06388,
+    "ast_hash": "88755dbd2a8d03dce8ef6b7f04f6afac",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/StoreCatalogueImportRequest.php": {
+    "mtime": 1784730303.588023,
+    "ast_hash": "02361fd49c9b5f2c5db1e50317e5e0b5",
+    "semantic_hash": ""
+  },
+  "app/Models/AcademicYear.php": {
+    "mtime": 1784731063.0036845,
+    "ast_hash": "0693c8d0ec9cae2637fafa07999b8b88",
+    "semantic_hash": ""
+  },
+  "app/Models/CatalogueImport.php": {
+    "mtime": 1784730951.6148808,
+    "ast_hash": "5be4b8240323ed08f6640d1dd46ab6f3",
+    "semantic_hash": ""
+  },
+  "app/Models/CatalogueImportRow.php": {
+    "mtime": 1784730979.0318325,
+    "ast_hash": "43a2a0a3447cdb1ee9e372c31f8da18d",
+    "semantic_hash": ""
+  },
+  "app/Models/Course.php": {
+    "mtime": 1784730950.952882,
+    "ast_hash": "94f688a95027a4ce8358ff216b976806",
+    "semantic_hash": ""
+  },
+  "app/Models/CurriculumRequirement.php": {
+    "mtime": 1784730951.3998811,
+    "ast_hash": "6ae340183d75fd943e056594d76aa07b",
+    "semantic_hash": ""
+  },
+  "app/Models/Level.php": {
+    "mtime": 1784730950.4888828,
+    "ast_hash": "3d8b6d31c86cd8c3a565ea72ecdf97a4",
+    "semantic_hash": ""
+  },
+  "app/Models/Pace.php": {
+    "mtime": 1784730951.1768816,
+    "ast_hash": "8cc5f788c13cfade1bd9fd1a5dfe0b3e",
+    "semantic_hash": ""
+  },
+  "app/Models/Subject.php": {
+    "mtime": 1784730950.7238824,
+    "ast_hash": "8ed9afc360c8d597c5bed305059bf13c",
+    "semantic_hash": ""
+  },
+  "app/Models/Term.php": {
+    "mtime": 1784731063.2286842,
+    "ast_hash": "a2ad0c6e7fca2a3d1cbc1c73a67476a0",
+    "semantic_hash": ""
+  },
+  "app/Services/AcademicPeriodService.php": {
+    "mtime": 1784731069.8106725,
+    "ast_hash": "cc44ccb97f40649053641a2c84f820ff",
+    "semantic_hash": ""
+  },
+  "app/Services/CatalogueImportService.php": {
+    "mtime": 1784731000.7757943,
+    "ast_hash": "faa79cd4360b6f889e66637e5c977f01",
+    "semantic_hash": ""
+  },
+  "database/factories/AcademicYearFactory.php": {
+    "mtime": 1784730741.8412504,
+    "ast_hash": "97d2333766c076a778cdb83a2851ce1a",
+    "semantic_hash": ""
+  },
+  "database/factories/CatalogueImportFactory.php": {
+    "mtime": 1784729972.6984766,
+    "ast_hash": "3ed68cde6ea4d84063f9791a93280172",
+    "semantic_hash": ""
+  },
+  "database/factories/CatalogueImportRowFactory.php": {
+    "mtime": 1784729972.7906594,
+    "ast_hash": "5756ee7bed5aed19368943ecafd45927",
+    "semantic_hash": ""
+  },
+  "database/factories/CourseFactory.php": {
+    "mtime": 1784730858.5593731,
+    "ast_hash": "57c897b5ad21c1acb9cf673fe5872bca",
+    "semantic_hash": ""
+  },
+  "database/factories/CurriculumRequirementFactory.php": {
+    "mtime": 1784730858.550235,
+    "ast_hash": "785fde72f74bdf0dda6fe9f76d70cd0e",
+    "semantic_hash": ""
+  },
+  "database/factories/LevelFactory.php": {
+    "mtime": 1784730742.2842498,
+    "ast_hash": "d4d6b7638c5963224afbae8c2461c368",
+    "semantic_hash": ""
+  },
+  "database/factories/PaceFactory.php": {
+    "mtime": 1784730742.9372485,
+    "ast_hash": "a32a1260b26d6c2796c701493574b010",
+    "semantic_hash": ""
+  },
+  "database/factories/SubjectFactory.php": {
+    "mtime": 1784730742.5032494,
+    "ast_hash": "6a3fa575f5f38a0d8de642ced8396d12",
+    "semantic_hash": ""
+  },
+  "database/factories/TermFactory.php": {
+    "mtime": 1784730742.06025,
+    "ast_hash": "1a039f6b409f4bb848896bd155f86eab",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_22_171932_create_academic_catalogue_tables.php": {
+    "mtime": 1784730067.8180397,
+    "ast_hash": "66641d1f29027a1e3326b90cc5ca7f14",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/academic-periods/Index.vue": {
+    "mtime": 1784730860.9970405,
+    "ast_hash": "963a6fc6043d6e66e4faa888b7a86231",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/catalogue-imports/Index.vue": {
+    "mtime": 1784730861.0510404,
+    "ast_hash": "7a218ff05563df5a5c0fd7b4281037ba",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/catalogue-imports/Show.vue": {
+    "mtime": 1784730861.1090403,
+    "ast_hash": "bb8ecc0946020f1b9c3fbea43d31e754",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/catalogue-setup/Index.vue": {
+    "mtime": 1784731150.4385304,
+    "ast_hash": "4f329cdef795e43cbfa28a0fd5ab8be1",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/curriculum/Index.vue": {
+    "mtime": 1784730861.2720401,
+    "ast_hash": "4227ce2f198fb434eb2e3a6017899f6f",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/paces/Index.vue": {
+    "mtime": 1784730861.3660398,
+    "ast_hash": "81c8155bf8aa70b383a70504d4954031",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/paces/Show.vue": {
+    "mtime": 1784730884.8579984,
+    "ast_hash": "9cfe0e9b2eb7d103d2715c383d7819a0",
+    "semantic_hash": ""
+  },
+  "tests/Feature/AcademicPeriodTest.php": {
+    "mtime": 1784730788.078169,
+    "ast_hash": "f2326d50f2c11a2ef0381d3a13f1ed89",
+    "semantic_hash": ""
+  },
+  "tests/Feature/CatalogueImportTest.php": {
+    "mtime": 1784731556.6548145,
+    "ast_hash": "0e8c57a8f4d74e50137e192dcf97dff3",
+    "semantic_hash": ""
+  },
+  "tests/Feature/CatalogueManagementTest.php": {
+    "mtime": 1784730788.5801682,
+    "ast_hash": "b000fc5366b76cbf25ea3a434a448060",
+    "semantic_hash": ""
+  },
+  "tests/Unit/CatalogueImportServiceTest.php": {
+    "mtime": 1784730789.0841672,
+    "ast_hash": "c6aa66476c75e4a302b8ed529d2a3687",
+    "semantic_hash": ""
+  },
+  "database/seeders/PaceCatalogueSeeder.php": {
+    "mtime": 1784731556.2148154,
+    "ast_hash": "383e19067bd1b4f19aff8602e3d49096",
     "semantic_hash": ""
   }
 }

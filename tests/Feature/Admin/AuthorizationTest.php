@@ -20,11 +20,13 @@ test('approved role permission matrix is seeded', function () {
         PermissionName::EnterTestResults,
         PermissionName::ApproveRetests,
         PermissionName::ViewAcademicReports,
+        PermissionName::ViewPaceCatalogue,
     ])->map->value->sort()->values()->all())
         ->and($storekeeper->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
             PermissionName::IssuePaces,
             PermissionName::AdjustInventory,
             PermissionName::ViewInventoryReports,
+            PermissionName::ViewPaceCatalogue,
         ])->map->value->sort()->values()->all());
 });
 

@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { LayoutDashboard, School, Users } from '@lucide/vue';
+import {
+    CalendarRange,
+    FileSpreadsheet,
+    LayoutDashboard,
+    Library,
+    ListTree,
+    School,
+    Settings2,
+    Users,
+} from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -15,6 +24,11 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as academicPeriodsIndex } from '@/routes/admin/academic-periods';
+import { index as catalogueImportsIndex } from '@/routes/admin/catalogue-imports';
+import { index as catalogueSetupIndex } from '@/routes/admin/catalogue-setup';
+import { index as curriculumIndex } from '@/routes/admin/curriculum';
+import { index as pacesIndex } from '@/routes/admin/paces';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
 import type { NavItem } from '@/types';
@@ -34,6 +48,43 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'School settings',
             href: editSchoolSettings(),
             icon: School,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('manage-academic-setup')) {
+        items.push({
+            title: 'Academic periods',
+            href: academicPeriodsIndex(),
+            icon: CalendarRange,
+        });
+        items.push({
+            title: 'Catalogue setup',
+            href: catalogueSetupIndex(),
+            icon: Settings2,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('view-pace-catalogue')) {
+        items.push({
+            title: 'PACE catalogue',
+            href: pacesIndex(),
+            icon: Library,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('manage-pace-catalogue')) {
+        items.push({
+            title: 'Curriculum',
+            href: curriculumIndex(),
+            icon: ListTree,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('import-pace-catalogue')) {
+        items.push({
+            title: 'Catalogue imports',
+            href: catalogueImportsIndex(),
+            icon: FileSpreadsheet,
         });
     }
 

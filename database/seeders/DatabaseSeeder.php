@@ -29,5 +29,7 @@ class DatabaseSeeder extends Seeder
         $administrator->roles()->attach(
             Role::query()->where('name', RoleName::Administrator->value)->value('id'),
         );
+
+        $this->call(PaceCatalogueSeeder::class);
     }
 }

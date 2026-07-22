@@ -34,6 +34,7 @@ class AccessControlSeeder extends Seeder
         $rolePermissions = [
             RoleName::Administrator->value => PermissionName::cases(),
             RoleName::Teacher->value => [
+                PermissionName::ViewPaceCatalogue,
                 PermissionName::RegisterStudents,
                 PermissionName::AssignPaces,
                 PermissionName::EnterTestResults,
@@ -41,6 +42,7 @@ class AccessControlSeeder extends Seeder
                 PermissionName::ViewAcademicReports,
             ],
             RoleName::Storekeeper->value => [
+                PermissionName::ViewPaceCatalogue,
                 PermissionName::IssuePaces,
                 PermissionName::AdjustInventory,
                 PermissionName::ViewInventoryReports,

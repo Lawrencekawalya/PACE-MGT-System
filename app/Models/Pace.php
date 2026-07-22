@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\PaceFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+#[Fillable(['course_id', 'number', 'title', 'edition', 'sequence_order', 'is_active'])]
+class Pace extends Model
+{
+    /** @use HasFactory<PaceFactory> */
+    use HasFactory;
+
+    /** @return BelongsTo<Course, $this> */
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    /** @return BelongsToMany<CurriculumRequirement, $this> */
+    public function curriculumRequirements(): BelongsToMany
+    {
+        return $this->belongsToMany(CurriculumRequirement::class)
+            ->withPivot('sequence_order')
+            ->withTimestamps();
+    }
+
+    protected function casts(): array
+    {
+        return ['sequence_order' => 'integer', 'is_active' => 'boolean'];
+    }
+}
