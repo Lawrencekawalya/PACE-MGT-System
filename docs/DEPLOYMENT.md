@@ -1,5 +1,7 @@
 # Deployment and Rollback
 
+The production GitHub Actions workflow runs CI and deploys every successful push to `main`. The server-side [`deploy/production.sh`](../deploy/production.sh) script creates immutable releases under `/var/www/pace/releases`, atomically updates `/var/www/pace/current`, retains five releases, and restores the previous application symlink when its health check fails.
+
 ## Platform prerequisites
 
 - PHP 8.3 or later with the extensions required by Composer and the selected database driver
@@ -52,6 +54,8 @@ php artisan system:check
 ```
 
 Import the client-approved PACE workbook in the administration catalogue screen. Then run `php artisan catalogue:reconcile` and `php artisan system:validate-data`.
+
+The automated first deployment seeds only roles, permissions, and the editable FICA school profile. It deliberately does not create development users, import a catalogue, or add opening stock. Create the first administrator with `admin:create`, then import and approve production data through the application.
 
 ## Required processes
 
