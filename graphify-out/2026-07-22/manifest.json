@@ -110,8 +110,8 @@
     "semantic_hash": ""
   },
   "config/app.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "e2660cb4518ec799b540ad0b3b2982f3",
+    "mtime": 1784726404.491894,
+    "ast_hash": "54f35eb968453c77ae29beb18fc8db8a",
     "semantic_hash": ""
   },
   "config/auth.php": {
@@ -1492,6 +1492,11 @@
   "public/favicon.svg": {
     "mtime": 1784714621.0,
     "ast_hash": "6d65603fc671e2ab354f3ff070494594",
+    "semantic_hash": ""
+  },
+  "tests/Feature/ApplicationConfigurationTest.php": {
+    "mtime": 1784726404.7088938,
+    "ast_hash": "346bcda1e955c95c2fcb4fe5b62f3614",
     "semantic_hash": ""
   }
 }

@@ -131,5 +131,6 @@
   "129": "RegistrationTest.php",
   "130": "Feature/ExampleTest.php",
   "131": "Unit/ExampleTest.php",
-  "132": "vite.config.ts"
+  "132": "vite.config.ts",
+  "133": "ApplicationConfigurationTest.php"
 }

@@ -40,8 +40,8 @@
     "semantic_hash": ""
   },
   "app/Http/Middleware/HandleInertiaRequests.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "7091350ce4161b247d278753d6c4d83a",
+    "mtime": 1784728196.3507364,
+    "ast_hash": "ab878c3a1cea1661d5d50558e2020c12",
     "semantic_hash": ""
   },
   "app/Http/Requests/Settings/PasswordUpdateRequest.php": {
@@ -65,18 +65,18 @@
     "semantic_hash": ""
   },
   "app/Models/User.php": {
-    "mtime": 1784724634.010902,
-    "ast_hash": "4ebd7e224cae844678fb76b0e9e71540",
+    "mtime": 1784728671.1448996,
+    "ast_hash": "169f2fdc2f63f0ccd5691f0a10b504a1",
     "semantic_hash": ""
   },
   "app/Providers/AppServiceProvider.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "183c0dbbb438655ed74bc8bb2657dcd9",
+    "mtime": 1784727955.1741614,
+    "ast_hash": "82dd69447900e89141698e6ceba290f7",
     "semantic_hash": ""
   },
   "app/Providers/FortifyServiceProvider.php": {
-    "mtime": 1784724634.9799695,
-    "ast_hash": "2ff10420993fff4c276c68bee7507cbb",
+    "mtime": 1784728451.9141753,
+    "ast_hash": "6b77f4b9687ae8a8f057d25cdf687d4c",
     "semantic_hash": ""
   },
   "artisan": {
@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "bootstrap/app.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "5680ff3fd8588fc28f2a9f993c483541",
+    "mtime": 1784728766.4378052,
+    "ast_hash": "2fa680f4e625676fa98dbf62d8eaea16",
     "semantic_hash": ""
   },
   "bootstrap/providers.php": {
@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   "config/fortify.php": {
-    "mtime": 1784724634.0126474,
-    "ast_hash": "4505b4bfda198bd1b7f40baf7b81a894",
+    "mtime": 1784727733.9175513,
+    "ast_hash": "e636b40f7d8b24cd580e48d642450306",
     "semantic_hash": ""
   },
   "config/inertia.php": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "database/factories/UserFactory.php": {
-    "mtime": 1784724634.0110936,
-    "ast_hash": "7952c66b16b4a327e48959f054e6554f",
+    "mtime": 1784728657.9229228,
+    "ast_hash": "bef314ced5c816b3e0b9b6370b3cace4",
     "semantic_hash": ""
   },
   "database/migrations/0001_01_01_000000_create_users_table.php": {
@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "database/seeders/DatabaseSeeder.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "ab1e985d74209458e33e0f4eb89fb77e",
+    "mtime": 1784728122.4258666,
+    "ast_hash": "a928fa75d1638ddf942cd3ca78b8e3f9",
     "semantic_hash": ""
   },
   "eslint.config.js": {
@@ -225,8 +225,8 @@
     "semantic_hash": ""
   },
   "resources/js/app.ts": {
-    "mtime": 1784714621.0,
-    "ast_hash": "9df9483150598f4076612bb9d24e9670",
+    "mtime": 1784728295.1135623,
+    "ast_hash": "96747be1eb90b9e69e25f835170b4986",
     "semantic_hash": ""
   },
   "resources/js/components/AlertError.vue": {
@@ -245,8 +245,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppLogo.vue": {
-    "mtime": 1784714621.0,
-    "ast_hash": "fe12f86667c799e41a08baaf862370c9",
+    "mtime": 1784728197.0177352,
+    "ast_hash": "e77d713455387d3f8d008fffa7276a47",
     "semantic_hash": ""
   },
   "resources/js/components/AppLogoIcon.vue": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebar.vue": {
-    "mtime": 1784714621.0,
-    "ast_hash": "0b9713a1e53a992ad2508c57df65bfea",
+    "mtime": 1784728294.8915627,
+    "ast_hash": "7a2477a6dd222fcfc627ee62d19cf738",
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebarHeader.vue": {
@@ -1135,13 +1135,8 @@
     "semantic_hash": ""
   },
   "resources/js/pages/Dashboard.vue": {
-    "mtime": 1784714621.0,
-    "ast_hash": "c2943b18eaa6964ebb0f48e9c0e270ec",
-    "semantic_hash": ""
-  },
-  "resources/js/pages/Welcome.vue": {
-    "mtime": 1784724634.0068536,
-    "ast_hash": "8a5dcd16f04677c3de945cb1f5a326f0",
+    "mtime": 1784728295.6255615,
+    "ast_hash": "6a6b3e5a58f8f615c3f9eca744caa0ca",
     "semantic_hash": ""
   },
   "resources/js/pages/auth/ConfirmPassword.vue": {
@@ -1155,13 +1150,8 @@
     "semantic_hash": ""
   },
   "resources/js/pages/auth/Login.vue": {
-    "mtime": 1784724641.92,
-    "ast_hash": "bd4933753ae9bdff68432c8c4758fc8d",
-    "semantic_hash": ""
-  },
-  "resources/js/pages/auth/Register.vue": {
-    "mtime": 1784714621.0,
-    "ast_hash": "ab659b5ebd00da4e2fef31e0f8423d2c",
+    "mtime": 1784728495.2142098,
+    "ast_hash": "2e8da20b5bd858d0dfb797c0dd3a370d",
     "semantic_hash": ""
   },
   "resources/js/pages/auth/ResetPassword.vue": {
@@ -1195,13 +1185,13 @@
     "semantic_hash": ""
   },
   "resources/js/types/auth.ts": {
-    "mtime": 1784724634.0114725,
-    "ast_hash": "d038734ef6afb990a22262c10b81ca16",
+    "mtime": 1784728196.580736,
+    "ast_hash": "71ef5ff8ae0fe4bf4fd7a7721f20369a",
     "semantic_hash": ""
   },
   "resources/js/types/global.d.ts": {
-    "mtime": 1784714621.0,
-    "ast_hash": "e79ce855f26efc911d05bce028365590",
+    "mtime": 1784728196.8087356,
+    "ast_hash": "239cd00068936ba77161b37895502b5b",
     "semantic_hash": ""
   },
   "resources/js/types/index.ts": {
@@ -1240,13 +1230,13 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1784714621.0,
-    "ast_hash": "1759138d6e3b21b3eaed702c5e188bbe",
+    "mtime": 1784728754.7787523,
+    "ast_hash": "739c6db65036c8b6d2991546c0728dce",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/AuthenticationTest.php": {
-    "mtime": 1784725932.9160287,
-    "ast_hash": "46ba9573d087331f4368e104fa367bc6",
+    "mtime": 1784728658.593922,
+    "ast_hash": "d07274d3e5f79e22e18b9becad87251e",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/EmailVerificationTest.php": {
@@ -1265,8 +1255,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/Auth/RegistrationTest.php": {
-    "mtime": 1784725932.9367907,
-    "ast_hash": "69de7b324bbe612d38b58e02d9102380",
+    "mtime": 1784728496.5642073,
+    "ast_hash": "738177426048ed34d1fbfbe3f4258272",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/TwoFactorChallengeTest.php": {
@@ -1285,8 +1275,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/ExampleTest.php": {
-    "mtime": 1784725932.9769783,
-    "ast_hash": "2fc548151cc68fa3e521183a225311b9",
+    "mtime": 1784728658.3729222,
+    "ast_hash": "6f4afe79750c6f6b598fb27630bed31c",
     "semantic_hash": ""
   },
   "tests/Feature/Settings/ProfileUpdateTest.php": {
@@ -1300,8 +1290,8 @@
     "semantic_hash": ""
   },
   "tests/Pest.php": {
-    "mtime": 1784724692.8746548,
-    "ast_hash": "87407a81a6669f1ac555691dd2ea38ca",
+    "mtime": 1784728678.7842736,
+    "ast_hash": "a452189ab2bcfaa6faea1c2294e57d64",
     "semantic_hash": ""
   },
   "tests/TestCase.php": {
@@ -1497,6 +1487,176 @@
   "tests/Feature/ApplicationConfigurationTest.php": {
     "mtime": 1784726404.7088938,
     "ast_hash": "346bcda1e955c95c2fcb4fe5b62f3614",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/SchoolSettingController.php": {
+    "mtime": 1784728754.5557528,
+    "ast_hash": "9789502096be1dc02c2fecd7fb171241",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/StaffController.php": {
+    "mtime": 1784728443.3113012,
+    "ast_hash": "ec24b381415101681879caa4ca9db31e",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/StaffPasswordController.php": {
+    "mtime": 1784728196.1187367,
+    "ast_hash": "fd8424e5815dc67f4c554f54b12952b6",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/DashboardController.php": {
+    "mtime": 1784728024.3680394,
+    "ast_hash": "58d79738170795fd9eea82a6d1a00acb",
+    "semantic_hash": ""
+  },
+  "app/Http/Middleware/ApplySchoolSettings.php": {
+    "mtime": 1784728754.1097534,
+    "ast_hash": "2a08447f512c38efd2cd414410e49f16",
+    "semantic_hash": ""
+  },
+  "app/Http/Middleware/EnsureUserIsActive.php": {
+    "mtime": 1784727733.455552,
+    "ast_hash": "3aaf413204f4b599d01a5c3fe811ce8c",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/ResetStaffPasswordRequest.php": {
+    "mtime": 1784727915.045232,
+    "ast_hash": "acfb5695a0bd1633e4b89783267a320b",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/StoreStaffRequest.php": {
+    "mtime": 1784728442.867302,
+    "ast_hash": "4e966cfbd242a3bb37b9f285eb019c7c",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/UpdateSchoolSettingRequest.php": {
+    "mtime": 1784728760.061743,
+    "ast_hash": "0d0fe851312b880bdfda18c0e3fc16ab",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/UpdateStaffRequest.php": {
+    "mtime": 1784728443.0913014,
+    "ast_hash": "8aecb21c419f9f769140fbf8da2dd2e3",
+    "semantic_hash": ""
+  },
+  "app/Models/ActivityLog.php": {
+    "mtime": 1784728452.2392855,
+    "ast_hash": "0478a0eadf50d3e6bd1a94f400e93fa5",
+    "semantic_hash": ""
+  },
+  "app/Models/Permission.php": {
+    "mtime": 1784728452.2578008,
+    "ast_hash": "49ab0725f97189a75abb0b4d7dfbb3c3",
+    "semantic_hash": ""
+  },
+  "app/Models/Role.php": {
+    "mtime": 1784728452.2485096,
+    "ast_hash": "fbc56e836b83d40cd86f1463eff8c579",
+    "semantic_hash": ""
+  },
+  "app/Models/SchoolSetting.php": {
+    "mtime": 1784728753.881754,
+    "ast_hash": "3368e40db1e41ca05c6915a7e076e8ea",
+    "semantic_hash": ""
+  },
+  "app/PermissionName.php": {
+    "mtime": 1784727731.2055562,
+    "ast_hash": "3401ffa5f9eb43464a47757ac4c8d11f",
+    "semantic_hash": ""
+  },
+  "app/Policies/SchoolSettingPolicy.php": {
+    "mtime": 1784727939.4291892,
+    "ast_hash": "27dc96d5a002159d3a66fb3f1570d05f",
+    "semantic_hash": ""
+  },
+  "app/Policies/UserPolicy.php": {
+    "mtime": 1784727924.134216,
+    "ast_hash": "86a76c9f433eed62b2fc993aa6f92cd3",
+    "semantic_hash": ""
+  },
+  "app/RoleName.php": {
+    "mtime": 1784727730.9755564,
+    "ast_hash": "52ddc021a9bcc9fa1e5c18cf8f053782",
+    "semantic_hash": ""
+  },
+  "app/Services/ActivityLogger.php": {
+    "mtime": 1784728451.959926,
+    "ast_hash": "4d3ce8cf5f97c0759e02a0971230bf48",
+    "semantic_hash": ""
+  },
+  "database/factories/SchoolSettingFactory.php": {
+    "mtime": 1784727745.450531,
+    "ast_hash": "02baf2b555073ed7393e6b947e8a3c66",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_22_163942_create_school_settings_table.php": {
+    "mtime": 1784727730.0695581,
+    "ast_hash": "21bcac77c498bfb8c837889f858640b7",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_22_163943_create_activity_logs_table.php": {
+    "mtime": 1784727730.2955577,
+    "ast_hash": "51cb93a42fc5146d4c9af2dbad8a5269",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_22_163944_create_access_control_tables.php": {
+    "mtime": 1784727730.5315573,
+    "ast_hash": "a0565cfe1023e3666a4c3a1dcc673803",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_22_163945_add_staff_fields_to_users_table.php": {
+    "mtime": 1784727730.7565567,
+    "ast_hash": "1dc7ad8d31b7ee7a5cd8fb442a7fe7c9",
+    "semantic_hash": ""
+  },
+  "database/seeders/AccessControlSeeder.php": {
+    "mtime": 1784728121.9648676,
+    "ast_hash": "c670db1c8c9068f38ac47efab096d45d",
+    "semantic_hash": ""
+  },
+  "database/seeders/SchoolSettingSeeder.php": {
+    "mtime": 1784728122.196867,
+    "ast_hash": "bff8e77f438bf8748536f92cc5d42da6",
+    "semantic_hash": ""
+  },
+  "resources/js/components/admin/StaffAccessFields.vue": {
+    "mtime": 1784728296.0055606,
+    "ast_hash": "199ce95d328af451268216a347f5bde6",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/school-settings/Edit.vue": {
+    "mtime": 1784728455.7462792,
+    "ast_hash": "243e7016a44be69ad1ca0902af5834c0",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/staff/Create.vue": {
+    "mtime": 1784728363.7374413,
+    "ast_hash": "c3eb0b2aa5c2bed6b40329ea88805138",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/staff/Edit.vue": {
+    "mtime": 1784728816.3806436,
+    "ast_hash": "85a6d1b346d098813ef113504843ba98",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/staff/Index.vue": {
+    "mtime": 1784728455.897279,
+    "ast_hash": "1cb80b5b887ae222438f3c996b5454e0",
+    "semantic_hash": ""
+  },
+  "tests/Feature/Admin/AuthorizationTest.php": {
+    "mtime": 1784728659.62292,
+    "ast_hash": "da47256c4748aabe3fbd037b157b4263",
+    "semantic_hash": ""
+  },
+  "tests/Feature/Admin/SchoolSettingTest.php": {
+    "mtime": 1784728755.0057518,
+    "ast_hash": "3d75d2f68b6605722284508831004d5c",
+    "semantic_hash": ""
+  },
+  "tests/Feature/Admin/StaffManagementTest.php": {
+    "mtime": 1784728696.0398557,
+    "ast_hash": "0eee5b4506f9a42b3d8a9fe96176b713",
     "semantic_hash": ""
   }
 }

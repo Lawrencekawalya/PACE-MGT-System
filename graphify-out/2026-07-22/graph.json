@@ -2925,8 +2925,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "package_dependencies_laravel_passkeys",
-      "community": 18,
-      "community_name": "dependencies",
+      "community": 110,
+      "community_name": "tw-animate-css",
       "norm_label": "@laravel/passkeys"
     },
     {
@@ -2936,8 +2936,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "laravel_passkeys",
-      "community": 18,
-      "community_name": "dependencies",
+      "community": 110,
+      "community_name": "tw-animate-css",
       "norm_label": "@laravel/passkeys"
     },
     {
@@ -3123,8 +3123,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "package_dependencies_tw_animate_css",
-      "community": 110,
-      "community_name": "tw-animate-css",
+      "community": 18,
+      "community_name": "dependencies",
       "norm_label": "tw-animate-css"
     },
     {
@@ -3134,8 +3134,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "tw_animate_css",
-      "community": 110,
-      "community_name": "tw-animate-css",
+      "community": 18,
+      "community_name": "dependencies",
       "norm_label": "tw-animate-css"
     },
     {
@@ -9715,6 +9715,17 @@
       "community": 128,
       "community_name": "web.php",
       "norm_label": "web.php"
+    },
+    {
+      "label": "ApplicationConfigurationTest.php",
+      "file_type": "code",
+      "source_file": "tests/Feature/ApplicationConfigurationTest.php",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_feature_applicationconfigurationtest",
+      "community": 133,
+      "community_name": "ApplicationConfigurationTest.php",
+      "norm_label": "applicationconfigurationtest.php"
     },
     {
       "label": "AuthenticationTest.php",

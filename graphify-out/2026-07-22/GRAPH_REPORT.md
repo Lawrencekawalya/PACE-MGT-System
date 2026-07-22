@@ -1,11 +1,11 @@
 # Graph Report - PMS  (2026-07-22)
 
 ## Corpus Check
-- 293 files · ~44,384 words
+- 294 files · ~44,404 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1249 nodes · 1648 edges · 133 communities (117 shown, 16 thin omitted)
+- 1250 nodes · 1648 edges · 134 communities (118 shown, 16 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 6 edges (avg confidence: 0.55)
 - Token cost: 0 input · 0 output
 
@@ -152,7 +152,7 @@
 ## Import Cycles
 - 3-file cycle: `resources/js/components/ui/sidebar/SidebarMenuButton.vue -> resources/js/components/ui/sidebar/SidebarMenuButtonChild.vue -> resources/js/components/ui/sidebar/index.ts -> resources/js/components/ui/sidebar/SidebarMenuButton.vue`
 
-## Communities (133 total, 16 thin omitted)
+## Communities (134 total, 16 thin omitted)
 
 ### Community 0 - "lib/utils.ts"
 Cohesion: 0.07
@@ -228,7 +228,7 @@ Nodes (16): Available Features, Best Practices, Custom Authentication Logic, Doc
 
 ### Community 18 - "dependencies"
 Cohesion: 0.12
-Nodes (17): class-variance-authority, @laravel/passkeys, laravel-vite-plugin, @lucide/vue, dependencies, class-variance-authority, @laravel/passkeys, laravel-vite-plugin (+9 more)
+Nodes (17): class-variance-authority, laravel-vite-plugin, @lucide/vue, dependencies, class-variance-authority, laravel-vite-plugin, @lucide/vue, reka-ui (+9 more)
 
 ### Community 19 - "sidebar/index.ts"
 Cohesion: 0.17

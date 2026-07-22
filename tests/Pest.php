@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
+use App\RoleName;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,4 +50,12 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function createStaffWithRole(RoleName $role, array $attributes = []): User
+{
+    $user = User::factory()->create($attributes);
+    $user->roles()->attach(Role::query()->where('name', $role->value)->sole());
+
+    return $user;
 }

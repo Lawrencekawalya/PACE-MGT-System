@@ -132,5 +132,15 @@
   "130": "Feature/ExampleTest.php",
   "131": "Unit/ExampleTest.php",
   "132": "vite.config.ts",
-  "133": "ApplicationConfigurationTest.php"
+  "133": "ApplicationConfigurationTest.php",
+  "134": "ProfileController.php",
+  "135": "SheetContent.vue",
+  "136": "SelectContent.vue",
+  "137": "Index.vue",
+  "138": "2026_07_22_163942_create_school_settings_table.php",
+  "139": "2026_07_22_163943_create_activity_logs_table.php",
+  "140": "2026_07_22_163944_create_access_control_tables.php",
+  "141": "2026_07_22_163945_add_staff_fields_to_users_table.php",
+  "142": "tw-animate-css",
+  "143": "PlaceholderPattern.vue"
 }

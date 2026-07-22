@@ -18,6 +18,15 @@ declare module '@inertiajs/core' {
         sharedPageProps: {
             name: string;
             auth: Auth;
+            school: {
+                official_name: string;
+                short_name: string;
+                slogan: string | null;
+                timezone: string;
+                date_format: string;
+                time_format: string;
+                logo_url: string | null;
+            };
             sidebarOpen: boolean;
             [key: string]: unknown;
         };
