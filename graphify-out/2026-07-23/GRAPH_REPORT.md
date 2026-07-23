@@ -1,7 +1,7 @@
 # Graph Report - PMS  (2026-07-23)
 
 ## Corpus Check
-- 532 files · ~93,002 words
+- 532 files · ~93,055 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -184,7 +184,7 @@ Nodes (15): scripts, lint, lint:check, post-autoload-dump, post-update-cmd, pre-
 
 ### Community 3 - "devDependencies"
 Cohesion: 0.06
-Nodes (31): eslint, eslint-config-prettier, eslint-import-resolver-typescript, @eslint/js, eslint-plugin-vue, @laravel/vite-plugin-wayfinder, devDependencies, eslint (+23 more)
+Nodes (31): concurrently, eslint, eslint-config-prettier, eslint-import-resolver-typescript, @eslint/js, eslint-plugin-import, eslint-plugin-vue, devDependencies (+23 more)
 
 ### Community 4 - "select/index.ts"
 Cohesion: 0.05

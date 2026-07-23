@@ -147,7 +147,6 @@
   "149": "eslint-config-prettier",
   "151": "eslint-plugin-import",
   "153": "prettier",
-  "154": "prettier-plugin-tailwindcss",
   "155": "@stylistic/eslint-plugin",
   "158": "2026_07_22_184215_create_pace_assignments_table.php",
   "159": "2026_07_22_184216_create_pace_status_events_table.php",

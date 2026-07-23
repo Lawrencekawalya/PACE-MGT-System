@@ -1,16 +1,16 @@
 # Graph Report - PMS  (2026-07-23)
 
 ## Corpus Check
-- 532 files · ~93,055 words
+- 532 files · ~93,095 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2411 nodes · 4764 edges · 166 communities (148 shown, 18 thin omitted)
+- 2411 nodes · 4764 edges · 165 communities (147 shown, 18 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 149 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7d53edfa`
+- Built from commit: `8f420643`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -134,7 +134,6 @@
 - DropdownMenuRadioGroup.vue
 - eslint-plugin-import
 - prettier
-- prettier-plugin-tailwindcss
 - @stylistic/eslint-plugin
 - @stylistic/eslint-plugin
 - vite
@@ -168,7 +167,7 @@
 ## Import Cycles
 - 3-file cycle: `resources/js/components/ui/sidebar/SidebarMenuButton.vue -> resources/js/components/ui/sidebar/SidebarMenuButtonChild.vue -> resources/js/components/ui/sidebar/index.ts -> resources/js/components/ui/sidebar/SidebarMenuButton.vue`
 
-## Communities (166 total, 18 thin omitted)
+## Communities (165 total, 18 thin omitted)
 
 ### Community 0 - "lib/utils.ts"
 Cohesion: 0.13
@@ -179,8 +178,8 @@ Cohesion: 0.06
 Nodes (10): CatalogueImportRow, PaceAssignment, PaceAttemptCorrection, PaceStatusEvent, StudentCourse, StudentEnrollment, CatalogueImportRowFactory, StudentCourseFactory (+2 more)
 
 ### Community 2 - "scripts"
-Cohesion: 0.13
-Nodes (15): scripts, lint, lint:check, post-autoload-dump, post-update-cmd, pre-package-uninstall, types:check, Illuminate\\Foundation\\ComposerScripts::postAutoloadDump (+7 more)
+Cohesion: 0.11
+Nodes (19): scripts, lint, lint:check, post-autoload-dump, post-create-project-cmd, post-update-cmd, pre-package-uninstall, types:check (+11 more)
 
 ### Community 3 - "devDependencies"
 Cohesion: 0.06
@@ -589,10 +588,6 @@ Nodes (6): dateFrom, dateTo, Movement, props, search, type
 ### Community 151 - "eslint-plugin-import"
 Cohesion: 0.20
 Nodes (3): InventoryItemController, StoreInventoryItemRequest, UpdateInventoryItemRequest
-
-### Community 154 - "prettier-plugin-tailwindcss"
-Cohesion: 0.50
-Nodes (4): post-create-project-cmd, @php artisan key:generate --ansi, @php artisan migrate --graceful --ansi, @php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\
 
 ### Community 175 - "Illuminate\Console\Command"
 Cohesion: 0.06
