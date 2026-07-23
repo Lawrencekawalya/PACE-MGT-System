@@ -91,9 +91,24 @@ jobs:
           VPS_PORT: ${{ secrets.VPS_PORT }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
-          ssh \
-            -i ~/.ssh/id_ed25519 \
-            -p "$VPS_PORT" \
-            -o BatchMode=yes \
-            "$VPS_USER@$VPS_HOST" \
-            "git -C /var/www/pace/repository fetch --prune origin main && git -C /var/www/pace/repository reset --hard origin/main && /var/www/pace/repository/deploy/production.sh '$GITHUB_SHA'"
+          for attempt in 1 2 3; do
+            if ssh \
+              -i ~/.ssh/id_ed25519 \
+              -p "$VPS_PORT" \
+              -o BatchMode=yes \
+              -o ConnectTimeout=20 \
+              -o ServerAliveInterval=15 \
+              -o ServerAliveCountMax=3 \
+              "$VPS_USER@$VPS_HOST" \
+              "git -C /var/www/pace/repository fetch --prune origin main && git -C /var/www/pace/repository reset --hard origin/main && /var/www/pace/repository/deploy/production.sh '$GITHUB_SHA'"; then
+              exit 0
+            fi
+
+            if [ "$attempt" -lt 3 ]; then
+              echo "SSH deployment attempt $attempt failed; retrying in 15 seconds."
+              sleep 15
+            fi
+          done
+
+          echo "::error::Unable to reach the production VPS after 3 SSH attempts."
+          exit 1
