@@ -27,7 +27,10 @@ return new class extends Migration
             $table->text('approval_reason')->nullable();
             $table->timestamp('finalized_at');
             $table->timestamp('created_at')->useCurrent();
-            $table->unique(['pace_assignment_id', 'assessment_type', 'attempt_number']);
+            $table->unique(
+                ['pace_assignment_id', 'assessment_type', 'attempt_number'],
+                'pace_attempt_assignment_type_number_unique',
+            );
             $table->index(['assessment_type', 'outcome', 'finalized_at']);
         });
     }

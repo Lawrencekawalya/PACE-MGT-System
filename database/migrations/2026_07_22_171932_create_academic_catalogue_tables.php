@@ -95,8 +95,8 @@ return new class extends Migration
             $table->foreignId('pace_id')->constrained()->restrictOnDelete();
             $table->unsignedInteger('sequence_order');
             $table->timestamps();
-            $table->unique(['curriculum_requirement_id', 'pace_id']);
-            $table->unique(['curriculum_requirement_id', 'sequence_order']);
+            $table->unique(['curriculum_requirement_id', 'pace_id'], 'curriculum_req_pace_unique');
+            $table->unique(['curriculum_requirement_id', 'sequence_order'], 'curriculum_req_sequence_unique');
         });
 
         Schema::create('catalogue_imports', function (Blueprint $table) {

@@ -25,7 +25,10 @@ return new class extends Migration
             $table->timestamp('decided_at')->nullable();
             $table->text('decision_reason')->nullable();
             $table->timestamps();
-            $table->unique(['pace_assignment_id', 'assessment_type', 'attempt_number']);
+            $table->unique(
+                ['pace_assignment_id', 'assessment_type', 'attempt_number'],
+                'pace_retry_assignment_type_number_unique',
+            );
             $table->index(['status', 'is_over_limit', 'requested_at']);
         });
     }
