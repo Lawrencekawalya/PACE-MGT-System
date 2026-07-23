@@ -2,6 +2,8 @@
 
 The production GitHub Actions workflow runs CI and deploys every successful push to `main`. The server-side [`deploy/production.sh`](../deploy/production.sh) script creates immutable releases under `/var/www/pace/releases`, atomically updates `/var/www/pace/current`, retains five releases, and restores the previous application symlink when its health check fails.
 
+The `VPS_SSH_PRIVATE_KEY_B64` production secret contains the deployment private key encoded as a single base64 line. The workflow decodes and validates the key before opening the SSH connection, avoiding multiline secret corruption.
+
 ## Platform prerequisites
 
 - PHP 8.3 or later with the extensions required by Composer and the selected database driver
