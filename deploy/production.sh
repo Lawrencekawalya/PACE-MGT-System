@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -Eeuo pipefail
+umask 0002
 
 readonly APP_ROOT="/var/www/pace"
 readonly REPOSITORY="$APP_ROOT/repository"
@@ -71,7 +72,17 @@ mkdir -p \
     "$SHARED/storage/logs" \
     "$release/bootstrap/cache"
 
-chmod -R ug+rwX "$SHARED/storage" "$release/bootstrap/cache"
+chmod 2770 \
+    "$SHARED/storage" \
+    "$SHARED/storage/app" \
+    "$SHARED/storage/app/private" \
+    "$SHARED/storage/app/public" \
+    "$SHARED/storage/framework" \
+    "$SHARED/storage/framework/cache" \
+    "$SHARED/storage/framework/sessions" \
+    "$SHARED/storage/framework/views" \
+    "$SHARED/storage/logs"
+chmod -R ug+rwX "$release/bootstrap/cache"
 
 cd "$release"
 composer install --no-dev --classmap-authoritative --no-interaction --no-progress
