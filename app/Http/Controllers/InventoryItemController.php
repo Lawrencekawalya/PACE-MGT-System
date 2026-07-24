@@ -22,7 +22,7 @@ class InventoryItemController extends Controller
     public function store(StoreInventoryItemRequest $request): RedirectResponse
     {
         $item = InventoryItem::query()->create($request->validated());
-        $this->activityLogger->record($request->user(), 'inventory-item.created', $item, newValues: $item->only(['pace_id', 'item_type', 'sku', 'reorder_level', 'is_consumable', 'is_active']));
+        $this->activityLogger->record($request->user(), 'inventory-item.created', $item, newValues: $item->only(['pace_id', 'item_type', 'sku', 'reorder_level', 'target_stock_level', 'is_consumable', 'is_active']));
         Inertia::flash('toast', ['type' => 'success', 'message' => "Inventory item {$item->sku} created."]);
 
         return redirect()->route('inventory-items.show', $item);
@@ -54,7 +54,7 @@ class InventoryItemController extends Controller
 
     public function update(UpdateInventoryItemRequest $request, InventoryItem $inventoryItem): RedirectResponse
     {
-        $old = $inventoryItem->only(['sku', 'reorder_level', 'is_active']);
+        $old = $inventoryItem->only(['sku', 'reorder_level', 'target_stock_level', 'is_active']);
         $inventoryItem->update($request->validated());
         $this->activityLogger->record($request->user(), 'inventory-item.updated', $inventoryItem, $old, $inventoryItem->only(array_keys($old)));
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Inventory settings updated.']);

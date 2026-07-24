@@ -16,7 +16,7 @@ class ActivityLogger
     public function record(
         ?User $actor,
         string $event,
-        Model $subject,
+        ?Model $subject,
         array $oldValues = [],
         array $newValues = [],
         ?string $reason = null,
@@ -27,8 +27,8 @@ class ActivityLogger
         return ActivityLog::query()->create([
             'user_id' => $actor?->getKey(),
             'event' => $event,
-            'subject_type' => $subject->getMorphClass(),
-            'subject_id' => $subject->getKey(),
+            'subject_type' => $subject?->getMorphClass(),
+            'subject_id' => $subject?->getKey(),
             'old_values' => $oldValues ?: null,
             'new_values' => $newValues ?: null,
             'reason' => $reason,

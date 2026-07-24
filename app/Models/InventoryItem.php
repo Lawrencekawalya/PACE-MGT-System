@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Pace|null $pace
  * @property-read int|null $on_hand
  */
-#[Fillable(['pace_id', 'item_type', 'sku', 'reorder_level', 'is_consumable', 'is_active'])]
+#[Fillable(['pace_id', 'item_type', 'sku', 'reorder_level', 'target_stock_level', 'is_consumable', 'is_active'])]
 class InventoryItem extends Model
 {
     /** @use HasFactory<InventoryItemFactory> */
@@ -40,6 +40,6 @@ class InventoryItem extends Model
 
     protected function casts(): array
     {
-        return ['item_type' => InventoryItemType::class, 'reorder_level' => 'integer', 'is_consumable' => 'boolean', 'is_active' => 'boolean'];
+        return ['item_type' => InventoryItemType::class, 'reorder_level' => 'integer', 'target_stock_level' => 'integer', 'is_consumable' => 'boolean', 'is_active' => 'boolean'];
     }
 }

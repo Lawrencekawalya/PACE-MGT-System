@@ -45,6 +45,8 @@ class AccessControlSeeder extends Seeder
                 PermissionName::ViewPaceCatalogue,
                 PermissionName::IssuePaces,
                 PermissionName::AdjustInventory,
+                PermissionName::ManagePurchaseOrders,
+                PermissionName::ReceivePurchaseOrders,
                 PermissionName::ViewInventoryReports,
             ],
         ];

@@ -24,6 +24,7 @@ class UpdateInventoryItemRequest extends FormRequest
         $rules = [
             'sku' => ['required', 'string', 'max:100', Rule::unique('inventory_items', 'sku')->ignore($item)],
             'reorder_level' => ['required', 'integer', 'min:0', 'max:100000'],
+            'target_stock_level' => ['sometimes', 'integer', 'min:0', 'max:100000', 'gte:reorder_level'],
             'is_active' => ['required', 'boolean'],
         ];
 

@@ -33,6 +33,7 @@ type Item = {
     sku: string;
     item_type: string;
     reorder_level: number;
+    target_stock_level: number;
     is_consumable: boolean;
     is_active: boolean;
     on_hand: number;
@@ -327,6 +328,15 @@ defineOptions({
                         min="0"
                         :default-value="item.reorder_level"
                         required
+                    /><label class="text-sm font-medium" for="target-stock"
+                        >Target stock level</label
+                    ><Input
+                        id="target-stock"
+                        name="target_stock_level"
+                        type="number"
+                        min="0"
+                        :default-value="item.target_stock_level"
+                        required
                     /><label class="flex items-center gap-2 text-sm"
                         ><input
                             type="hidden"
@@ -342,7 +352,10 @@ defineOptions({
                     >
                     <p class="text-xs text-destructive">
                         {{
-                            errors.pace_id || errors.sku || errors.reorder_level
+                            errors.pace_id ||
+                            errors.sku ||
+                            errors.reorder_level ||
+                            errors.target_stock_level
                         }}
                     </p>
                     <Button

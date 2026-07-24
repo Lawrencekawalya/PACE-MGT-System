@@ -3,16 +3,40 @@
 namespace App\Services;
 
 use App\InventoryItemType;
+use App\Models\GoodsReceiptLine;
 use App\Models\InventoryItem;
 use App\Models\PaceAssignment;
+use App\Models\PurchaseOrderLine;
 use App\Models\StockMovement;
 use App\Models\User;
+use App\PurchaseOrderStatus;
 use App\StockMovementType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class StockLedgerService
 {
+    public function receiveGoodsReceiptLine(GoodsReceiptLine $receiptLine, User $actor): StockMovement
+    {
+        $receiptLine->loadMissing([
+            'goodsReceipt.purchaseOrder',
+            'purchaseOrderLine.inventoryItem',
+        ]);
+        $receipt = $receiptLine->goodsReceipt;
+        $order = $receipt->purchaseOrder;
+
+        return $this->record(
+            $receiptLine->purchaseOrderLine->inventoryItem,
+            StockMovementType::Receipt,
+            $receiptLine->quantity_received,
+            $actor,
+            [
+                'reference' => "{$receipt->receipt_number} / {$receipt->delivery_reference}",
+                'reason' => "Receipt against purchase order {$order->order_number}.",
+            ],
+        );
+    }
+
     public function postManual(
         InventoryItem $item,
         StockMovementType $type,
@@ -75,15 +99,39 @@ class StockLedgerService
             throw ValidationException::withMessages(['movement' => 'This movement has already been corrected.']);
         }
 
-        return $this->record($movement->inventoryItem, StockMovementType::Correction, -$movement->quantity, $actor, [
-            'student_id' => $movement->student_id,
-            'pace_assignment_id' => $movement->pace_assignment_id,
-            'academic_year_id' => $movement->academic_year_id,
-            'term_id' => $movement->term_id,
-            'reference' => "CORRECTION-{$movement->id}",
-            'reason' => trim($reason),
-            'corrects_movement_id' => $movement->id,
-        ]);
+        return DB::transaction(function () use ($movement, $reason, $actor): StockMovement {
+            $correction = $this->record($movement->inventoryItem, StockMovementType::Correction, -$movement->quantity, $actor, [
+                'student_id' => $movement->student_id,
+                'pace_assignment_id' => $movement->pace_assignment_id,
+                'academic_year_id' => $movement->academic_year_id,
+                'term_id' => $movement->term_id,
+                'reference' => "CORRECTION-{$movement->id}",
+                'reason' => trim($reason),
+                'corrects_movement_id' => $movement->id,
+            ]);
+
+            $receiptLine = GoodsReceiptLine::query()
+                ->where('stock_movement_id', $movement->id)
+                ->with('purchaseOrderLine.purchaseOrder.lines')
+                ->first();
+            if ($receiptLine !== null) {
+                $order = $receiptLine->purchaseOrderLine->purchaseOrder;
+                $lines = $order->lines;
+                $hasEffectiveReceipt = $lines->contains(
+                    fn (PurchaseOrderLine $line): bool => $line->receivedQuantity() > 0,
+                );
+                $fullyReceived = $lines->every(
+                    fn (PurchaseOrderLine $line): bool => $line->outstandingQuantity() === 0,
+                );
+                $order->update([
+                    'status' => $fullyReceived
+                        ? PurchaseOrderStatus::Received
+                        : ($hasEffectiveReceipt ? PurchaseOrderStatus::PartiallyReceived : PurchaseOrderStatus::Sent),
+                ]);
+            }
+
+            return $correction;
+        }, 3);
     }
 
     /** @param array<string, mixed> $attributes */

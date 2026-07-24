@@ -26,6 +26,8 @@ test('approved role permission matrix is seeded', function () {
         ->and($paceOfficer->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
             PermissionName::IssuePaces,
             PermissionName::AdjustInventory,
+            PermissionName::ManagePurchaseOrders,
+            PermissionName::ReceivePurchaseOrders,
             PermissionName::ViewInventoryReports,
             PermissionName::ViewPaceCatalogue,
         ])->map->value->sort()->values()->all());

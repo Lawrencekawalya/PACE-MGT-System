@@ -16,6 +16,10 @@ enum PermissionName: string
     case EnterTestResults = 'enter-test-results';
     case ApproveRetests = 'approve-retests';
     case AdjustInventory = 'adjust-inventory';
+    case ManageSuppliers = 'manage-suppliers';
+    case ManagePurchaseOrders = 'manage-purchase-orders';
+    case ApprovePurchaseOrders = 'approve-purchase-orders';
+    case ReceivePurchaseOrders = 'receive-purchase-orders';
     case ViewAcademicReports = 'view-academic-reports';
     case ViewInventoryReports = 'view-inventory-reports';
 
@@ -34,6 +38,10 @@ enum PermissionName: string
             self::EnterTestResults => 'Enter test results',
             self::ApproveRetests => 'Approve ordinary retests and repeats',
             self::AdjustInventory => 'Receive and adjust stock',
+            self::ManageSuppliers => 'Manage suppliers',
+            self::ManagePurchaseOrders => 'Prepare and send purchase orders',
+            self::ApprovePurchaseOrders => 'Approve purchase orders',
+            self::ReceivePurchaseOrders => 'Receive purchase orders',
             self::ViewAcademicReports => 'View academic reports',
             self::ViewInventoryReports => 'View inventory reports',
         };

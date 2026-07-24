@@ -3,6 +3,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import {
     CalendarRange,
     ClipboardCheck,
+    ClipboardList,
     FileSpreadsheet,
     GraduationCap,
     LandPlot,
@@ -13,11 +14,13 @@ import {
     PackageCheck,
     PackageOpen,
     Route,
+    RefreshCw,
     ChartNoAxesCombined,
     School,
     ServerCog,
     Settings2,
     Users,
+    Warehouse,
 } from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
@@ -47,8 +50,11 @@ import { index as assessmentsIndex } from '@/routes/assessments';
 import { index as inventoryIndex } from '@/routes/inventory';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
 import { index as paceIssuingIndex } from '@/routes/pace-issuing';
+import { index as purchaseOrdersIndex } from '@/routes/purchase-orders';
+import { index as reordersIndex } from '@/routes/reorders';
 import { index as reportsIndex } from '@/routes/reports';
 import { index as studentsIndex } from '@/routes/students';
+import { index as suppliersIndex } from '@/routes/suppliers';
 import type { NavItem } from '@/types';
 
 const page = usePage();
@@ -122,6 +128,34 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'Inventory',
             href: inventoryIndex(),
             icon: PackageOpen,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('manage-purchase-orders')) {
+        items.push({
+            title: 'Reorder queue',
+            href: reordersIndex(),
+            icon: RefreshCw,
+        });
+    }
+
+    if (
+        page.props.auth.permissions.includes('manage-purchase-orders') ||
+        page.props.auth.permissions.includes('approve-purchase-orders') ||
+        page.props.auth.permissions.includes('receive-purchase-orders')
+    ) {
+        items.push({
+            title: 'Purchase orders',
+            href: purchaseOrdersIndex(),
+            icon: ClipboardList,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('manage-suppliers')) {
+        items.push({
+            title: 'Suppliers',
+            href: suppliersIndex(),
+            icon: Warehouse,
         });
     }
 

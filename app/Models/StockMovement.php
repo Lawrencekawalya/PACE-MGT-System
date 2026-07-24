@@ -71,6 +71,12 @@ class StockMovement extends Model
         return $this->hasOne(self::class, 'corrects_movement_id');
     }
 
+    /** @return HasOne<GoodsReceiptLine, $this> */
+    public function goodsReceiptLine(): HasOne
+    {
+        return $this->hasOne(GoodsReceiptLine::class);
+    }
+
     protected function casts(): array
     {
         return ['type' => StockMovementType::class, 'quantity' => 'integer', 'balance_after' => 'integer', 'recorded_at' => 'datetime'];

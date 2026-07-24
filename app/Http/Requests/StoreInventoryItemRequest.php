@@ -25,6 +25,7 @@ class StoreInventoryItemRequest extends FormRequest
             'item_type' => ['required', Rule::enum(InventoryItemType::class)],
             'sku' => ['required', 'string', 'max:100', 'unique:inventory_items,sku'],
             'reorder_level' => ['required', 'integer', 'min:0', 'max:100000'],
+            'target_stock_level' => ['sometimes', 'integer', 'min:0', 'max:100000', 'gte:reorder_level'],
             'is_consumable' => ['required', 'boolean'], 'is_active' => ['required', 'boolean'],
         ];
     }

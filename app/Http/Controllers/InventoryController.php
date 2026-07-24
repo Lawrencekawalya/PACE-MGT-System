@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\InventoryItemType;
+use App\Models\Course;
 use App\Models\InventoryItem;
 use App\Models\Pace;
 use App\Models\StockMovement;
@@ -43,6 +44,12 @@ class InventoryController extends Controller
         return Inertia::render('inventory/Index', [
             'items' => $items, 'filters' => $filters,
             'itemTypes' => collect(InventoryItemType::cases())->map(fn ($type) => ['value' => $type->value, 'label' => $type->label()]),
+            'courses' => Course::query()
+                ->where('is_active', true)
+                ->whereHas('paces.inventoryItems')
+                ->with('subject:id,name')
+                ->orderBy('name')
+                ->get(['id', 'subject_id', 'name', 'code']),
             'scoreKeyPaces' => Pace::query()
                 ->where('is_active', true)
                 ->whereDoesntHave('inventoryItems', fn ($query) => $query->where('item_type', InventoryItemType::ScoreKey))

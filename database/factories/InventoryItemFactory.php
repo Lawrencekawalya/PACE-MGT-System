@@ -23,6 +23,7 @@ class InventoryItemFactory extends Factory
             'item_type' => InventoryItemType::ScoreKey,
             'sku' => fake()->unique()->bothify('KEY-####-??'),
             'reorder_level' => 0,
+            'target_stock_level' => 0,
             'is_consumable' => false,
             'is_active' => true,
         ];

@@ -12,12 +12,16 @@ const props = withDefaults(
         name?: string;
         placeholder?: string;
         required?: boolean;
+        emptyMessage?: string;
+        clearLabel?: string;
     }>(),
     {
         modelValue: null,
         name: 'pace_id',
         placeholder: 'Search by subject, course, PACE, or title',
         required: false,
+        emptyMessage: 'No matching PACE found.',
+        clearLabel: 'Clear selection',
     },
 );
 const emit = defineEmits<{
@@ -148,7 +152,7 @@ onBeforeUnmount(() =>
             v-if="query"
             type="button"
             class="absolute top-1/2 right-2 flex size-6 -translate-y-1/2 items-center justify-center text-muted-foreground hover:text-foreground"
-            aria-label="Clear PACE selection"
+            :aria-label="clearLabel"
             title="Clear selection"
             @click="clear"
         >
@@ -188,7 +192,7 @@ onBeforeUnmount(() =>
                 v-if="filteredOptions.length === 0"
                 class="px-3 py-6 text-center text-sm text-muted-foreground"
             >
-                No matching PACE found.
+                {{ emptyMessage }}
             </div>
         </div>
     </div>
