@@ -6,6 +6,8 @@ use App\Models\CurriculumRequirement;
 use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\Pace;
+use App\Models\PaceAssignment;
+use App\Models\StockMovement;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
@@ -66,6 +68,25 @@ test('student is independently placed in each prescribed course', function () {
         ->and($placements[0]->starting_pace_id)->not->toBe($placements[1]->starting_pace_id)
         ->and($placements[0]->current_pace_id)->toBe($placements[0]->starting_pace_id)
         ->and($placements[1]->current_pace_id)->toBe($placements[1]->starting_pace_id);
+});
+
+test('mid-year placement does not infer prior completions or stock issues', function () {
+    $administrator = createStaffWithRole(RoleName::Administrator);
+    $student = Student::factory()->registeredBy($administrator)->create();
+    $fixture = enrollmentFixture();
+
+    $this->actingAs($administrator)
+        ->post(route('students.enrollments.store', $student), enrollmentData($fixture))
+        ->assertRedirect();
+
+    $advancedPlacement = StudentCourse::query()
+        ->where('course_id', $fixture['courses'][1]->id)
+        ->sole();
+
+    expect($advancedPlacement->starting_pace_id)->toBe($fixture['courses'][1]->paces[2]->id)
+        ->and($advancedPlacement->current_pace_id)->toBe($fixture['courses'][1]->paces[2]->id)
+        ->and(PaceAssignment::query()->count())->toBe(0)
+        ->and(StockMovement::query()->count())->toBe(0);
 });
 
 test('enrollment rejects a starting pace from another course', function () {
