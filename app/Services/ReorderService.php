@@ -34,17 +34,30 @@ class ReorderService
                 fn (PurchaseOrderLine $line): int => max($line->quantity_ordered - (int) $line->received_quantity, 0),
             ));
 
-        return $items->map(function (InventoryItem $item) use ($onOrder): array {
-            $onHand = (int) $item->on_hand;
-            $pending = (int) ($onOrder[$item->id] ?? 0);
+        return $items->toBase()
+            ->filter(function (InventoryItem $item) use ($onOrder): bool {
+                $onHand = (int) $item->on_hand;
+                $pending = (int) ($onOrder[$item->id] ?? 0);
 
-            return [
-                ...$item->toArray(),
-                'on_hand' => $onHand,
-                'on_order' => $pending,
-                'suggested_quantity' => max($item->target_stock_level - ($onHand + $pending), 0),
-            ];
-        })->filter(fn (array $item): bool => $item['on_hand'] <= $item['reorder_level']
-            && $item['suggested_quantity'] > 0)->values();
+                return $onHand <= $item->reorder_level
+                    && $item->target_stock_level - ($onHand + $pending) > 0;
+            })
+            ->map(
+                fn (InventoryItem $item): array => $this->suggestionFor($item, (int) ($onOrder[$item->id] ?? 0)),
+            )
+            ->values();
+    }
+
+    /** @return array<string, mixed> */
+    private function suggestionFor(InventoryItem $item, int $pending): array
+    {
+        $onHand = (int) $item->on_hand;
+
+        return [
+            ...$item->toArray(),
+            'on_hand' => $onHand,
+            'on_order' => $pending,
+            'suggested_quantity' => max($item->target_stock_level - ($onHand + $pending), 0),
+        ];
     }
 }

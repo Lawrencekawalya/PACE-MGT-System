@@ -25,13 +25,16 @@ class StorePurchaseOrderLineRequest extends FormRequest
      */
     public function rules(): array
     {
+        $order = $this->route('purchase_order');
+        $orderId = $order instanceof PurchaseOrder ? $order->id : null;
+
         return [
             'inventory_item_id' => [
                 'required',
                 'integer',
                 Rule::exists('inventory_items', 'id')->where('is_active', true),
                 Rule::unique('purchase_order_lines', 'inventory_item_id')
-                    ->where('purchase_order_id', $this->route('purchase_order')?->id),
+                    ->where('purchase_order_id', $orderId),
             ],
             'quantity_ordered' => ['required', 'integer', 'min:1', 'max:100000'],
             'notes' => ['nullable', 'string', 'max:2000'],

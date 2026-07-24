@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     CalendarRange,
+    ChartNoAxesCombined,
     ClipboardCheck,
     ClipboardList,
     FileSpreadsheet,
@@ -15,7 +16,6 @@ import {
     PackageOpen,
     Route,
     RefreshCw,
-    ChartNoAxesCombined,
     School,
     ServerCog,
     Settings2,
@@ -55,113 +55,20 @@ import { index as reordersIndex } from '@/routes/reorders';
 import { index as reportsIndex } from '@/routes/reports';
 import { index as studentsIndex } from '@/routes/students';
 import { index as suppliersIndex } from '@/routes/suppliers';
-import type { NavItem } from '@/types';
+import type { NavGroup, NavItem } from '@/types';
 
 const page = usePage();
+const hasPermission = (permission: string): boolean =>
+    page.props.auth.permissions.includes(permission);
+
 const mainNavItems = computed<NavItem[]>(() => {
     const items: NavItem[] = [
         { title: 'Dashboard', href: dashboard(), icon: LayoutDashboard },
     ];
 
-    if (page.props.auth.permissions.includes('manage-staff')) {
-        items.push({ title: 'Staff', href: staffIndex(), icon: Users });
-    }
-
-    if (page.props.auth.permissions.includes('manage-school-settings')) {
-        items.push({
-            title: 'School settings',
-            href: editSchoolSettings(),
-            icon: School,
-        });
-        items.push({
-            title: 'System status',
-            href: systemStatus(),
-            icon: ServerCog,
-        });
-    }
-
-    if (page.props.auth.permissions.includes('register-students')) {
-        items.push({
-            title: 'Students',
-            href: studentsIndex(),
-            icon: GraduationCap,
-        });
-    }
-
     if (
-        page.props.auth.permissions.includes('assign-paces') ||
-        page.props.auth.permissions.includes('issue-paces')
-    ) {
-        items.push({
-            title: 'PACE work queue',
-            href: paceAssignmentsIndex(),
-            icon: ListChecks,
-        });
-    }
-
-    if (page.props.auth.permissions.includes('issue-paces')) {
-        items.push({
-            title: 'PACE issuing',
-            href: paceIssuingIndex(),
-            icon: PackageCheck,
-        });
-    }
-
-    if (
-        page.props.auth.permissions.includes('enter-test-results') ||
-        page.props.auth.permissions.includes('approve-retests') ||
-        page.props.auth.permissions.includes('view-academic-reports')
-    ) {
-        items.push({
-            title: 'Assessments',
-            href: assessmentsIndex(),
-            icon: ClipboardCheck,
-        });
-    }
-
-    if (
-        page.props.auth.permissions.includes('view-inventory-reports') ||
-        page.props.auth.permissions.includes('adjust-inventory') ||
-        page.props.auth.permissions.includes('issue-paces')
-    ) {
-        items.push({
-            title: 'Inventory',
-            href: inventoryIndex(),
-            icon: PackageOpen,
-        });
-    }
-
-    if (page.props.auth.permissions.includes('manage-purchase-orders')) {
-        items.push({
-            title: 'Reorder queue',
-            href: reordersIndex(),
-            icon: RefreshCw,
-        });
-    }
-
-    if (
-        page.props.auth.permissions.includes('manage-purchase-orders') ||
-        page.props.auth.permissions.includes('approve-purchase-orders') ||
-        page.props.auth.permissions.includes('receive-purchase-orders')
-    ) {
-        items.push({
-            title: 'Purchase orders',
-            href: purchaseOrdersIndex(),
-            icon: ClipboardList,
-        });
-    }
-
-    if (page.props.auth.permissions.includes('manage-suppliers')) {
-        items.push({
-            title: 'Suppliers',
-            href: suppliersIndex(),
-            icon: Warehouse,
-        });
-    }
-
-    if (
-        page.props.auth.permissions.includes('view-academic-reports') ||
-        page.props.auth.permissions.includes('view-inventory-reports')
+        hasPermission('view-academic-reports') ||
+        hasPermission('view-inventory-reports')
     ) {
         items.push({
             title: 'Reports',
@@ -170,58 +77,189 @@ const mainNavItems = computed<NavItem[]>(() => {
         });
     }
 
-    if (page.props.auth.permissions.includes('manage-academic-setup')) {
-        items.push({
-            title: 'Learning centers',
-            href: learningCentersIndex(),
-            icon: LandPlot,
+    return items;
+});
+
+const navGroups = computed<NavGroup[]>(() => {
+    const studentLearning: NavItem[] = [];
+    const inventoryAndOrders: NavItem[] = [];
+    const schoolAdministration: NavItem[] = [];
+    const catalogueAndCurriculum: NavItem[] = [];
+
+    if (hasPermission('register-students')) {
+        studentLearning.push({
+            title: 'Students',
+            href: studentsIndex(),
+            icon: GraduationCap,
         });
-        items.push({
-            title: 'Academic periods',
-            href: academicPeriodsIndex(),
-            icon: CalendarRange,
+    }
+
+    if (hasPermission('assign-paces') || hasPermission('issue-paces')) {
+        studentLearning.push({
+            title: 'PACE work queue',
+            href: paceAssignmentsIndex(),
+            icon: ListChecks,
         });
+    }
+
+    if (
+        hasPermission('enter-test-results') ||
+        hasPermission('approve-retests') ||
+        hasPermission('view-academic-reports')
+    ) {
+        studentLearning.push({
+            title: 'Assessments',
+            href: assessmentsIndex(),
+            icon: ClipboardCheck,
+        });
+    }
+
+    if (hasPermission('issue-paces')) {
+        inventoryAndOrders.push({
+            title: 'PACE issuing',
+            href: paceIssuingIndex(),
+            icon: PackageCheck,
+        });
+    }
+
+    if (
+        hasPermission('view-inventory-reports') ||
+        hasPermission('adjust-inventory') ||
+        hasPermission('issue-paces')
+    ) {
+        inventoryAndOrders.push({
+            title: 'Inventory',
+            href: inventoryIndex(),
+            icon: PackageOpen,
+        });
+    }
+
+    if (hasPermission('manage-purchase-orders')) {
+        inventoryAndOrders.push({
+            title: 'Reorder queue',
+            href: reordersIndex(),
+            icon: RefreshCw,
+        });
+    }
+
+    if (
+        hasPermission('manage-purchase-orders') ||
+        hasPermission('approve-purchase-orders') ||
+        hasPermission('receive-purchase-orders')
+    ) {
+        inventoryAndOrders.push({
+            title: 'Purchase orders',
+            href: purchaseOrdersIndex(),
+            icon: ClipboardList,
+        });
+    }
+
+    if (hasPermission('manage-suppliers')) {
+        inventoryAndOrders.push({
+            title: 'Suppliers',
+            href: suppliersIndex(),
+            icon: Warehouse,
+        });
+    }
+
+    if (hasPermission('manage-staff')) {
+        schoolAdministration.push({
+            title: 'Staff',
+            href: staffIndex(),
+            icon: Users,
+        });
+    }
+
+    if (hasPermission('manage-school-settings')) {
+        schoolAdministration.push(
+            {
+                title: 'School settings',
+                href: editSchoolSettings(),
+                icon: School,
+            },
+            {
+                title: 'System status',
+                href: systemStatus(),
+                icon: ServerCog,
+            },
+        );
+    }
+
+    if (hasPermission('manage-academic-setup')) {
+        schoolAdministration.push(
+            {
+                title: 'Learning centers',
+                href: learningCentersIndex(),
+                icon: LandPlot,
+            },
+            {
+                title: 'Academic periods',
+                href: academicPeriodsIndex(),
+                icon: CalendarRange,
+            },
+        );
 
         if (page.props.auth.roles.includes('administrator')) {
-            items.push({
+            schoolAdministration.push({
                 title: 'Promotions',
                 href: promotionsIndex(),
                 icon: Route,
             });
         }
 
-        items.push({
+        catalogueAndCurriculum.push({
             title: 'Catalogue setup',
             href: catalogueSetupIndex(),
             icon: Settings2,
         });
     }
 
-    if (page.props.auth.permissions.includes('view-pace-catalogue')) {
-        items.push({
+    if (hasPermission('view-pace-catalogue')) {
+        catalogueAndCurriculum.push({
             title: 'PACE catalogue',
             href: pacesIndex(),
             icon: Library,
         });
     }
 
-    if (page.props.auth.permissions.includes('manage-pace-catalogue')) {
-        items.push({
+    if (hasPermission('manage-pace-catalogue')) {
+        catalogueAndCurriculum.push({
             title: 'Curriculum',
             href: curriculumIndex(),
             icon: ListTree,
         });
     }
 
-    if (page.props.auth.permissions.includes('import-pace-catalogue')) {
-        items.push({
+    if (hasPermission('import-pace-catalogue')) {
+        catalogueAndCurriculum.push({
             title: 'Catalogue imports',
             href: catalogueImportsIndex(),
             icon: FileSpreadsheet,
         });
     }
 
-    return items;
+    return [
+        {
+            title: 'Student learning',
+            icon: GraduationCap,
+            items: studentLearning,
+        },
+        {
+            title: 'Inventory & orders',
+            icon: Warehouse,
+            items: inventoryAndOrders,
+        },
+        {
+            title: 'School administration',
+            icon: School,
+            items: schoolAdministration,
+        },
+        {
+            title: 'Catalogue & curriculum',
+            icon: Library,
+            items: catalogueAndCurriculum,
+        },
+    ].filter((group) => group.items.length > 0);
 });
 </script>
 
@@ -240,7 +278,7 @@ const mainNavItems = computed<NavItem[]>(() => {
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems" :groups="navGroups" />
         </SidebarContent>
 
         <SidebarFooter>

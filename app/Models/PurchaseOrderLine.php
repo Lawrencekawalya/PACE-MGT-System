@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $inventory_item_id
+ * @property int $quantity_ordered
+ * @property-read int|string|null $received_quantity
+ */
 #[Fillable(['purchase_order_id', 'inventory_item_id', 'quantity_ordered', 'notes'])]
 class PurchaseOrderLine extends Model
 {
@@ -37,7 +42,8 @@ class PurchaseOrderLine extends Model
     public function effectiveGoodsReceiptLines(): HasMany
     {
         return $this->hasMany(GoodsReceiptLine::class)
-            ->whereHas('stockMovement', fn ($query) => $query->whereDoesntHave('correction'));
+            ->whereHas('stockMovement')
+            ->whereDoesntHave('stockMovement.correction');
     }
 
     public function receivedQuantity(): int

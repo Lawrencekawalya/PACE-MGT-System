@@ -146,9 +146,31 @@ class PurchaseOrderService
                 throw ValidationException::withMessages(['order' => 'Only sent orders can be received.']);
             }
 
-            $submittedLines = collect($attributes['lines'])
-                ->filter(fn (array $line): bool => (int) $line['quantity_received'] > 0)
-                ->keyBy('purchase_order_line_id');
+            $rawLines = $attributes['lines'] ?? null;
+            if (! is_array($rawLines)) {
+                throw ValidationException::withMessages(['lines' => 'Receipt lines are required.']);
+            }
+
+            $submittedLineValues = [];
+            foreach ($rawLines as $line) {
+                if (! is_array($line)
+                    || ! isset($line['purchase_order_line_id'], $line['quantity_received'])
+                    || ! is_numeric($line['purchase_order_line_id'])
+                    || ! is_numeric($line['quantity_received'])) {
+                    throw ValidationException::withMessages(['lines' => 'One or more receipt lines are invalid.']);
+                }
+
+                $lineId = (int) $line['purchase_order_line_id'];
+                $quantity = (int) $line['quantity_received'];
+                if ($quantity > 0) {
+                    $submittedLineValues[$lineId] = [
+                        'purchase_order_line_id' => $lineId,
+                        'quantity_received' => $quantity,
+                    ];
+                }
+            }
+
+            $submittedLines = collect($submittedLineValues);
             $orderLines = PurchaseOrderLine::query()
                 ->where('purchase_order_id', $order->id)
                 ->whereIn('id', $submittedLines->keys())

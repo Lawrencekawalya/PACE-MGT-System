@@ -40,8 +40,17 @@ class StoreGoodsReceiptRequest extends FormRequest
     {
         return [
             function (Validator $validator): void {
-                $lines = collect($this->input('lines', []));
-                if (! $lines->contains(fn (array $line): bool => (int) ($line['quantity_received'] ?? 0) > 0)) {
+                $hasReceivedQuantity = false;
+
+                foreach ($this->array('lines') as $line) {
+                    if (is_array($line) && (int) ($line['quantity_received'] ?? 0) > 0) {
+                        $hasReceivedQuantity = true;
+
+                        break;
+                    }
+                }
+
+                if (! $hasReceivedQuantity) {
                     $validator->errors()->add('lines', 'Enter a received quantity for at least one order line.');
                 }
             },
