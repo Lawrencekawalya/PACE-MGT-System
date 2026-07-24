@@ -174,7 +174,7 @@ defineOptions({
                     Work queue
                 </Link>
             </Button>
-            <Button variant="outline" size="sm" as-child>
+            <Button v-if="canAssign" variant="outline" size="sm" as-child>
                 <Link
                     :href="
                         showStudent(
