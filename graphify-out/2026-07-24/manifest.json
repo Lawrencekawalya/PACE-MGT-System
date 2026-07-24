@@ -2045,8 +2045,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/StudentEnrollmentTest.php": {
-    "mtime": 1784881401.1650383,
-    "ast_hash": "239c78ad2b254199ae240ae155b99967",
+    "mtime": 1784892077.445716,
+    "ast_hash": "6cc50383382eeadc585084d63f37d94b",
     "semantic_hash": ""
   },
   "tests/Feature/StudentRegistrationTest.php": {

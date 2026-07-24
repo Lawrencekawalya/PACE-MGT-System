@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebar.vue": {
-    "mtime": 1784888850.5814018,
-    "ast_hash": "9e1b0c9e5f9f286714d0a092bfb38918",
+    "mtime": 1784893574.9702928,
+    "ast_hash": "e418e2a338e1a894d4c906faef186f28",
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebarHeader.vue": {
@@ -1230,8 +1230,8 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1784888923.0193026,
-    "ast_hash": "e2f0890b92e5b6cd74bff6fba3b3d4dd",
+    "mtime": 1784893338.1811504,
+    "ast_hash": "2a21f65664c90072c6d0d3d999f1287e",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/AuthenticationTest.php": {
@@ -1960,8 +1960,8 @@
     "semantic_hash": ""
   },
   "app/Models/StudentEnrollment.php": {
-    "mtime": 1784881172.2556608,
-    "ast_hash": "84b75ff91dace95c29860f594ab5af36",
+    "mtime": 1784893642.864047,
+    "ast_hash": "ee620ec7030012172faf5a63b8daed9e",
     "semantic_hash": ""
   },
   "app/Policies/StudentPolicy.php": {
@@ -2782,6 +2782,36 @@
   "tests/Feature/PaceIssuingTest.php": {
     "mtime": 1784889112.4704533,
     "ast_hash": "db7afaaa5805740705d8b60231d80ebb",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Admin/PromotionController.php": {
+    "mtime": 1784893643.0800462,
+    "ast_hash": "f49f3c2495045eefcf684509f0ca35fe",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/Admin/StorePromotionDecisionRequest.php": {
+    "mtime": 1784893642.9730465,
+    "ast_hash": "3cab060050563db01797364a9d3640a4",
+    "semantic_hash": ""
+  },
+  "app/Services/StudentPromotionService.php": {
+    "mtime": 1784893528.77746,
+    "ast_hash": "ec93215bedd151894c2ac90ede23ced3",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_24_143859_add_previous_enrollment_id_to_student_enrollments_table.php": {
+    "mtime": 1784893250.0724695,
+    "ast_hash": "a3f7453016715c16474a9798c08ab2cb",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/admin/promotions/Index.vue": {
+    "mtime": 1784893575.0872924,
+    "ast_hash": "c7131fdf930555abcd239ac14506b76b",
+    "semantic_hash": ""
+  },
+  "tests/Feature/PromotionManagementTest.php": {
+    "mtime": 1784893498.5215697,
+    "ast_hash": "4c77129c9f4dc8e34cafe9fca41e89cb",
     "semantic_hash": ""
   }
 }

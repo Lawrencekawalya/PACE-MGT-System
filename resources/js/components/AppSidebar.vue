@@ -12,6 +12,7 @@ import {
     ListTree,
     PackageCheck,
     PackageOpen,
+    Route,
     ChartNoAxesCombined,
     School,
     ServerCog,
@@ -39,6 +40,7 @@ import { index as catalogueSetupIndex } from '@/routes/admin/catalogue-setup';
 import { index as curriculumIndex } from '@/routes/admin/curriculum';
 import { index as learningCentersIndex } from '@/routes/admin/learning-centers';
 import { index as pacesIndex } from '@/routes/admin/paces';
+import { index as promotionsIndex } from '@/routes/admin/promotions';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
 import { index as assessmentsIndex } from '@/routes/assessments';
@@ -145,6 +147,15 @@ const mainNavItems = computed<NavItem[]>(() => {
             href: academicPeriodsIndex(),
             icon: CalendarRange,
         });
+
+        if (page.props.auth.roles.includes('administrator')) {
+            items.push({
+                title: 'Promotions',
+                href: promotionsIndex(),
+                icon: Route,
+            });
+        }
+
         items.push({
             title: 'Catalogue setup',
             href: catalogueSetupIndex(),

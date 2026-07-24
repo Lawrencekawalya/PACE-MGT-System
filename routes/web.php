@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CurriculumController;
 use App\Http\Controllers\Admin\LearningCenterController;
 use App\Http\Controllers\Admin\LevelController;
 use App\Http\Controllers\Admin\PaceController;
+use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\SchoolSettingController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StaffPasswordController;
@@ -76,6 +77,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('staff/{user}/password', StaffPasswordController::class)->name('staff.password.update');
 
         Route::get('academic-periods', [AcademicPeriodController::class, 'index'])->name('academic-periods.index');
+        Route::get('promotions', [PromotionController::class, 'index'])->name('promotions.index');
+        Route::post('enrollments/{enrollment}/promotion', [PromotionController::class, 'store'])->name('promotions.store');
         Route::post('academic-years', [AcademicPeriodController::class, 'store'])->name('academic-years.store');
         Route::put('academic-years/{academic_year}', [AcademicPeriodController::class, 'update'])->name('academic-years.update');
         Route::post('academic-years/{academic_year}/terms', [TermController::class, 'store'])->name('academic-years.terms.store');
