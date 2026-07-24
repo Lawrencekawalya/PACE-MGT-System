@@ -1290,8 +1290,8 @@
     "semantic_hash": ""
   },
   "tests/Pest.php": {
-    "mtime": 1784753599.5285068,
-    "ast_hash": "3e97357f790ada0387f17b7a857d8afe",
+    "mtime": 1784890409.4210489,
+    "ast_hash": "a44d04d3b5611b071982eb9823b7d055",
     "semantic_hash": ""
   },
   "tests/TestCase.php": {
@@ -2310,8 +2310,8 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/ReportController.php": {
-    "mtime": 1784881163.288241,
-    "ast_hash": "450266d16ec75db8baf3030c215b2e1c",
+    "mtime": 1784890266.3972745,
+    "ast_hash": "eb7dc8feeb94d0bedd6e3524cf513265",
     "semantic_hash": ""
   },
   "app/Http/Controllers/ReportExportController.php": {
@@ -2345,8 +2345,8 @@
     "semantic_hash": ""
   },
   "app/Http/Requests/StoreReportExportRequest.php": {
-    "mtime": 1784748285.5803342,
-    "ast_hash": "618209879296b882f1a6cfa31f55509c",
+    "mtime": 1784890266.5102742,
+    "ast_hash": "31bb8c0951859960116913c1e63e34b7",
     "semantic_hash": ""
   },
   "app/Http/Requests/StoreStockMovementRequest.php": {
@@ -2380,8 +2380,8 @@
     "semantic_hash": ""
   },
   "app/Models/StockMovement.php": {
-    "mtime": 1784751677.1503575,
-    "ast_hash": "adf607962b5f126966133436a09e0160",
+    "mtime": 1784890266.285275,
+    "ast_hash": "119b911f08f6096c21217b2db4d58731",
     "semantic_hash": ""
   },
   "app/Observers/PaceObserver.php": {
@@ -2415,8 +2415,8 @@
     "semantic_hash": ""
   },
   "app/ReportType.php": {
-    "mtime": 1784748055.9787388,
-    "ast_hash": "72f100dc494a5c48abd2efb50e1235d3",
+    "mtime": 1784890266.1732752,
+    "ast_hash": "a37256900c3bd9eb81f2c3ffa5472183",
     "semantic_hash": ""
   },
   "app/Services/DashboardReportService.php": {
@@ -2425,8 +2425,8 @@
     "semantic_hash": ""
   },
   "app/Services/ReportDataService.php": {
-    "mtime": 1784881163.6982393,
-    "ast_hash": "f10b931e58bbefb99ad00ab0bf167282",
+    "mtime": 1784890525.3483367,
+    "ast_hash": "de4f04d20d882b20bf1a889dbad38e7a",
     "semantic_hash": ""
   },
   "app/Services/ReportExportGenerator.php": {
@@ -2505,8 +2505,8 @@
     "semantic_hash": ""
   },
   "resources/js/pages/reports/Index.vue": {
-    "mtime": 1784748871.310302,
-    "ast_hash": "bd9ae4165b5dd9d0a60e95fb2e69632c",
+    "mtime": 1784890410.994751,
+    "ast_hash": "979a6449de1cf94895fb64ebd3097f5c",
     "semantic_hash": ""
   },
   "tests/Feature/DashboardReportTest.php": {
@@ -2530,13 +2530,13 @@
     "semantic_hash": ""
   },
   "tests/Feature/ReportExportTest.php": {
-    "mtime": 1784885031.2592332,
-    "ast_hash": "3eaecb98470b77e6e928fd560dbc415b",
+    "mtime": 1784890398.6257956,
+    "ast_hash": "e9d80fb32a7ef4f3b4b42bc785cb7d57",
     "semantic_hash": ""
   },
   "tests/Feature/ReportTest.php": {
-    "mtime": 1784885031.4482324,
-    "ast_hash": "77b0236fcfb8f397e06fa6aa11616c1e",
+    "mtime": 1784890409.4709475,
+    "ast_hash": "1082039fbf583e512a8b08e4ec0e588a",
     "semantic_hash": ""
   },
   "database/migrations/2026_07_22_235900_add_teacher_ownership_to_students_table.php": {

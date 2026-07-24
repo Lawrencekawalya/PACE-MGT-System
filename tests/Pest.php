@@ -3,10 +3,12 @@
 use App\Models\AcademicYear;
 use App\Models\Course;
 use App\Models\CurriculumRequirement;
+use App\Models\InventoryItem;
 use App\Models\Level;
 use App\Models\Pace;
 use App\Models\PaceAssignment;
 use App\Models\Role;
+use App\Models\StockMovement;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
@@ -14,6 +16,7 @@ use App\Models\Term;
 use App\Models\User;
 use App\PaceAssignmentStatus;
 use App\RoleName;
+use App\StockMovementType;
 use App\StudentStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -114,4 +117,34 @@ function createReportFixture(): array
     ]);
 
     return compact('year', 'term', 'level', 'course', 'paces', 'student', 'enrollment', 'studentCourse', 'teacher', 'passed', 'active');
+}
+
+/** @return array<string, mixed> */
+function createIssuingReportFixture(): array
+{
+    $fixture = createReportFixture();
+    $officer = createStaffWithRole(RoleName::PaceOfficer);
+    $issuedAt = now()->setDate(2026, 7, 15)->setTime(9, 30);
+    $fixture['active']->forceFill([
+        'issued_by' => $officer->id,
+        'issued_at' => $issuedAt,
+        'started_at' => $issuedAt,
+    ])->save();
+    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    $movement = StockMovement::factory()->create([
+        'inventory_item_id' => $item->id,
+        'type' => StockMovementType::Issue,
+        'quantity' => -1,
+        'balance_after' => 0,
+        'student_id' => $fixture['student']->id,
+        'pace_assignment_id' => $fixture['active']->id,
+        'academic_year_id' => $fixture['year']->id,
+        'term_id' => $fixture['term']->id,
+        'reference' => "ISSUE-{$fixture['active']->id}",
+        'reason' => 'Physical PACE issue to student.',
+        'recorded_by' => $officer->id,
+        'recorded_at' => $issuedAt,
+    ]);
+
+    return [...$fixture, 'officer' => $officer, 'item' => $item, 'movement' => $movement];
 }

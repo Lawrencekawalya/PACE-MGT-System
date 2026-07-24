@@ -7,6 +7,7 @@ use App\Models\CurriculumRequirement;
 use App\Models\InventoryItem;
 use App\Models\Pace;
 use App\Models\PaceAssignment;
+use App\Models\StockMovement;
 use App\Models\StudentCourse;
 use App\Models\User;
 use App\PaceAssignmentStatus;
@@ -30,6 +31,7 @@ class ReportDataService
             ReportType::StudentProgress => $this->studentProgressRows($filters),
             ReportType::CourseProgress => $this->courseProgressRows($filters),
             ReportType::PendingWork => $this->pendingWorkRows($filters),
+            ReportType::PaceIssuing => $this->issuingRows($filters),
             ReportType::Inventory => $this->inventoryRows($filters),
         };
 
@@ -54,6 +56,7 @@ class ReportDataService
             ReportType::StudentProgress => $this->studentCourseCount($filters),
             ReportType::CourseProgress => $this->courseProgressCount($filters),
             ReportType::PendingWork => $this->pendingWorkCount($filters),
+            ReportType::PaceIssuing => $this->issuingCount($filters),
             ReportType::Inventory => $this->inventoryCount($filters),
         };
     }
@@ -81,6 +84,14 @@ class ReportDataService
                 'course' => 'Course', 'pace' => 'PACE', 'status' => 'Status', 'next_action' => 'Next action',
                 'waiting_since' => 'Waiting since', 'age_days' => 'Age days', 'overdue' => 'Overdue',
             ],
+            ReportType::PaceIssuing => [
+                'admission_number' => 'Admission number', 'student' => 'Student',
+                'learning_center' => 'Learning centre', 'level' => 'Level', 'course' => 'Course',
+                'pace' => 'PACE', 'pace_title' => 'PACE title', 'quantity' => 'Quantity',
+                'issued_date' => 'Issue date', 'issued_time' => 'Issue time',
+                'academic_year' => 'Academic year', 'term' => 'Term', 'issued_by' => 'Issued by',
+                'status' => 'Status', 'reference' => 'Reference',
+            ],
             ReportType::Inventory => [
                 'sku' => 'SKU', 'item_type' => 'Item type', 'course' => 'Course', 'pace' => 'PACE',
                 'on_hand' => 'On hand', 'received' => 'Received in period', 'issued' => 'Issued in period',
@@ -92,6 +103,57 @@ class ReportDataService
             'headers' => array_values($fields),
             'rows' => $rows->map(fn (array $row): array => $this->exportRow(array_keys($fields), $row)),
         ];
+    }
+
+    /** @param array<string, mixed> $filters
+     * @return Collection<int, covariant array<string, mixed>>
+     */
+    private function issuingRows(array $filters): Collection
+    {
+        $query = StockMovement::query()->with([
+            'paceAssignment:id,student_course_id,pace_id',
+            'paceAssignment.pace:id,course_id,number,title',
+            'paceAssignment.studentCourse:id,student_enrollment_id,course_id',
+            'paceAssignment.studentCourse.course:id,name',
+            'paceAssignment.studentCourse.enrollment:id,student_id,learning_center_id,level_id',
+            'paceAssignment.studentCourse.enrollment.student:id,admission_number,first_name,last_name,other_names',
+            'paceAssignment.studentCourse.enrollment.learningCenter:id,name',
+            'paceAssignment.studentCourse.enrollment.level:id,name',
+            'academicYear:id,name', 'term:id,name', 'recordedBy:id,name',
+            'correction:id,corrects_movement_id',
+        ]);
+        $this->applyIssuingFilters($query, $filters);
+
+        return $query->latest('recorded_at')->latest('id')->get()->map(function (StockMovement $movement): array {
+            $assignment = $movement->paceAssignment;
+            $enrollment = $assignment->studentCourse->enrollment;
+            $student = $enrollment->student;
+
+            return [
+                'movement_id' => $movement->id,
+                'assignment_id' => $assignment->id,
+                'student_id' => $student->id,
+                'admission_number' => $student->admission_number,
+                'student' => $student->full_name,
+                'learning_center_id' => $enrollment->learning_center_id,
+                'learning_center' => $enrollment->learning_center_id === null
+                    ? 'Unassigned'
+                    : $enrollment->learningCenter->name,
+                'level' => $enrollment->level->name,
+                'course' => $assignment->studentCourse->course->name,
+                'pace' => $assignment->pace->number,
+                'pace_title' => $assignment->pace->title,
+                'quantity' => abs($movement->quantity),
+                'issued_date' => $movement->recorded_at->toDateString(),
+                'issued_time' => $movement->recorded_at->format('g:i A'),
+                'issued_at' => $movement->recorded_at->toIso8601String(),
+                'academic_year' => $movement->academicYear?->name,
+                'term' => $movement->term?->name,
+                'issued_by' => $movement->recordedBy->name,
+                'status' => $movement->correction === null ? 'Issued' : 'Reversed',
+                'reference' => $movement->reference,
+            ];
+        })->values();
     }
 
     /** @param array<string, mixed> $filters
@@ -280,6 +342,31 @@ class ReportDataService
             ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('assigned_at', '<=', $date));
     }
 
+    /** @param Builder<StockMovement> $query
+     * @param  array<string, mixed>  $filters
+     */
+    private function applyIssuingFilters($query, array $filters): void
+    {
+        $query->where('type', StockMovementType::Issue)
+            ->whereNotNull('pace_assignment_id')
+            ->when($filters['academic_year_id'] ?? null, fn ($query, $id) => $query->where('academic_year_id', $id))
+            ->when($filters['term_id'] ?? null, fn ($query, $id) => $query->where('term_id', $id))
+            ->when($filters['learning_center_id'] ?? null, fn ($query, $id) => $query->whereHas(
+                'paceAssignment.studentCourse.enrollment',
+                fn ($query) => $query->where('learning_center_id', $id),
+            ))
+            ->when($filters['level_id'] ?? null, fn ($query, $id) => $query->whereHas(
+                'paceAssignment.studentCourse.enrollment',
+                fn ($query) => $query->where('level_id', $id),
+            ))
+            ->when($filters['course_id'] ?? null, fn ($query, $id) => $query->whereHas(
+                'paceAssignment.studentCourse',
+                fn ($query) => $query->where('course_id', $id),
+            ))
+            ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('recorded_at', '>=', $date))
+            ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('recorded_at', '<=', $date));
+    }
+
     /** @param array<string, mixed> $filters */
     private function studentCourseCount(array $filters): int
     {
@@ -317,6 +404,15 @@ class ReportDataService
     }
 
     /** @param array<string, mixed> $filters */
+    private function issuingCount(array $filters): int
+    {
+        $query = StockMovement::query();
+        $this->applyIssuingFilters($query, $filters);
+
+        return $query->count();
+    }
+
+    /** @param array<string, mixed> $filters */
     private function inventoryCount(array $filters): int
     {
         $balanceSql = '(SELECT COALESCE(SUM(quantity), 0) FROM stock_movements WHERE stock_movements.inventory_item_id = inventory_items.id)';
@@ -347,6 +443,12 @@ class ReportDataService
                 'records' => $rows->count(), 'overdue' => $rows->where('overdue', true)->count(),
                 'awaiting_tests' => $rows->whereIn('status', ['Awaiting Self Test', 'Awaiting PACE Test'])->count(),
                 'failed' => $rows->where('status', 'Failed')->count(),
+            ],
+            ReportType::PaceIssuing => [
+                'records' => $rows->count(),
+                'copies_issued' => $rows->where('status', 'Issued')->sum('quantity'),
+                'students' => $rows->where('status', 'Issued')->pluck('student_id')->unique()->count(),
+                'reversed' => $rows->where('status', 'Reversed')->count(),
             ],
             ReportType::Inventory => [
                 'records' => $rows->count(), 'on_hand' => $rows->sum('on_hand'),

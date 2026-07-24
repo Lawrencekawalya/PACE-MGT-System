@@ -27,6 +27,7 @@ class StoreReportExportRequest extends FormRequest
             'academic_year_id' => ['nullable', 'integer', 'exists:academic_years,id'],
             'term_id' => ['nullable', 'integer', 'exists:terms,id'],
             'level_id' => ['nullable', 'integer', 'exists:levels,id'],
+            'learning_center_id' => ['nullable', 'integer', 'exists:learning_centers,id'],
             'course_id' => ['nullable', 'integer', 'exists:courses,id'],
             'student_status' => ['nullable', Rule::enum(StudentStatus::class)],
             'assignment_status' => ['nullable', Rule::enum(PaceAssignmentStatus::class)],

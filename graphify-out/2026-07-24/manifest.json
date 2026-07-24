@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebar.vue": {
-    "mtime": 1784880862.5843298,
-    "ast_hash": "a842aa25d53828f64217add8d9dd27b8",
+    "mtime": 1784888850.5814018,
+    "ast_hash": "9e1b0c9e5f9f286714d0a092bfb38918",
     "semantic_hash": ""
   },
   "resources/js/components/AppSidebarHeader.vue": {
@@ -1230,8 +1230,8 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1784881172.316582,
-    "ast_hash": "346a4ac7812852f83ffd72c34c18003f",
+    "mtime": 1784888923.0193026,
+    "ast_hash": "e2f0890b92e5b6cd74bff6fba3b3d4dd",
     "semantic_hash": ""
   },
   "tests/Feature/Auth/AuthenticationTest.php": {
@@ -2110,8 +2110,8 @@
     "semantic_hash": ""
   },
   "app/Services/PaceIssueService.php": {
-    "mtime": 1784739442.2216036,
-    "ast_hash": "c544d3317ae43969a09a891ded9ef18e",
+    "mtime": 1784888697.4019566,
+    "ast_hash": "765f99ef8ef9aaa4c9b7317d5881d2c2",
     "semantic_hash": ""
   },
   "database/factories/PaceAssignmentFactory.php": {
@@ -2370,8 +2370,8 @@
     "semantic_hash": ""
   },
   "app/Models/InventoryItem.php": {
-    "mtime": 1784751715.2502902,
-    "ast_hash": "b3574174af13c8fa42a7125bc8b84ce0",
+    "mtime": 1784889041.2347114,
+    "ast_hash": "52283ddeae5f67916030bd6896bd523a",
     "semantic_hash": ""
   },
   "app/Models/ReportExport.php": {
@@ -2762,6 +2762,26 @@
   "database/migrations/2026_07_24_122225_rename_storekeeper_role_to_pace_officer.php": {
     "mtime": 1784884998.6203513,
     "ast_hash": "c467a6d20daca24d1d106871169b0a6e",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/PaceIssuingController.php": {
+    "mtime": 1784889112.3554537,
+    "ast_hash": "4c2216877ce6110b12f9fa161794bbb7",
+    "semantic_hash": ""
+  },
+  "app/Http/Requests/IssuePacesRequest.php": {
+    "mtime": 1784888697.2859569,
+    "ast_hash": "26e5e513801da9614978352e33f02e47",
+    "semantic_hash": ""
+  },
+  "resources/js/pages/pace-issuing/Index.vue": {
+    "mtime": 1784888978.2769592,
+    "ast_hash": "3b17969c57eb3cf0ce6a114143f1fdd8",
+    "semantic_hash": ""
+  },
+  "tests/Feature/PaceIssuingTest.php": {
+    "mtime": 1784889112.4704533,
+    "ast_hash": "db7afaaa5805740705d8b60231d80ebb",
     "semantic_hash": ""
   }
 }

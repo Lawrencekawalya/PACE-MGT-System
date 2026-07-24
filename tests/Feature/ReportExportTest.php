@@ -41,6 +41,40 @@ test('normal filtered report export is generated and downloaded immediately', fu
     Queue::assertNothingPushed();
 });
 
+test('filtered PACE issuing report is exported and downloaded immediately', function () {
+    Queue::fake();
+    $fixture = createIssuingReportFixture();
+
+    $response = $this->actingAs($fixture['officer'])
+        ->withHeader('X-Inertia', 'true')
+        ->post(route('report-exports.store'), [
+            'report_type' => 'pace_issuing',
+            'format' => 'csv',
+            'learning_center_id' => $fixture['enrollment']->learning_center_id,
+            'date_from' => '2026-07-15',
+            'date_to' => '2026-07-15',
+        ]);
+
+    $export = ReportExport::query()->sole();
+    $response->assertStatus(409)
+        ->assertHeader('X-Inertia-Location', route('report-exports.download', $export));
+    expect($export->status)->toBe(ReportExportStatus::Completed)
+        ->and($export->row_count)->toBe(1)
+        ->and($export->filters)->toMatchArray([
+            'learning_center_id' => $fixture['enrollment']->learning_center_id,
+            'date_from' => '2026-07-15',
+            'date_to' => '2026-07-15',
+        ]);
+    $contents = Storage::disk('local')->get($export->path);
+    expect($contents)
+        ->toContain('Admission number')
+        ->toContain('Learning centre')
+        ->toContain('Issue date')
+        ->toContain('FICA-0001')
+        ->toContain($fixture['officer']->name);
+    Queue::assertNothingPushed();
+});
+
 test('report above the configured row threshold is queued', function () {
     Queue::fake();
     config(['reports.queue_threshold' => 0]);

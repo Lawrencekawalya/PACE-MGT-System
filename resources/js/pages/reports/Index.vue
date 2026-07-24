@@ -27,6 +27,7 @@ type Filters = {
     academic_year_id?: number | null;
     term_id?: number | null;
     level_id?: number | null;
+    learning_center_id?: number | null;
     course_id?: number | null;
     student_status?: string;
     assignment_status?: string;
@@ -52,6 +53,7 @@ const props = defineProps<{
             terms: Array<{ id: number; name: string }>;
         }>;
         levels: Array<{ id: number; name: string }>;
+        learningCenters: Array<{ id: number; name: string }>;
         courses: Array<{ id: number; name: string }>;
         studentStatuses: Array<{ value: string; label: string }>;
         assignmentStatuses: Array<{ value: string; label: string }>;
@@ -63,6 +65,7 @@ const filters = reactive({
     academic_year_id: props.filters.academic_year_id?.toString() ?? '',
     term_id: props.filters.term_id?.toString() ?? '',
     level_id: props.filters.level_id?.toString() ?? '',
+    learning_center_id: props.filters.learning_center_id?.toString() ?? '',
     course_id: props.filters.course_id?.toString() ?? '',
     student_status: props.filters.student_status ?? '',
     assignment_status: props.filters.assignment_status ?? '',
@@ -114,7 +117,8 @@ function statusVariant(
     if (
         status === 'pending' ||
         status === 'processing' ||
-        status === 'Low stock'
+        status === 'Low stock' ||
+        status === 'Reversed'
     ) {
         return 'secondary';
     }
@@ -215,6 +219,20 @@ defineOptions({
                     :value="level.id"
                 >
                     {{ level.name }}
+                </option>
+            </select>
+            <select
+                v-if="reportType === 'pace_issuing'"
+                v-model="filters.learning_center_id"
+                class="h-9 rounded-md border bg-transparent px-3 text-sm"
+            >
+                <option value="">All learning centres</option>
+                <option
+                    v-for="center in options.learningCenters"
+                    :key="center.id"
+                    :value="center.id"
+                >
+                    {{ center.name }}
                 </option>
             </select>
             <select
@@ -379,6 +397,14 @@ defineOptions({
                         <th class="px-3 py-2">Waiting since</th>
                         <th class="px-3 py-2 text-right">Age</th>
                     </tr>
+                    <tr v-else-if="reportType === 'pace_issuing'">
+                        <th class="px-3 py-2">Student</th>
+                        <th class="px-3 py-2">Learning centre / level</th>
+                        <th class="px-3 py-2">Course / PACE</th>
+                        <th class="px-3 py-2 text-right">Quantity</th>
+                        <th class="px-3 py-2">Issued</th>
+                        <th class="px-3 py-2">PACE Officer</th>
+                    </tr>
                     <tr v-else>
                         <th class="px-3 py-2">Item</th>
                         <th class="px-3 py-2">Course / PACE</th>
@@ -520,6 +546,63 @@ defineOptions({
                                     "
                                     >{{ row.age_days }} days</Badge
                                 >
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else-if="reportType === 'pace_issuing'">
+                        <tr v-for="row in rows.data" :key="row.movement_id">
+                            <td class="px-3 py-3">
+                                <Link
+                                    class="font-medium hover:underline"
+                                    :href="showStudent(row.student_id)"
+                                >
+                                    {{ row.student }}
+                                </Link>
+                                <div
+                                    class="font-mono text-xs text-muted-foreground"
+                                >
+                                    {{ row.admission_number }}
+                                </div>
+                            </td>
+                            <td class="px-3 py-3">
+                                {{ row.learning_center }}
+                                <div class="text-xs text-muted-foreground">
+                                    {{ row.level }}
+                                </div>
+                            </td>
+                            <td class="px-3 py-3">
+                                <Link
+                                    class="hover:underline"
+                                    :href="showAssignment(row.assignment_id)"
+                                >
+                                    {{ row.course }} · PACE {{ row.pace }}
+                                </Link>
+                                <div
+                                    class="max-w-72 truncate text-xs text-muted-foreground"
+                                >
+                                    {{ row.pace_title || row.reference }}
+                                </div>
+                            </td>
+                            <td
+                                class="px-3 py-3 text-right font-mono font-semibold"
+                            >
+                                {{ row.quantity }}
+                            </td>
+                            <td class="px-3 py-3">
+                                {{ new Date(row.issued_at).toLocaleString() }}
+                                <div class="mt-1">
+                                    <Badge :variant="statusVariant(row.status)">
+                                        {{ row.status }}
+                                    </Badge>
+                                </div>
+                            </td>
+                            <td class="px-3 py-3">
+                                {{ row.issued_by }}
+                                <div
+                                    class="font-mono text-xs text-muted-foreground"
+                                >
+                                    {{ row.reference }}
+                                </div>
                             </td>
                         </tr>
                     </template>

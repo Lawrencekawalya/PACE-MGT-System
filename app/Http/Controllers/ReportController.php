@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
 use App\Models\Course;
+use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\ReportExport;
 use App\PaceAssignmentStatus;
@@ -30,6 +31,7 @@ class ReportController extends Controller
             'academic_year_id' => ['nullable', 'integer', 'exists:academic_years,id'],
             'term_id' => ['nullable', 'integer', 'exists:terms,id'],
             'level_id' => ['nullable', 'integer', 'exists:levels,id'],
+            'learning_center_id' => ['nullable', 'integer', 'exists:learning_centers,id'],
             'course_id' => ['nullable', 'integer', 'exists:courses,id'],
             'student_status' => ['nullable', Rule::enum(StudentStatus::class)],
             'assignment_status' => ['nullable', Rule::enum(PaceAssignmentStatus::class)],
@@ -63,6 +65,7 @@ class ReportController extends Controller
             'options' => [
                 'academicYears' => AcademicYear::query()->with('terms:id,academic_year_id,name')->latest('starts_on')->get(['id', 'name']),
                 'levels' => Level::query()->where('is_active', true)->orderBy('sort_order')->get(['id', 'name']),
+                'learningCenters' => LearningCenter::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
                 'courses' => Course::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
                 'studentStatuses' => collect(StudentStatus::cases())->map(fn ($status) => ['value' => $status->value, 'label' => $status->label()]),
                 'assignmentStatuses' => collect(PaceAssignmentStatus::cases())->map(fn ($status) => ['value' => $status->value, 'label' => $status->label()]),

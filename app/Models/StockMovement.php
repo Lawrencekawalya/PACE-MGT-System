@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -62,6 +63,12 @@ class StockMovement extends Model
     public function correctsMovement(): BelongsTo
     {
         return $this->belongsTo(self::class, 'corrects_movement_id');
+    }
+
+    /** @return HasOne<StockMovement, $this> */
+    public function correction(): HasOne
+    {
+        return $this->hasOne(self::class, 'corrects_movement_id');
     }
 
     protected function casts(): array

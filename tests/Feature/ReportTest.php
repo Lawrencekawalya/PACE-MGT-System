@@ -1,9 +1,12 @@
 <?php
 
 use App\Models\InventoryItem;
+use App\Models\PaceAssignment;
+use App\Models\StockMovement;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
+use App\PaceAssignmentStatus;
 use App\ReportType;
 use App\RoleName;
 use App\Services\ReportDataService;
@@ -87,6 +90,85 @@ test('inventory report reconciles balances and period movements', function () {
         ->where('rows.data.0.on_hand', 4)
         ->where('rows.data.0.received', 5)
         ->where('rows.data.0.stock_status', 'Low stock'));
+});
+
+test('PACE issuing report applies inclusive date and learning centre filters', function () {
+    $fixture = createIssuingReportFixture();
+    $olderAssignment = PaceAssignment::factory()->create([
+        'student_course_id' => $fixture['studentCourse']->id,
+        'pace_id' => $fixture['paces'][2]->id,
+        'academic_year_id' => $fixture['year']->id,
+        'term_id' => $fixture['term']->id,
+        'status' => PaceAssignmentStatus::InProgress,
+        'assigned_by' => $fixture['teacher']->id,
+        'assigned_at' => now()->setDate(2026, 7, 1),
+        'issued_by' => $fixture['officer']->id,
+        'issued_at' => now()->setDate(2026, 7, 5),
+    ]);
+    $olderItem = InventoryItem::query()->where('pace_id', $fixture['paces'][2]->id)->sole();
+    StockMovement::factory()->create([
+        'inventory_item_id' => $olderItem->id,
+        'type' => StockMovementType::Issue,
+        'quantity' => -1,
+        'balance_after' => 0,
+        'student_id' => $fixture['student']->id,
+        'pace_assignment_id' => $olderAssignment->id,
+        'academic_year_id' => $fixture['year']->id,
+        'term_id' => $fixture['term']->id,
+        'reference' => "ISSUE-{$olderAssignment->id}",
+        'recorded_by' => $fixture['officer']->id,
+        'recorded_at' => now()->setDate(2026, 7, 5),
+    ]);
+
+    $this->actingAs($fixture['officer'])->get(route('reports.index', [
+        'report_type' => 'pace_issuing',
+        'learning_center_id' => $fixture['enrollment']->learning_center_id,
+        'date_from' => '2026-07-15',
+        'date_to' => '2026-07-15',
+    ]))->assertOk()->assertInertia(fn ($page) => $page
+        ->component('reports/Index')
+        ->where('reportType', 'pace_issuing')
+        ->where('summary.records', 1)
+        ->where('summary.copies_issued', 1)
+        ->where('summary.students', 1)
+        ->where('summary.reversed', 0)
+        ->where('rows.data.0.movement_id', $fixture['movement']->id)
+        ->where('rows.data.0.admission_number', 'FICA-0001')
+        ->where('rows.data.0.issued_date', '2026-07-15')
+        ->where('rows.data.0.issued_by', $fixture['officer']->name)
+        ->where('rows.data.0.status', 'Issued'));
+});
+
+test('PACE issuing report retains reversed issues and enforces inventory report permission', function () {
+    $fixture = createIssuingReportFixture();
+    StockMovement::factory()->create([
+        'inventory_item_id' => $fixture['item']->id,
+        'type' => StockMovementType::Correction,
+        'quantity' => 1,
+        'balance_after' => 1,
+        'student_id' => $fixture['student']->id,
+        'pace_assignment_id' => $fixture['active']->id,
+        'academic_year_id' => $fixture['year']->id,
+        'term_id' => $fixture['term']->id,
+        'reference' => "CORRECTION-{$fixture['movement']->id}",
+        'reason' => 'Issued to the wrong student.',
+        'recorded_by' => $fixture['officer']->id,
+        'recorded_at' => now()->setDate(2026, 7, 16),
+        'corrects_movement_id' => $fixture['movement']->id,
+    ]);
+
+    $this->actingAs($fixture['officer'])
+        ->get(route('reports.index', ['report_type' => 'pace_issuing']))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->where('summary.records', 1)
+            ->where('summary.copies_issued', 0)
+            ->where('summary.reversed', 1)
+            ->where('rows.data.0.status', 'Reversed'));
+
+    $this->actingAs($fixture['teacher'])
+        ->get(route('reports.index', ['report_type' => 'pace_issuing']))
+        ->assertForbidden();
 });
 
 test('student progress query count remains bounded as representative rows increase', function () {
