@@ -6,13 +6,20 @@ use Database\Factories\LevelFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'code', 'sort_order', 'is_active'])]
+#[Fillable(['learning_center_id', 'name', 'code', 'sort_order', 'is_active'])]
 class Level extends Model
 {
     /** @use HasFactory<LevelFactory> */
     use HasFactory;
+
+    /** @return BelongsTo<LearningCenter, $this> */
+    public function learningCenter(): BelongsTo
+    {
+        return $this->belongsTo(LearningCenter::class);
+    }
 
     /** @return HasMany<CurriculumRequirement, $this> */
     public function curriculumRequirements(): HasMany

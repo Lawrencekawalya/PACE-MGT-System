@@ -58,10 +58,10 @@ class User extends Authenticatable implements PasskeyUser
         return $this->belongsToMany(Permission::class, 'permission_user');
     }
 
-    /** @return HasMany<Student, $this> */
-    public function supervisedStudents(): HasMany
+    /** @return BelongsToMany<LearningCenter, $this> */
+    public function learningCenters(): BelongsToMany
     {
-        return $this->hasMany(Student::class, 'teacher_id');
+        return $this->belongsToMany(LearningCenter::class)->withTimestamps();
     }
 
     /** @return HasMany<Student, $this> */

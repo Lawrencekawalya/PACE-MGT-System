@@ -16,7 +16,7 @@ beforeEach(function () {
 
 test('storekeeper can view and adjust inventory while ordinary teacher cannot', function () {
     $item = InventoryItem::factory()->create();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $teacher = createStaffWithRole(RoleName::Teacher);
     $movement = ['type' => 'receipt', 'quantity' => 5, 'reference' => 'DEL-200'];
 
@@ -37,7 +37,7 @@ test('teacher with direct inventory permission can post stock movements', functi
 });
 
 test('a score key must be linked to one exact PACE', function () {
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $pace = Pace::factory()->create(['number' => '1008']);
     $data = [
         'item_type' => 'score_key', 'sku' => 'SK-MATH-1008',
@@ -59,7 +59,7 @@ test('a score key must be linked to one exact PACE', function () {
 });
 
 test('an unlinked score key can be repaired without losing its ledger balance', function () {
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $pace = Pace::factory()->create(['number' => '1008']);
     $item = InventoryItem::factory()->create(['sku' => 'PACE 1008', 'reorder_level' => 2]);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 20, 'DEL-REPAIR-001', null, $storekeeper);
@@ -75,7 +75,7 @@ test('an unlinked score key can be repaired without losing its ledger balance', 
 });
 
 test('an unidentified legacy score key can be deactivated without a false PACE link', function () {
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $item = InventoryItem::factory()->create(['sku' => 'UNKNOWN-1008']);
 
     $this->actingAs($storekeeper)->put(route('inventory-items.update', $item), [

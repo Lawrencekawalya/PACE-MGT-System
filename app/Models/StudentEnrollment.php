@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\EnrollmentStatus;
+use App\RoleName;
 use Database\Factories\StudentEnrollmentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $enrolled_on
  * @property EnrollmentStatus $status
  */
-#[Fillable(['student_id', 'academic_year_id', 'term_id', 'level_id', 'status', 'enrolled_on', 'decision_by', 'decision_at', 'decision_reason'])]
+#[Fillable(['student_id', 'learning_center_id', 'academic_year_id', 'term_id', 'level_id', 'status', 'enrolled_on', 'decision_by', 'decision_at', 'decision_reason'])]
 class StudentEnrollment extends Model
 {
     /** @use HasFactory<StudentEnrollmentFactory> */
@@ -25,6 +27,12 @@ class StudentEnrollment extends Model
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    /** @return BelongsTo<LearningCenter, $this> */
+    public function learningCenter(): BelongsTo
+    {
+        return $this->belongsTo(LearningCenter::class);
     }
 
     /** @return BelongsTo<AcademicYear, $this> */
@@ -55,6 +63,17 @@ class StudentEnrollment extends Model
     public function studentCourses(): HasMany
     {
         return $this->hasMany(StudentCourse::class);
+    }
+
+    public function isManagedBy(User $user): bool
+    {
+        if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
+            return $this->learningCenter()
+                ->whereHas('teachers', fn (Builder $query) => $query->whereKey($user->id))
+                ->exists();
+        }
+
+        return true;
     }
 
     protected function casts(): array

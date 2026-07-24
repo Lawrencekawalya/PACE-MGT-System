@@ -41,7 +41,7 @@ class ReportController extends Controller
             $filters['academic_year_id'] = AcademicYear::query()->where('is_active', true)->value('id');
         }
         if (! $type->isInventory() && $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator)) {
-            $filters['teacher_id'] = $request->user()->id;
+            $filters['learning_center_ids'] = $request->user()->learningCenters()->pluck('learning_centers.id')->all();
         }
         $result = $this->reports->data($type, $filters);
         $page = max(1, $request->integer('page', 1));

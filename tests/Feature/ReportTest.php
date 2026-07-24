@@ -62,7 +62,7 @@ test('pending report identifies overdue work and applies assignment filters', fu
 
 test('academic and inventory reports enforce their separate permissions', function () {
     $fixture = createReportFixture();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
 
     $this->actingAs($fixture['teacher'])->get(route('reports.index', ['report_type' => 'inventory']))->assertForbidden();
     $this->actingAs($storekeeper)->get(route('reports.index', ['report_type' => 'student_progress']))->assertForbidden();
@@ -71,7 +71,7 @@ test('academic and inventory reports enforce their separate permissions', functi
 
 test('inventory report reconciles balances and period movements', function () {
     $fixture = createReportFixture();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $item = InventoryItem::query()->where('pace_id', $fixture['paces'][0]->id)->sole();
     $item->update(['reorder_level' => 4]);
     $ledger = app(StockLedgerService::class);

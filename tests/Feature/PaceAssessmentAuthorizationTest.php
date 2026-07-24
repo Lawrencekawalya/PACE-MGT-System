@@ -13,7 +13,7 @@ beforeEach(function () {
 
 test('teacher records results while storekeeper cannot access assessments', function () {
     $fixture = assessmentFixture();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $data = ['assessment_type' => 'self_test', 'score' => 80];
 
     $this->actingAs($storekeeper)->get(route('assessments.index'))->assertForbidden();

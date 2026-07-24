@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CatalogueImportController;
 use App\Http\Controllers\Admin\CatalogueSetupController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\CurriculumController;
+use App\Http\Controllers\Admin\LearningCenterController;
 use App\Http\Controllers\Admin\LevelController;
 use App\Http\Controllers\Admin\PaceController;
 use App\Http\Controllers\Admin\SchoolSettingController;
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('academic-years/{academic_year}', [AcademicPeriodController::class, 'update'])->name('academic-years.update');
         Route::post('academic-years/{academic_year}/terms', [TermController::class, 'store'])->name('academic-years.terms.store');
         Route::put('academic-years/{academic_year}/terms/{term}', [TermController::class, 'update'])->name('academic-years.terms.update');
+        Route::resource('learning-centers', LearningCenterController::class)->only(['index', 'store', 'update']);
 
         Route::get('catalogue-setup', CatalogueSetupController::class)->name('catalogue-setup.index');
         Route::resource('levels', LevelController::class)->only(['store', 'update']);

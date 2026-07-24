@@ -23,7 +23,7 @@ test('teacher dashboard shows academic metrics and overdue queue only', function
 
 test('storekeeper dashboard shows inventory metrics but no academic data', function () {
     createReportFixture();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
 
     $this->actingAs($storekeeper)->get(route('dashboard'))->assertOk()
         ->assertInertia(fn ($page) => $page

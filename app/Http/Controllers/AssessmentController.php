@@ -35,7 +35,10 @@ class AssessmentController extends Controller
             ->where('status', RetryApprovalStatus::Pending)
             ->when(
                 $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator),
-                fn ($query) => $query->whereHas('assignment.studentCourse.enrollment.student', fn ($query) => $query->where('teacher_id', $request->user()->id)),
+                fn ($query) => $query->whereHas(
+                    'assignment.studentCourse.enrollment.learningCenter.teachers',
+                    fn ($query) => $query->whereKey($request->user()->id),
+                ),
             )
             ->oldest('requested_at')->get();
 

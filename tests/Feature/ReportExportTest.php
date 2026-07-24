@@ -113,7 +113,7 @@ test('expired report files and records are pruned', function () {
 });
 
 test('storekeeper cannot export an academic report', function () {
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
 
     $this->actingAs($storekeeper)->post(route('report-exports.store'), [
         'report_type' => 'student_progress', 'format' => 'csv',

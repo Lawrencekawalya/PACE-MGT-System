@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\EnrollmentStatus;
 use App\InventoryItemType;
 use App\Models\AcademicYear;
 use App\Models\CatalogueImport;
 use App\Models\InventoryItem;
+use App\Models\LearningCenter;
+use App\Models\Level;
 use App\Models\Pace;
-use App\Models\Student;
+use App\Models\StudentEnrollment;
 use App\Models\Term;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +39,13 @@ class SystemHealthService
     {
         $activeYears = AcademicYear::query()->where('is_active', true)->count();
         $activeTerms = Term::query()->where('is_active', true)->count();
-        $unassignedStudents = Student::query()->whereNull('teacher_id')->count();
+        $unassignedLevels = Level::query()->where('is_active', true)->whereNull('learning_center_id')->count();
+        $centersWithoutTeachers = LearningCenter::query()->where('is_active', true)->whereDoesntHave('teachers')->count();
+        $unassignedEnrollments = StudentEnrollment::query()
+            ->where('status', EnrollmentStatus::Active)
+            ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
+            ->whereNull('learning_center_id')
+            ->count();
         $paceCount = Pace::query()->where('is_active', true)->count();
         $missingInventory = Pace::query()->where('is_active', true)
             ->whereDoesntHave('inventoryItems', fn ($query) => $query->where('item_type', InventoryItemType::PaceBooklet))
@@ -46,7 +55,12 @@ class SystemHealthService
         return [
             $this->releaseCheck('academic_year', 'Active academic year', $activeYears === 1, "{$activeYears} active"),
             $this->releaseCheck('term', 'Active academic term', $activeTerms === 1, "{$activeTerms} active"),
-            $this->releaseCheck('student_ownership', 'Student teacher ownership', $unassignedStudents === 0, "{$unassignedStudents} unassigned"),
+            $this->releaseCheck(
+                'learning_center_ownership',
+                'Learning center ownership',
+                $unassignedLevels === 0 && $centersWithoutTeachers === 0 && $unassignedEnrollments === 0,
+                "{$unassignedLevels} unassigned grade(s), {$centersWithoutTeachers} center(s) without teachers, {$unassignedEnrollments} unassigned enrollment(s)",
+            ),
             $this->releaseCheck('catalogue', 'Committed PACE catalogue', $committedImports > 0 && $paceCount > 0, "{$committedImports} import(s), {$paceCount} active PACEs"),
             $this->releaseCheck('inventory_coverage', 'PACE inventory coverage', $missingInventory === 0 && InventoryItem::query()->exists(), "{$missingInventory} active PACEs missing inventory"),
         ];

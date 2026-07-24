@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Models\AcademicYear;
 use App\Models\Level;
 use App\Models\Student;
-use App\Models\User;
 use App\RoleName;
 use App\Services\ActivityLogger;
 use App\Services\PaceAssignmentService;
@@ -36,7 +35,7 @@ class StudentController extends Controller
 
         $students = Student::query()
             ->visibleTo($request->user())
-            ->with(['teacher:id,name', 'enrollments' => fn ($query) => $query->with(['academicYear:id,name', 'level:id,name'])->latest('enrolled_on')])
+            ->with(['enrollments' => fn ($query) => $query->with(['academicYear:id,name', 'level:id,name', 'learningCenter:id,name'])->latest('enrolled_on')])
             ->when($filters['search'], fn ($query, $search) => $query->where(fn ($query) => $query
                 ->where('admission_number', 'like', "%{$search}%")
                 ->orWhere('first_name', 'like', "%{$search}%")
@@ -64,26 +63,30 @@ class StudentController extends Controller
         Gate::authorize('create', Student::class);
 
         return Inertia::render('students/Create', [
-            'teachers' => $this->teacherOptions($request->user()),
-            'canAssignTeacher' => $request->user()->hasRole(RoleName::Administrator),
+            'grades' => $this->gradeOptions($request),
         ]);
     }
 
     public function store(StoreStudentRequest $request): RedirectResponse
     {
         $student = $this->students->create($request->validated(), $request->user());
-        $this->activityLogger->record($request->user(), 'student.created', $student, newValues: $student->only(['admission_number', 'teacher_id', 'registered_by', 'first_name', 'last_name', 'guardian_name', 'status']));
+        $enrollment = $student->activeEnrollment;
+        $this->activityLogger->record($request->user(), 'student.created', $student, newValues: [
+            ...$student->only(['admission_number', 'registered_by', 'first_name', 'last_name', 'guardian_name', 'status']),
+            'level_id' => $enrollment?->level_id,
+            'learning_center_id' => $enrollment?->learning_center_id,
+        ]);
         Inertia::flash('toast', ['type' => 'success', 'message' => "Student {$student->admission_number} registered. Continue with enrolment."]);
 
-        return redirect()->route('students.enrollments.create', $student);
+        return redirect()->route('students.enrollments.edit', [$student, $enrollment]);
     }
 
     public function show(Request $request, Student $student): Response
     {
         Gate::authorize('view', $student);
-        $student->load(['teacher:id,name', 'registeredBy:id,name', 'enrollments' => fn ($query) => $query
+        $student->load(['registeredBy:id,name', 'enrollments' => fn ($query) => $query
             ->with([
-                'academicYear:id,name', 'term:id,name', 'level:id,name',
+                'academicYear:id,name', 'term:id,name', 'level:id,name', 'learningCenter:id,name',
                 'studentCourses.course.subject:id,name', 'studentCourses.startingPace:id,number',
                 'studentCourses.currentPace:id,number', 'studentCourses.assignedBy:id,name',
                 'studentCourses.paceAssignments.pace:id,course_id,number,title',
@@ -113,17 +116,14 @@ class StudentController extends Controller
         return Inertia::render('students/Edit', [
             'student' => [
                 ...$student->only(['id', 'admission_number', 'first_name', 'last_name', 'other_names', 'gender', 'guardian_name', 'guardian_phone', 'guardian_email', 'notes']),
-                'teacher_id' => $student->teacher_id,
                 'date_of_birth' => $student->date_of_birth?->toDateString(),
             ],
-            'teachers' => $this->teacherOptions($request->user()),
-            'canAssignTeacher' => $request->user()->hasRole(RoleName::Administrator),
         ]);
     }
 
     public function update(UpdateStudentRequest $request, Student $student): RedirectResponse
     {
-        $old = $student->only(['teacher_id', 'first_name', 'last_name', 'other_names', 'date_of_birth', 'gender', 'guardian_name', 'guardian_phone', 'guardian_email', 'notes']);
+        $old = $student->only(['first_name', 'last_name', 'other_names', 'date_of_birth', 'gender', 'guardian_name', 'guardian_phone', 'guardian_email', 'notes']);
         $student->update($request->validated());
         $this->activityLogger->record($request->user(), 'student.updated', $student, $old, $student->only(array_keys($old)));
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Student profile updated.']);
@@ -131,17 +131,18 @@ class StudentController extends Controller
         return redirect()->route('students.show', $student);
     }
 
-    /** @return Collection<int, User> */
-    private function teacherOptions(User $user): Collection
+    /** @return Collection<int, Level> */
+    private function gradeOptions(Request $request): Collection
     {
-        if (! $user->hasRole(RoleName::Administrator)) {
-            return collect();
-        }
-
-        return User::query()
+        return Level::query()
             ->where('is_active', true)
-            ->whereHas('roles', fn ($query) => $query->where('name', RoleName::Teacher->value))
-            ->orderBy('name')
-            ->get(['id', 'name']);
+            ->whereHas('learningCenter', fn ($query) => $query->where('is_active', true))
+            ->when(
+                $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator),
+                fn ($query) => $query->whereHas('learningCenter.teachers', fn ($query) => $query->whereKey($request->user()->id)),
+            )
+            ->with('learningCenter:id,name')
+            ->orderBy('sort_order')
+            ->get(['id', 'name', 'learning_center_id']);
     }
 }

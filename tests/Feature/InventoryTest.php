@@ -37,7 +37,7 @@ function inventoryAssignmentFixture(): array
         'starting_pace_id' => $pace->id, 'current_pace_id' => $pace->id,
     ]);
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $assignment = app(PaceAssignmentService::class)->assign($studentCourse, $pace, $teacher);
     $item = InventoryItem::query()->where('pace_id', $pace->id)->sole();
 
@@ -46,7 +46,7 @@ function inventoryAssignmentFixture(): array
 
 test('all manual movement types calculate a reconciled balance', function () {
     $item = InventoryItem::factory()->create();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $stock = app(StockLedgerService::class);
 
     expect($stock->postManual($item, StockMovementType::Receipt, 10, 'DEL-100', null, $storekeeper)->balance_after)->toBe(10)
@@ -59,7 +59,7 @@ test('all manual movement types calculate a reconciled balance', function () {
 
 test('negative stock and zero movements are rejected', function () {
     $item = InventoryItem::factory()->create();
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $stock = app(StockLedgerService::class);
 
     expect(fn () => $stock->postManual($item, StockMovementType::Loss, 1, null, 'Missing.', $storekeeper))
@@ -162,7 +162,7 @@ test('posted movements cannot be edited or deleted', function () {
 });
 
 test('inventory low stock filter uses current ledger balance and reorder level', function () {
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $item = InventoryItem::factory()->create(['reorder_level' => 3]);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 2, 'DEL-106', null, $storekeeper);
 

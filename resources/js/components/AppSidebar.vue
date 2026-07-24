@@ -5,6 +5,7 @@ import {
     ClipboardCheck,
     FileSpreadsheet,
     GraduationCap,
+    LandPlot,
     LayoutDashboard,
     Library,
     ListChecks,
@@ -35,6 +36,7 @@ import { index as academicPeriodsIndex } from '@/routes/admin/academic-periods';
 import { index as catalogueImportsIndex } from '@/routes/admin/catalogue-imports';
 import { index as catalogueSetupIndex } from '@/routes/admin/catalogue-setup';
 import { index as curriculumIndex } from '@/routes/admin/curriculum';
+import { index as learningCentersIndex } from '@/routes/admin/learning-centers';
 import { index as pacesIndex } from '@/routes/admin/paces';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
@@ -123,6 +125,11 @@ const mainNavItems = computed<NavItem[]>(() => {
     }
 
     if (page.props.auth.permissions.includes('manage-academic-setup')) {
+        items.push({
+            title: 'Learning centers',
+            href: learningCentersIndex(),
+            icon: LandPlot,
+        });
         items.push({
             title: 'Academic periods',
             href: academicPeriodsIndex(),

@@ -91,7 +91,7 @@ class PaceAssignment extends Model
     public function scopeVisibleTo(Builder $query, User $user): void
     {
         if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
-            $query->whereHas('studentCourse.enrollment.student', fn (Builder $query) => $query->where('teacher_id', $user->id));
+            $query->whereHas('studentCourse.enrollment.learningCenter.teachers', fn (Builder $query) => $query->whereKey($user->id));
         }
     }
 

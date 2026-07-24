@@ -34,11 +34,19 @@ class StudentFactory extends Factory
         ];
     }
 
-    public function supervisedBy(User $teacher): static
+    public function registeredBy(User $user): static
     {
         return $this->state(fn (): array => [
-            'teacher_id' => $teacher->id,
-            'registered_by' => $teacher->id,
+            'registered_by' => $user->id,
         ]);
+    }
+
+    /**
+     * Backward-compatible fixture alias. Supervision is established through
+     * the student's enrollment learning center, not a student column.
+     */
+    public function supervisedBy(User $teacher): static
+    {
+        return $this->registeredBy($teacher);
     }
 }

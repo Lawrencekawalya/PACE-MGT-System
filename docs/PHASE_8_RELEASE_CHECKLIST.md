@@ -25,7 +25,7 @@
 
 - [ ] Administrator scenario passes.
 - [ ] Teacher scenario passes.
-- [ ] Storekeeper scenario passes.
+- [ ] PACE Officer scenario passes.
 - [ ] Desktop, tablet, mobile, keyboard, focus, labels, contrast, and dialog checks pass.
 - [ ] No critical or high-severity defect remains open.
 - [ ] Deployment rollback evidence is attached.

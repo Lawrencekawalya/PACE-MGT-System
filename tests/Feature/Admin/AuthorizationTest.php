@@ -12,7 +12,7 @@ beforeEach(function () {
 
 test('approved role permission matrix is seeded', function () {
     $teacher = Role::query()->where('name', RoleName::Teacher->value)->with('permissions')->sole();
-    $storekeeper = Role::query()->where('name', RoleName::Storekeeper->value)->with('permissions')->sole();
+    $paceOfficer = Role::query()->where('name', RoleName::PaceOfficer->value)->with('permissions')->sole();
 
     expect($teacher->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
         PermissionName::RegisterStudents,
@@ -22,7 +22,8 @@ test('approved role permission matrix is seeded', function () {
         PermissionName::ViewAcademicReports,
         PermissionName::ViewPaceCatalogue,
     ])->map->value->sort()->values()->all())
-        ->and($storekeeper->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
+        ->and($paceOfficer->display_name)->toBe('PACE Officer')
+        ->and($paceOfficer->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
             PermissionName::IssuePaces,
             PermissionName::AdjustInventory,
             PermissionName::ViewInventoryReports,
@@ -30,14 +31,14 @@ test('approved role permission matrix is seeded', function () {
         ])->map->value->sort()->values()->all());
 });
 
-test('teachers and storekeepers cannot manage administration screens', function (RoleName $role) {
+test('teachers and PACE Officers cannot manage administration screens', function (RoleName $role) {
     $staff = createStaffWithRole($role);
 
     $this->actingAs($staff)->get(route('admin.staff.index'))->assertForbidden();
     $this->actingAs($staff)->get(route('admin.school-settings.edit'))->assertForbidden();
 })->with([
     'teacher' => RoleName::Teacher,
-    'storekeeper' => RoleName::Storekeeper,
+    'pace officer' => RoleName::PaceOfficer,
 ]);
 
 test('optional inventory permission can be assigned directly to a teacher', function () {

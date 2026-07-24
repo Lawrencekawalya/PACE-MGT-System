@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { show } from '@/routes/students';
 type Student = {
     id: number;
-    teacher_id: number | null;
     admission_number: string;
     first_name: string;
     last_name: string;
@@ -20,12 +19,7 @@ type Student = {
     guardian_email: string | null;
     notes: string | null;
 };
-type Teacher = { id: number; name: string };
-defineProps<{
-    student: Student;
-    teachers: Teacher[];
-    canAssignTeacher: boolean;
-}>();
+defineProps<{ student: Student }>();
 defineOptions({
     layout: {
         breadcrumbs: [
@@ -49,12 +43,7 @@ defineOptions({
             v-bind="StudentController.update.form(student.id)"
             class="space-y-8"
             v-slot="{ errors, processing }"
-            ><StudentFields
-                :student="student"
-                :errors="errors"
-                :teachers="teachers"
-                :can-assign-teacher="canAssignTeacher"
-            />
+            ><StudentFields :student="student" :errors="errors" />
             <div class="flex justify-end border-t pt-5">
                 <Button type="submit" :disabled="processing"
                     ><Save class="size-4" />Save profile</Button

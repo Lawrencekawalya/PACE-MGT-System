@@ -9,6 +9,7 @@ use App\Models\Level;
 use App\Models\Student;
 use App\Models\StudentEnrollment;
 use App\PermissionName;
+use App\RoleName;
 use App\Services\ActivityLogger;
 use App\Services\StudentEnrollmentService;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +28,7 @@ class StudentEnrollmentController extends Controller
         Gate::authorize('update', $student);
 
         return Inertia::render('students/enrollments/Form', [
-            ...$this->formOptions(),
+            ...$this->formOptions($request),
             'student' => $student->only(['id', 'admission_number', 'first_name', 'last_name', 'other_names']),
             'enrollment' => null,
         ]);
@@ -50,7 +51,7 @@ class StudentEnrollmentController extends Controller
         $enrollment->load('studentCourses');
 
         return Inertia::render('students/enrollments/Form', [
-            ...$this->formOptions(),
+            ...$this->formOptions($request),
             'student' => $student->only(['id', 'admission_number', 'first_name', 'last_name', 'other_names']),
             'enrollment' => [
                 ...$enrollment->only(['id', 'academic_year_id', 'term_id', 'level_id']),
@@ -73,16 +74,24 @@ class StudentEnrollmentController extends Controller
     }
 
     /** @return array<string, mixed> */
-    private function formOptions(): array
+    private function formOptions(Request $request): array
     {
         return [
             'academicYears' => AcademicYear::query()->with(['terms' => fn ($query) => $query->where('is_closed', false)])->where('is_closed', false)->orderByDesc('starts_on')->get(),
-            'levels' => Level::query()->where('is_active', true)->with([
-                'curriculumRequirements' => fn ($query) => $query->where('is_active', true)->with([
-                    'course' => fn ($query) => $query->with(['subject:id,name', 'paces' => fn ($query) => $query->where('is_active', true)]),
-                    'paces' => fn ($query) => $query->where('is_active', true),
-                ]),
-            ])->orderBy('sort_order')->get(),
+            'levels' => Level::query()
+                ->where('is_active', true)
+                ->whereHas('learningCenter', fn ($query) => $query->where('is_active', true))
+                ->when(
+                    $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator),
+                    fn ($query) => $query->whereHas('learningCenter.teachers', fn ($query) => $query->whereKey($request->user()->id)),
+                )
+                ->with([
+                    'learningCenter:id,name',
+                    'curriculumRequirements' => fn ($query) => $query->where('is_active', true)->with([
+                        'course' => fn ($query) => $query->with(['subject:id,name', 'paces' => fn ($query) => $query->where('is_active', true)]),
+                        'paces' => fn ($query) => $query->where('is_active', true),
+                    ]),
+                ])->orderBy('sort_order')->get(),
             'courses' => Course::query()->where('is_active', true)->with(['subject:id,name', 'paces' => fn ($query) => $query->where('is_active', true)])->orderBy('name')->get(),
             'today' => now()->toDateString(),
         ];
@@ -91,13 +100,14 @@ class StudentEnrollmentController extends Controller
     private function ensureEnrollmentOwner(Student $student, StudentEnrollment $enrollment): void
     {
         abort_unless($enrollment->student_id === $student->id, 404);
+        abort_unless($enrollment->isManagedBy(request()->user()), 403);
     }
 
     /** @return array<string, mixed> */
     private function auditValues(StudentEnrollment $enrollment): array
     {
         return [
-            ...$enrollment->only(['student_id', 'academic_year_id', 'term_id', 'level_id', 'status', 'enrolled_on']),
+            ...$enrollment->only(['student_id', 'learning_center_id', 'academic_year_id', 'term_id', 'level_id', 'status', 'enrolled_on']),
             'courses' => $enrollment->studentCourses()->get(['course_id', 'starting_pace_id', 'current_pace_id', 'status'])->toArray(),
         ];
     }

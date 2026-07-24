@@ -6,14 +6,14 @@ enum RoleName: string
 {
     case Administrator = 'administrator';
     case Teacher = 'teacher';
-    case Storekeeper = 'storekeeper';
+    case PaceOfficer = 'pace_officer';
 
     public function label(): string
     {
         return match ($this) {
             self::Administrator => 'Administrator',
             self::Teacher => 'Teacher',
-            self::Storekeeper => 'Storekeeper',
+            self::PaceOfficer => 'PACE Officer',
         };
     }
 }

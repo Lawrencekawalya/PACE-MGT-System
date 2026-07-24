@@ -17,8 +17,9 @@ beforeEach(function () {
 test('teacher can assign but storekeeper cannot create academic assignments', function () {
     $fixture = paceAssignmentFixture();
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $fixture['student']->update(['teacher_id' => $teacher->id, 'registered_by' => $teacher->id]);
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $fixture['student']->update(['registered_by' => $teacher->id]);
+    $fixture['studentCourse']->enrollment->learningCenter->teachers()->attach($teacher);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $data = ['student_course_id' => $fixture['studentCourse']->id, 'pace_id' => $fixture['paces'][1]->id];
 
     $this->actingAs($storekeeper)->post(route('pace-assignments.store'), $data)->assertForbidden();
@@ -28,8 +29,9 @@ test('teacher can assign but storekeeper cannot create academic assignments', fu
 test('storekeeper can physically issue while teacher cannot', function () {
     $fixture = paceAssignmentFixture();
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $fixture['student']->update(['teacher_id' => $teacher->id, 'registered_by' => $teacher->id]);
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+    $fixture['student']->update(['registered_by' => $teacher->id]);
+    $fixture['studentCourse']->enrollment->learningCenter->teachers()->attach($teacher);
+    $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $assignment = app(PaceAssignmentService::class)->assign($fixture['studentCourse'], $fixture['paces'][1], $teacher);
     $item = InventoryItem::query()->where('pace_id', $fixture['paces'][1]->id)->sole();
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'AUTH-ISSUE-001', null, $storekeeper);

@@ -41,7 +41,7 @@ class AccessControlSeeder extends Seeder
                 PermissionName::ApproveRetests,
                 PermissionName::ViewAcademicReports,
             ],
-            RoleName::Storekeeper->value => [
+            RoleName::PaceOfficer->value => [
                 PermissionName::ViewPaceCatalogue,
                 PermissionName::IssuePaces,
                 PermissionName::AdjustInventory,

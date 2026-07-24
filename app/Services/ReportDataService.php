@@ -252,7 +252,10 @@ class ReportDataService
             ->when($filters['level_id'] ?? null, fn ($query, $id) => $query->whereHas('enrollment', fn ($query) => $query->where('level_id', $id)))
             ->when($filters['course_id'] ?? null, fn ($query, $id) => $query->where('course_id', $id))
             ->when($filters['student_status'] ?? null, fn ($query, $status) => $query->whereHas('enrollment.student', fn ($query) => $query->where('status', $status)))
-            ->when($filters['teacher_id'] ?? null, fn ($query, $teacherId) => $query->whereHas('enrollment.student', fn ($query) => $query->where('teacher_id', $teacherId)))
+            ->when(array_key_exists('learning_center_ids', $filters), fn ($query) => $query->whereHas(
+                'enrollment',
+                fn ($query) => $query->whereIn('learning_center_id', $filters['learning_center_ids']),
+            ))
             ->when($filters['assignment_status'] ?? null, fn ($query, $status) => $query->whereHas('paceAssignments', fn ($query) => $query->where('status', $status)))
             ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereHas('paceAssignments', fn ($query) => $query->whereDate('assigned_at', '>=', $date)))
             ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereHas('paceAssignments', fn ($query) => $query->whereDate('assigned_at', '<=', $date)));
@@ -268,7 +271,10 @@ class ReportDataService
             ->when($filters['level_id'] ?? null, fn ($query, $id) => $query->whereHas('studentCourse.enrollment', fn ($query) => $query->where('level_id', $id)))
             ->when($filters['course_id'] ?? null, fn ($query, $id) => $query->whereHas('studentCourse', fn ($query) => $query->where('course_id', $id)))
             ->when($filters['student_status'] ?? null, fn ($query, $status) => $query->whereHas('studentCourse.enrollment.student', fn ($query) => $query->where('status', $status)))
-            ->when($filters['teacher_id'] ?? null, fn ($query, $teacherId) => $query->whereHas('studentCourse.enrollment.student', fn ($query) => $query->where('teacher_id', $teacherId)))
+            ->when(array_key_exists('learning_center_ids', $filters), fn ($query) => $query->whereHas(
+                'studentCourse.enrollment',
+                fn ($query) => $query->whereIn('learning_center_id', $filters['learning_center_ids']),
+            ))
             ->when($filters['assignment_status'] ?? null, fn ($query, $status) => $query->where('status', $status))
             ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('assigned_at', '>=', $date))
             ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('assigned_at', '<=', $date));

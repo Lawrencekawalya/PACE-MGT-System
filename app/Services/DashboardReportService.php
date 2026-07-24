@@ -13,8 +13,6 @@ use App\RetryApprovalStatus;
 use App\RoleName;
 use App\StockMovementType;
 use App\StudentStatus;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class DashboardReportService
 {
@@ -40,13 +38,20 @@ class DashboardReportService
             'pace' => $assignment->pace->number,
             'status' => $assignment->status->label(),
         ]);
+        $pendingApprovals = PaceRetryApproval::query()->where('status', RetryApprovalStatus::Pending);
+        if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
+            $pendingApprovals->whereHas(
+                'assignment.studentCourse.enrollment.learningCenter.teachers',
+                fn ($query) => $query->whereKey($user->id),
+            );
+        }
 
         return [
             'metrics' => [
                 'active_students' => Student::query()->visibleTo($user)->where('status', StudentStatus::Active)->count(),
                 'active_assignments' => PaceAssignment::query()->visibleTo($user)->whereIn('status', collect(PaceAssignmentStatus::cases())->reject->isTerminal()->map->value)->count(),
                 'pending_tests' => PaceAssignment::query()->visibleTo($user)->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->count(),
-                'pending_approvals' => PaceRetryApproval::query()->where('status', RetryApprovalStatus::Pending)->whereHas('assignment.studentCourse.enrollment.student', fn ($query) => $this->scopeStudentTeacher($query, $user))->count(),
+                'pending_approvals' => $pendingApprovals->count(),
                 'completed_this_week' => PaceAssignment::query()->visibleTo($user)->where('status', PaceAssignmentStatus::Passed)->where('completed_at', '>=', now()->subDays(7))->count(),
                 'overdue' => (clone $overdue)->count(),
             ],
@@ -83,13 +88,5 @@ class DashboardReportService
             ],
             'queue' => $lowItems,
         ];
-    }
-
-    /** @param Builder<Model> $query */
-    private function scopeStudentTeacher(Builder $query, User $user): void
-    {
-        if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
-            $query->where('teacher_id', $user->id);
-        }
     }
 }

@@ -6,12 +6,14 @@ use App\EnrollmentStatus;
 use App\Models\AcademicYear;
 use App\Models\Course;
 use App\Models\CurriculumRequirement;
+use App\Models\Level;
 use App\Models\Pace;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Term;
 use App\Models\User;
+use App\RoleName;
 use App\StudentCourseStatus;
 use App\StudentStatus;
 use Carbon\CarbonImmutable;
@@ -30,6 +32,19 @@ class StudentEnrollmentService
         $yearId = $this->numericId($data['academic_year_id'] ?? null, 'academic_year_id');
         $termId = $this->numericId($data['term_id'] ?? null, 'term_id');
         $levelId = $this->numericId($data['level_id'] ?? null, 'level_id');
+        $level = Level::query()->with('learningCenter')->findOrFail($levelId);
+        if ($level->learningCenter === null || ! $level->learningCenter->is_active) {
+            throw ValidationException::withMessages([
+                'level_id' => 'The selected grade must belong to an active learning center.',
+            ]);
+        }
+
+        if ($actor->hasRole(RoleName::Teacher) && ! $actor->hasRole(RoleName::Administrator)
+            && ! $level->learningCenter->teachers()->whereKey($actor->id)->exists()) {
+            throw ValidationException::withMessages([
+                'level_id' => 'You may only enroll students in grades managed by your learning centers.',
+            ]);
+        }
         $placements = $this->normalizePlacements($data['courses'] ?? null);
         $year = AcademicYear::query()->findOrFail($yearId);
         $term = Term::query()->findOrFail($termId);
@@ -63,13 +78,14 @@ class StudentEnrollmentService
             ]);
         }
 
-        return DB::transaction(function () use ($student, $enrollment, $data, $actor, $prescribedIds, $selectedIds, $placements, $yearId, $termId, $levelId): StudentEnrollment {
+        return DB::transaction(function () use ($student, $enrollment, $data, $actor, $prescribedIds, $selectedIds, $placements, $yearId, $termId, $levelId, $level): StudentEnrollment {
             $enrollment ??= new StudentEnrollment;
             $enrollment->student()->associate($student);
             $enrollment->fill([
                 'academic_year_id' => $yearId,
                 'term_id' => $termId,
                 'level_id' => $levelId,
+                'learning_center_id' => $level->learning_center_id,
                 'status' => $enrollment->exists ? $enrollment->status : EnrollmentStatus::Active,
                 'enrolled_on' => $data['enrolled_on'],
             ])->save();

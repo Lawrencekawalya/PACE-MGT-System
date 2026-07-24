@@ -13,6 +13,7 @@ type Enrollment = {
     status: string;
     academic_year: Option;
     level: Option;
+    learning_center: Option | null;
 };
 type Student = {
     id: number;
@@ -23,7 +24,6 @@ type Student = {
     guardian_name: string;
     guardian_phone: string;
     status: string;
-    teacher: Option | null;
     enrollments: Enrollment[];
 };
 const props = defineProps<{
@@ -139,7 +139,7 @@ defineOptions({
                         <th class="px-4 py-3">Current level</th>
                         <th class="px-4 py-3">Academic year</th>
                         <th class="px-4 py-3">Guardian</th>
-                        <th class="px-4 py-3">Teacher</th>
+                        <th class="px-4 py-3">Learning center</th>
                         <th class="px-4 py-3">Status</th>
                         <th></th>
                     </tr>
@@ -171,7 +171,10 @@ defineOptions({
                             </div>
                         </td>
                         <td class="px-4 py-3">
-                            {{ student.teacher?.name || 'Unassigned' }}
+                            {{
+                                student.enrollments[0]?.learning_center?.name ||
+                                'Unassigned'
+                            }}
                         </td>
                         <td class="px-4 py-3">
                             <Badge

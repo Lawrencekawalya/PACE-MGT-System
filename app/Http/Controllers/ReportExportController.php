@@ -31,7 +31,7 @@ class ReportExportController extends Controller
             ->filter(fn ($value) => filled($value))
             ->all();
         if (! $reportType->isInventory() && $request->user()->hasRole(RoleName::Teacher) && ! $request->user()->hasRole(RoleName::Administrator)) {
-            $filters['teacher_id'] = $request->user()->id;
+            $filters['learning_center_ids'] = $request->user()->learningCenters()->pluck('learning_centers.id')->all();
         }
         $export = ReportExport::query()->create([
             'user_id' => $request->user()->id,

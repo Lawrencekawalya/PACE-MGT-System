@@ -3,6 +3,7 @@
 use App\Models\AcademicYear;
 use App\Models\Course;
 use App\Models\CurriculumRequirement;
+use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\Pace;
 use App\Models\Student;
@@ -23,7 +24,8 @@ function enrollmentFixture(string $yearName = '2026'): array
 {
     $year = AcademicYear::factory()->create(['name' => $yearName, 'starts_on' => "{$yearName}-01-01", 'ends_on' => "{$yearName}-12-31", 'is_active' => true]);
     $term = Term::factory()->create(['academic_year_id' => $year->id, 'name' => 'Term 1', 'sort_order' => 1, 'starts_on' => "{$yearName}-01-01", 'ends_on' => "{$yearName}-04-30", 'is_active' => true]);
-    $level = Level::factory()->create();
+    $center = LearningCenter::factory()->create();
+    $level = Level::factory()->create(['learning_center_id' => $center->id]);
     $subject = Subject::factory()->create();
     $courses = collect(['English', 'Mathematics'])->map(function (string $name, int $index) use ($subject, $level) {
         $course = Course::factory()->create(['subject_id' => $subject->id, 'name' => $name]);
@@ -53,8 +55,8 @@ function enrollmentData(array $fixture, array $overrides = []): array
 }
 
 test('student is independently placed in each prescribed course', function () {
-    $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->supervisedBy($teacher)->create();
+    $teacher = createStaffWithRole(RoleName::Administrator);
+    $student = Student::factory()->registeredBy($teacher)->create();
     $fixture = enrollmentFixture();
 
     $this->actingAs($teacher)->post(route('students.enrollments.store', $student), enrollmentData($fixture))->assertRedirect();
@@ -67,8 +69,8 @@ test('student is independently placed in each prescribed course', function () {
 });
 
 test('enrollment rejects a starting pace from another course', function () {
-    $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->supervisedBy($teacher)->create();
+    $teacher = createStaffWithRole(RoleName::Administrator);
+    $student = Student::factory()->registeredBy($teacher)->create();
     $fixture = enrollmentFixture();
     $data = enrollmentData($fixture);
     $data['courses'][0]['starting_pace_id'] = $fixture['courses'][1]->paces[0]->id;
@@ -77,8 +79,8 @@ test('enrollment rejects a starting pace from another course', function () {
 });
 
 test('curriculum additions or removals require an override reason', function () {
-    $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->supervisedBy($teacher)->create();
+    $teacher = createStaffWithRole(RoleName::Administrator);
+    $student = Student::factory()->registeredBy($teacher)->create();
     $fixture = enrollmentFixture();
     $data = enrollmentData($fixture);
     array_pop($data['courses']);
@@ -89,8 +91,8 @@ test('curriculum additions or removals require an override reason', function () 
 });
 
 test('editing placement retains removed course history as withdrawn', function () {
-    $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->supervisedBy($teacher)->create();
+    $teacher = createStaffWithRole(RoleName::Administrator);
+    $student = Student::factory()->registeredBy($teacher)->create();
     $fixture = enrollmentFixture();
     $this->actingAs($teacher)->post(route('students.enrollments.store', $student), enrollmentData($fixture))->assertRedirect();
     $enrollment = $student->enrollments()->sole();
@@ -107,8 +109,8 @@ test('editing placement retains removed course history as withdrawn', function (
 });
 
 test('enrollment history is preserved across academic years and duplicates are rejected', function () {
-    $teacher = createStaffWithRole(RoleName::Teacher);
-    $student = Student::factory()->supervisedBy($teacher)->create();
+    $teacher = createStaffWithRole(RoleName::Administrator);
+    $student = Student::factory()->registeredBy($teacher)->create();
     $first = enrollmentFixture('2025');
     $second = enrollmentFixture('2026');
 

@@ -62,13 +62,13 @@ class StudentCourse extends Model
     public function scopeVisibleTo(Builder $query, User $user): void
     {
         if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {
-            $query->whereHas('enrollment.student', fn (Builder $query) => $query->where('teacher_id', $user->id));
+            $query->whereHas('enrollment.learningCenter.teachers', fn (Builder $query) => $query->whereKey($user->id));
         }
     }
 
     public function isManagedBy(User $user): bool
     {
-        return $this->enrollment->student->isManagedBy($user);
+        return $this->enrollment->isManagedBy($user);
     }
 
     protected function casts(): array

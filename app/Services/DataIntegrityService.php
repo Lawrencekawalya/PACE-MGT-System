@@ -2,14 +2,16 @@
 
 namespace App\Services;
 
+use App\EnrollmentStatus;
 use App\InventoryItemType;
 use App\Models\AcademicYear;
 use App\Models\CatalogueImport;
 use App\Models\Course;
+use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\Pace;
 use App\Models\StockMovement;
-use App\Models\Student;
+use App\Models\StudentEnrollment;
 use App\Models\Term;
 
 class DataIntegrityService
@@ -19,16 +21,50 @@ class DataIntegrityService
     {
         $catalogue = $this->catalogue();
         $stock = $this->stockLedger();
-        $unassigned = Student::query()->whereNull('teacher_id')->count();
+        $centerIssues = $this->learningCenters();
         $activeYears = AcademicYear::query()->where('is_active', true)->count();
         $activeTerms = Term::query()->where('is_active', true)->count();
 
         return [
             $this->check('catalogue', 'PACE catalogue', $catalogue['issues'], $catalogue['detail']),
             $this->check('stock', 'Stock ledger', $stock['issues'], $stock['detail']),
-            $this->check('student_ownership', 'Student teacher ownership', $unassigned === 0 ? [] : ["{$unassigned} student(s) have no supervising teacher."], "{$unassigned} unassigned"),
+            $this->check('learning_center_ownership', 'Learning center ownership', $centerIssues['issues'], $centerIssues['detail']),
             $this->check('academic_year', 'Active academic year', $activeYears === 1 ? [] : ["Expected one active academic year; found {$activeYears}."], "{$activeYears} active"),
             $this->check('academic_term', 'Active academic term', $activeTerms === 1 ? [] : ["Expected one active academic term; found {$activeTerms}."], "{$activeTerms} active"),
+        ];
+    }
+
+    /** @return array{detail: string, issues: list<string>} */
+    private function learningCenters(): array
+    {
+        $unassignedLevels = Level::query()
+            ->where('is_active', true)
+            ->whereDoesntHave('learningCenter', fn ($query) => $query->where('is_active', true))
+            ->count();
+        $centersWithoutTeachers = LearningCenter::query()
+            ->where('is_active', true)
+            ->whereDoesntHave('teachers')
+            ->count();
+        $unassignedCurrentEnrollments = StudentEnrollment::query()
+            ->where('status', EnrollmentStatus::Active)
+            ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
+            ->whereNull('learning_center_id')
+            ->count();
+        $issues = [];
+
+        if ($unassignedLevels > 0) {
+            $issues[] = "{$unassignedLevels} active grade(s) do not belong to an active learning center.";
+        }
+        if ($centersWithoutTeachers > 0) {
+            $issues[] = "{$centersWithoutTeachers} active learning center(s) have no assigned teacher.";
+        }
+        if ($unassignedCurrentEnrollments > 0) {
+            $issues[] = "{$unassignedCurrentEnrollments} current enrollment(s) have no learning center.";
+        }
+
+        return [
+            'detail' => "{$unassignedLevels} unassigned grade(s), {$centersWithoutTeachers} center(s) without teachers, {$unassignedCurrentEnrollments} unassigned current enrollment(s)",
+            'issues' => $issues,
         ];
     }
 

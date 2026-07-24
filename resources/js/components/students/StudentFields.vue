@@ -4,23 +4,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 type StudentValues = {
-    teacher_id?: number | null;
     first_name?: string;
     last_name?: string;
     other_names?: string | null;
     date_of_birth?: string | null;
     gender?: string | null;
-    guardian_name?: string;
-    guardian_phone?: string;
-    guardian_email?: string | null;
     notes?: string | null;
 };
-type Teacher = { id: number; name: string };
+type Grade = {
+    id: number;
+    name: string;
+    learning_center: { id: number; name: string };
+};
 defineProps<{
     student?: StudentValues;
     errors: Record<string, string>;
-    teachers?: Teacher[];
-    canAssignTeacher?: boolean;
+    grades?: Grade[];
+    showGrade?: boolean;
 }>();
 </script>
 
@@ -33,27 +33,24 @@ defineProps<{
             </p>
         </div>
         <div class="grid gap-5 md:grid-cols-2">
-            <div v-if="canAssignTeacher" class="grid gap-2 md:col-span-2">
-                <Label for="teacher_id">Supervising teacher</Label>
+            <div v-if="showGrade" class="grid gap-2 md:col-span-2">
+                <Label for="level_id">Grade and learning center</Label>
                 <select
-                    id="teacher_id"
-                    name="teacher_id"
+                    id="level_id"
+                    name="level_id"
                     class="h-9 rounded-md border bg-transparent px-3 text-sm"
                     required
                 >
-                    <option value="" disabled :selected="!student?.teacher_id">
-                        Select a teacher
-                    </option>
+                    <option value="" disabled selected>Select a grade</option>
                     <option
-                        v-for="teacher in teachers"
-                        :key="teacher.id"
-                        :value="teacher.id"
-                        :selected="student?.teacher_id === teacher.id"
+                        v-for="grade in grades"
+                        :key="grade.id"
+                        :value="grade.id"
                     >
-                        {{ teacher.name }}
+                        {{ grade.name }} — {{ grade.learning_center.name }}
                     </option>
                 </select>
-                <InputError :message="errors.teacher_id" />
+                <InputError :message="errors.level_id" />
             </div>
             <div class="grid gap-2">
                 <Label for="first_name">First name</Label
@@ -108,45 +105,6 @@ defineProps<{
                         Female
                     </option></select
                 ><InputError :message="errors.gender" />
-            </div>
-        </div>
-    </section>
-
-    <section class="space-y-5 border-t pt-7">
-        <div>
-            <h2 class="text-base font-semibold">Guardian contact</h2>
-            <p class="text-sm text-muted-foreground">
-                Primary contact details for school communication.
-            </p>
-        </div>
-        <div class="grid gap-5 md:grid-cols-2">
-            <div class="grid gap-2 md:col-span-2">
-                <Label for="guardian_name">Guardian name</Label
-                ><Input
-                    id="guardian_name"
-                    name="guardian_name"
-                    :default-value="student?.guardian_name"
-                    required
-                /><InputError :message="errors.guardian_name" />
-            </div>
-            <div class="grid gap-2">
-                <Label for="guardian_phone">Phone number</Label
-                ><Input
-                    id="guardian_phone"
-                    name="guardian_phone"
-                    type="tel"
-                    :default-value="student?.guardian_phone"
-                    required
-                /><InputError :message="errors.guardian_phone" />
-            </div>
-            <div class="grid gap-2">
-                <Label for="guardian_email">Email address</Label
-                ><Input
-                    id="guardian_email"
-                    name="guardian_email"
-                    type="email"
-                    :default-value="student?.guardian_email || ''"
-                /><InputError :message="errors.guardian_email" />
             </div>
         </div>
     </section>

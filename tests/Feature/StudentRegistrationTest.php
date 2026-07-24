@@ -2,10 +2,12 @@
 
 use App\Models\AcademicYear;
 use App\Models\ActivityLog;
+use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
+use App\Models\Term;
 use App\RoleName;
 use Database\Seeders\AccessControlSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -26,64 +28,97 @@ function validStudentData(array $overrides = []): array
     ];
 }
 
+function activeRegistrationPeriod(): array
+{
+    $year = AcademicYear::factory()->create([
+        'is_active' => true,
+        'starts_on' => now()->startOfYear(),
+        'ends_on' => now()->endOfYear(),
+    ]);
+    $term = Term::factory()->create([
+        'academic_year_id' => $year->id,
+        'is_active' => true,
+        'starts_on' => now()->subMonth(),
+        'ends_on' => now()->addMonth(),
+    ]);
+
+    return compact('year', 'term');
+}
+
 test('authorized staff register students with unique generated admission numbers', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
+    activeRegistrationPeriod();
+    $center = LearningCenter::factory()->create();
+    $center->teachers()->attach($teacher);
+    $level = Level::factory()->create(['learning_center_id' => $center->id]);
 
-    $this->actingAs($teacher)->post(route('students.store'), validStudentData())->assertRedirect();
-    $this->actingAs($teacher)->post(route('students.store'), validStudentData(['first_name' => 'John']))->assertRedirect();
+    $this->actingAs($teacher)->post(route('students.store'), validStudentData(['level_id' => $level->id]))->assertRedirect();
+    $this->actingAs($teacher)->post(route('students.store'), validStudentData(['level_id' => $level->id, 'first_name' => 'John']))->assertRedirect();
 
     $numbers = Student::query()->orderBy('id')->pluck('admission_number');
     expect($numbers)->toHaveCount(2)
         ->and($numbers[0])->toMatch('/^FICA-\d{4}-\d{6}$/')
         ->and($numbers[0])->not->toBe($numbers[1])
-        ->and(Student::query()->where('teacher_id', $teacher->id)->count())->toBe(2)
         ->and(Student::query()->where('registered_by', $teacher->id)->count())->toBe(2)
+        ->and(StudentEnrollment::query()->where('learning_center_id', $center->id)->count())->toBe(2)
         ->and(ActivityLog::query()->where('event', 'student.created')->count())->toBe(2);
 });
 
-test('administrator must assign a teacher and can later reassign the student', function () {
+test('administrator registers a student into a configured grade without direct teacher assignment', function () {
     $administrator = createStaffWithRole(RoleName::Administrator);
-    $firstTeacher = createStaffWithRole(RoleName::Teacher);
-    $secondTeacher = createStaffWithRole(RoleName::Teacher);
+    activeRegistrationPeriod();
+    $center = LearningCenter::factory()->create();
+    $level = Level::factory()->create(['learning_center_id' => $center->id]);
 
-    $this->actingAs($administrator)->post(route('students.store'), validStudentData())
-        ->assertSessionHasErrors('teacher_id');
     $this->actingAs($administrator)->post(route('students.store'), validStudentData([
-        'teacher_id' => $firstTeacher->id,
+        'level_id' => $level->id,
     ]))->assertRedirect();
 
     $student = Student::query()->sole();
-    expect($student->teacher_id)->toBe($firstTeacher->id)
-        ->and($student->registered_by)->toBe($administrator->id);
+    expect($student->registered_by)->toBe($administrator->id)
+        ->and($student->activeEnrollment()->sole()->learning_center_id)->toBe($center->id);
 
     $this->actingAs($administrator)->put(route('students.update', $student), validStudentData([
-        'teacher_id' => $secondTeacher->id,
+        'first_name' => 'Updated',
     ]))->assertRedirect();
 
-    expect($student->fresh()->teacher_id)->toBe($secondTeacher->id)
+    expect($student->fresh()->first_name)->toBe('Updated')
         ->and($student->fresh()->registered_by)->toBe($administrator->id);
 });
 
-test('administrator cannot assign a student to non-teaching staff', function () {
-    $administrator = createStaffWithRole(RoleName::Administrator);
-    $storekeeper = createStaffWithRole(RoleName::Storekeeper);
+test('teacher cannot register into a grade managed by another center', function () {
+    $teacher = createStaffWithRole(RoleName::Teacher);
+    activeRegistrationPeriod();
+    $otherCenter = LearningCenter::factory()->create();
+    $level = Level::factory()->create(['learning_center_id' => $otherCenter->id]);
 
-    $this->actingAs($administrator)->post(route('students.store'), validStudentData([
-        'teacher_id' => $storekeeper->id,
-    ]))->assertSessionHasErrors('teacher_id');
+    $this->actingAs($teacher)->post(route('students.store'), validStudentData([
+        'level_id' => $level->id,
+    ]))->assertSessionHasErrors('level_id');
 });
 
-test('student registration validates identity guardian and birth date', function () {
+test('student registration validates identity and birth date without guardian contact details', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
+    activeRegistrationPeriod();
+    $center = LearningCenter::factory()->create();
+    $center->teachers()->attach($teacher);
+    $level = Level::factory()->create(['learning_center_id' => $center->id]);
+
     $this->actingAs($teacher)->post(route('students.store'), validStudentData([
-        'first_name' => '', 'guardian_phone' => '', 'date_of_birth' => now()->addDay()->toDateString(),
-    ]))->assertSessionHasErrors(['first_name', 'guardian_phone', 'date_of_birth']);
+        'level_id' => $level->id,
+        'first_name' => '',
+        'guardian_name' => null,
+        'guardian_phone' => null,
+        'date_of_birth' => now()->addDay()->toDateString(),
+    ]))->assertSessionHasErrors(['first_name', 'date_of_birth'])
+        ->assertSessionDoesntHaveErrors(['guardian_name', 'guardian_phone']);
 });
 
 test('student status changes require reasons and are audited', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
     $student = Student::factory()->supervisedBy($teacher)->create();
-    $enrollment = StudentEnrollment::factory()->create(['student_id' => $student->id]);
+    $year = AcademicYear::factory()->create(['is_active' => true]);
+    $enrollment = StudentEnrollment::factory()->create(['student_id' => $student->id, 'academic_year_id' => $year->id]);
     $placement = StudentCourse::factory()->create(['student_enrollment_id' => $enrollment->id]);
 
     $this->actingAs($teacher)->put(route('students.status.update', $student), ['status' => 'withdrawn'])->assertSessionHasErrors('reason');
@@ -97,7 +132,7 @@ test('student status changes require reasons and are audited', function () {
 
 test('student list searches and filters by academic year and level', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
-    $year = AcademicYear::factory()->create();
+    $year = AcademicYear::factory()->create(['is_active' => true]);
     $level = Level::factory()->create();
     $student = Student::factory()->supervisedBy($teacher)->create(['first_name' => 'UniqueStudent']);
     StudentEnrollment::factory()->create(['student_id' => $student->id, 'academic_year_id' => $year->id, 'level_id' => $level->id]);
