@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property InventoryItemType $item_type
  * @property Pace|null $pace
+ * @property-read int|null $on_hand
  */
 #[Fillable(['pace_id', 'item_type', 'sku', 'reorder_level', 'is_consumable', 'is_active'])]
 class InventoryItem extends Model

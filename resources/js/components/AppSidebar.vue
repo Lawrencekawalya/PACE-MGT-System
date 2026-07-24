@@ -10,6 +10,7 @@ import {
     Library,
     ListChecks,
     ListTree,
+    PackageCheck,
     PackageOpen,
     ChartNoAxesCombined,
     School,
@@ -43,6 +44,7 @@ import { index as staffIndex } from '@/routes/admin/staff';
 import { index as assessmentsIndex } from '@/routes/assessments';
 import { index as inventoryIndex } from '@/routes/inventory';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
+import { index as paceIssuingIndex } from '@/routes/pace-issuing';
 import { index as reportsIndex } from '@/routes/reports';
 import { index as studentsIndex } from '@/routes/students';
 import type { NavItem } from '@/types';
@@ -86,6 +88,14 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'PACE work queue',
             href: paceAssignmentsIndex(),
             icon: ListChecks,
+        });
+    }
+
+    if (page.props.auth.permissions.includes('issue-paces')) {
+        items.push({
+            title: 'PACE issuing',
+            href: paceIssuingIndex(),
+            icon: PackageCheck,
         });
     }
 

@@ -22,6 +22,7 @@ use App\Http\Controllers\PaceAssignmentController;
 use App\Http\Controllers\PaceAssignmentStatusController;
 use App\Http\Controllers\PaceAttemptController;
 use App\Http\Controllers\PaceAttemptCorrectionController;
+use App\Http\Controllers\PaceIssuingController;
 use App\Http\Controllers\PaceRetryApprovalController;
 use App\Http\Controllers\ReadinessController;
 use App\Http\Controllers\ReportController;
@@ -50,6 +51,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('inventory-items/{inventory_item}/movements', [StockMovementController::class, 'store'])->name('inventory-items.movements.store');
     Route::post('stock-movements/{stock_movement}/corrections', [StockMovementCorrectionController::class, 'store'])->name('stock-movements.corrections.store');
     Route::get('assessments', AssessmentController::class)->name('assessments.index');
+    Route::get('pace-issuing', [PaceIssuingController::class, 'index'])->name('pace-issuing.index');
+    Route::post('pace-issuing', [PaceIssuingController::class, 'store'])->name('pace-issuing.store');
     Route::post('pace-assignments/{pace_assignment}/attempts', [PaceAttemptController::class, 'store'])->name('pace-assignments.attempts.store');
     Route::post('pace-assignments/{pace_assignment}/retry-approvals', [PaceRetryApprovalController::class, 'store'])->name('pace-assignments.retry-approvals.store');
     Route::put('pace-retry-approvals/{pace_retry_approval}', [PaceRetryApprovalController::class, 'update'])->name('pace-retry-approvals.update');

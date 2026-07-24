@@ -2145,8 +2145,8 @@
     "semantic_hash": ""
   },
   "resources/js/pages/pace-assignments/Show.vue": {
-    "mtime": 1784739747.087381,
-    "ast_hash": "4a95d06e6aff3299cb1b12d671c0c96b",
+    "mtime": 1784886942.693311,
+    "ast_hash": "6794fb6a5859f8492e5b772201d7d1f0",
     "semantic_hash": ""
   },
   "tests/Feature/PaceAssignmentAuthorizationTest.php": {
