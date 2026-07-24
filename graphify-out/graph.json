@@ -637,8 +637,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_http_controllers_admin_catalogueimportcontroller_catalogueimportcontroller_construct",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": ".__construct()"
     },
     {
@@ -648,8 +648,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "app_http_controllers_admin_catalogueimportcontroller_catalogueimportcontroller_index",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".index()"
     },
     {
@@ -670,8 +670,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "app_http_controllers_admin_catalogueimportcontroller_catalogueimportcontroller_show",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".show()"
     },
     {
@@ -736,8 +736,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_coursecontroller",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "coursecontroller.php"
     },
     {
@@ -747,8 +747,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_controllers_admin_coursecontroller_coursecontroller",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "coursecontroller"
     },
     {
@@ -758,8 +758,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_admin_coursecontroller_coursecontroller_construct",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".__construct()"
     },
     {
@@ -769,8 +769,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_admin_coursecontroller_coursecontroller_store",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".store()"
     },
     {
@@ -780,8 +780,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_http_controllers_admin_coursecontroller_coursecontroller_update",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".update()"
     },
     {
@@ -791,8 +791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": "curriculumcontroller.php"
     },
     {
@@ -802,8 +802,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": "curriculumcontroller"
     },
     {
@@ -813,8 +813,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller_construct",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".__construct()"
     },
     {
@@ -824,8 +824,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller_index",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".index()"
     },
     {
@@ -835,8 +835,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "app_http_controllers_admin_curriculumcontroller_curriculumcontroller_store",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".store()"
     },
     {
@@ -1055,8 +1055,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": "schoolsettingcontroller.php"
     },
     {
@@ -1066,8 +1066,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller_schoolsettingcontroller",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": "schoolsettingcontroller"
     },
     {
@@ -1077,8 +1077,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller_schoolsettingcontroller_construct",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".__construct()"
     },
     {
@@ -1088,8 +1088,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller_schoolsettingcontroller_edit",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".edit()"
     },
     {
@@ -1099,8 +1099,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "app_http_controllers_admin_schoolsettingcontroller_schoolsettingcontroller_update",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".update()"
     },
     {
@@ -1220,8 +1220,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffpasswordcontroller",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "staffpasswordcontroller.php"
     },
     {
@@ -1231,8 +1231,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffpasswordcontroller_staffpasswordcontroller",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "staffpasswordcontroller"
     },
     {
@@ -1242,8 +1242,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "app_http_controllers_admin_staffpasswordcontroller_staffpasswordcontroller_construct",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": ".__construct()"
     },
     {
@@ -1264,8 +1264,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_admin_subjectcontroller",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "subjectcontroller.php"
     },
     {
@@ -1275,8 +1275,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_controllers_admin_subjectcontroller_subjectcontroller",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "subjectcontroller"
     },
     {
@@ -1286,8 +1286,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_admin_subjectcontroller_subjectcontroller_construct",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".__construct()"
     },
     {
@@ -1297,8 +1297,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_admin_subjectcontroller_subjectcontroller_store",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".store()"
     },
     {
@@ -1308,8 +1308,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_http_controllers_admin_subjectcontroller_subjectcontroller_update",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".update()"
     },
     {
@@ -2023,8 +2023,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_settings_profilecontroller",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "profilecontroller.php"
     },
     {
@@ -2078,8 +2078,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "securitycontroller.php"
     },
     {
@@ -2089,8 +2089,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller_securitycontroller",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "securitycontroller"
     },
     {
@@ -2100,8 +2100,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller_securitycontroller_edit",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".edit()"
     },
     {
@@ -2111,8 +2111,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "app_http_controllers_settings_securitycontroller_securitycontroller_update",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".update()"
     },
     {
@@ -2199,8 +2199,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_http_controllers_stockmovementcorrectioncontroller_stockmovementcorrectioncontroller_store",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".store()"
     },
     {
@@ -2298,8 +2298,8 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "app_http_controllers_studentcontroller_studentcontroller_update",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".update()"
     },
     {
@@ -2430,8 +2430,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "studentstatuscontroller.php"
     },
     {
@@ -2441,8 +2441,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller_studentstatuscontroller",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "studentstatuscontroller"
     },
     {
@@ -2452,8 +2452,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller_studentstatuscontroller_construct",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": ".__construct()"
     },
     {
@@ -2463,8 +2463,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_controllers_studentstatuscontroller_studentstatuscontroller_invoke",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": ".__invoke()"
     },
     {
@@ -2738,8 +2738,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecourserequest",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "savecourserequest.php"
     },
     {
@@ -2749,8 +2749,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecourserequest_savecourserequest",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": "savecourserequest"
     },
     {
@@ -2760,8 +2760,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecourserequest_savecourserequest_authorize",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -2771,8 +2771,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecourserequest_savecourserequest_rules",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".rules()"
     },
     {
@@ -2782,8 +2782,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecourserequest_savecourserequest_prepareforvalidation",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 93,
+      "community_name": "DropdownMenuSub.vue",
       "norm_label": ".prepareforvalidation()"
     },
     {
@@ -2793,8 +2793,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": "savecurriculumrequirementrequest.php"
     },
     {
@@ -2804,8 +2804,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest_savecurriculumrequirementrequest",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": "savecurriculumrequirementrequest"
     },
     {
@@ -2815,8 +2815,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest_savecurriculumrequirementrequest_authorize",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".authorize()"
     },
     {
@@ -2826,8 +2826,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_admin_savecurriculumrequirementrequest_savecurriculumrequirementrequest_rules",
-      "community": 105,
-      "community_name": "artisan",
+      "community": 11,
+      "community_name": "useAppearance.ts",
       "norm_label": ".rules()"
     },
     {
@@ -2991,8 +2991,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_savesubjectrequest",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "savesubjectrequest.php"
     },
     {
@@ -3002,8 +3002,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_admin_savesubjectrequest_savesubjectrequest",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "savesubjectrequest"
     },
     {
@@ -3013,8 +3013,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_savesubjectrequest_savesubjectrequest_authorize",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".authorize()"
     },
     {
@@ -3024,8 +3024,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_admin_savesubjectrequest_savesubjectrequest_rules",
-      "community": 150,
-      "community_name": "AppearanceTabs.vue",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": ".rules()"
     },
     {
@@ -3079,8 +3079,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_storecatalogueimportrequest",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "storecatalogueimportrequest.php"
     },
     {
@@ -3090,8 +3090,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_admin_storecatalogueimportrequest_storecatalogueimportrequest",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "storecatalogueimportrequest"
     },
     {
@@ -3101,8 +3101,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_admin_storecatalogueimportrequest_storecatalogueimportrequest_authorize",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -3112,8 +3112,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_admin_storecatalogueimportrequest_storecatalogueimportrequest_rules",
-      "community": 54,
-      "community_name": "ProfileValidationRules.php",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3167,8 +3167,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_admin_updateschoolsettingrequest",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "updateschoolsettingrequest.php"
     },
     {
@@ -3178,8 +3178,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_http_requests_admin_updateschoolsettingrequest_updateschoolsettingrequest",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "updateschoolsettingrequest"
     },
     {
@@ -3189,8 +3189,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_requests_admin_updateschoolsettingrequest_updateschoolsettingrequest_prepareforvalidation",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".prepareforvalidation()"
     },
     {
@@ -3200,8 +3200,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_http_requests_admin_updateschoolsettingrequest_updateschoolsettingrequest_authorize",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -3211,8 +3211,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_http_requests_admin_updateschoolsettingrequest_updateschoolsettingrequest_rules",
-      "community": 93,
-      "community_name": "DropdownMenuSub.vue",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3266,8 +3266,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_correctstockmovementrequest",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": "correctstockmovementrequest.php"
     },
     {
@@ -3277,8 +3277,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_http_requests_correctstockmovementrequest_correctstockmovementrequest",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": "correctstockmovementrequest"
     },
     {
@@ -3288,8 +3288,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_http_requests_correctstockmovementrequest_correctstockmovementrequest_authorize",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".authorize()"
     },
     {
@@ -3299,8 +3299,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_requests_correctstockmovementrequest_correctstockmovementrequest_rules",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 97,
+      "community_name": "keywords",
       "norm_label": ".rules()"
     },
     {
@@ -3497,8 +3497,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_settings_twofactorauthenticationrequest",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "twofactorauthenticationrequest.php"
     },
     {
@@ -3508,8 +3508,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_settings_twofactorauthenticationrequest_twofactorauthenticationrequest",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "twofactorauthenticationrequest"
     },
     {
@@ -3519,8 +3519,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_http_requests_settings_twofactorauthenticationrequest_twofactorauthenticationrequest_rules",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": ".rules()"
     },
     {
@@ -3838,8 +3838,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_storestudentrequest",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "storestudentrequest.php"
     },
     {
@@ -3849,8 +3849,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_storestudentrequest_storestudentrequest",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "storestudentrequest"
     },
     {
@@ -3860,8 +3860,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_storestudentrequest_storestudentrequest_authorize",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".authorize()"
     },
     {
@@ -3871,8 +3871,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_http_requests_storestudentrequest_storestudentrequest_rules",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".rules()"
     },
     {
@@ -3970,8 +3970,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentrequest",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "updatestudentrequest.php"
     },
     {
@@ -3981,8 +3981,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentrequest_updatestudentrequest",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": "updatestudentrequest"
     },
     {
@@ -3992,8 +3992,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentrequest_updatestudentrequest_authorize",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".authorize()"
     },
     {
@@ -4003,8 +4003,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentrequest_updatestudentrequest_rules",
-      "community": 70,
-      "community_name": "AppSidebar.vue",
+      "community": 128,
+      "community_name": "web.php",
       "norm_label": ".rules()"
     },
     {
@@ -4025,8 +4025,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentstatusrequest_updatestudentstatusrequest",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "updatestudentstatusrequest"
     },
     {
@@ -4036,8 +4036,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentstatusrequest_updatestudentstatusrequest_authorize",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": ".authorize()"
     },
     {
@@ -4047,8 +4047,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_http_requests_updatestudentstatusrequest_updatestudentstatusrequest_rules",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": ".rules()"
     },
     {
@@ -7446,8 +7446,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_services_activitylogger_activitylogger",
-      "community": 97,
-      "community_name": "keywords",
+      "community": 111,
+      "community_name": "SidebarMenuButton.vue",
       "norm_label": "activitylogger"
     },
     {
@@ -9965,8 +9965,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "composer_scripts_post_create_project_cmd",
-      "community": 180,
-      "community_name": "post-create-project-cmd",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "post-create-project-cmd"
     },
     {
@@ -9976,8 +9976,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "ref_php_artisan_key_generate_ansi",
-      "community": 180,
-      "community_name": "post-create-project-cmd",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "@php artisan key:generate --ansi"
     },
     {
@@ -9987,8 +9987,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "ref_php_r_file_exists_database_database_sqlite_touch_database_database_sqlite",
-      "community": 180,
-      "community_name": "post-create-project-cmd",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "@php -r \\\"file_exists('database/database.sqlite') || touch('database/database.sqlite');\\"
     },
     {
@@ -9998,8 +9998,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "ref_php_artisan_migrate_graceful_ansi",
-      "community": 180,
-      "community_name": "post-create-project-cmd",
+      "community": 105,
+      "community_name": "artisan",
       "norm_label": "@php artisan migrate --graceful --ansi"
     },
     {
@@ -12107,7 +12107,7 @@
       "label": "down()",
       "file_type": "code",
       "source_file": "database/migrations/2026_07_24_111103_remove_teacher_id_from_students_table.php",
-      "source_location": "L23",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "database_migrations_2026_07_24_111103_remove_teacher_id_from_students_table_down",
       "community": 170,
@@ -12843,8 +12843,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "package_devdependencies_concurrently",
-      "community": 3,
-      "community_name": "devDependencies",
+      "community": 134,
+      "community_name": "eslint-plugin-import",
       "norm_label": "concurrently"
     },
     {
@@ -12854,8 +12854,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "concurrently",
-      "community": 3,
-      "community_name": "devDependencies",
+      "community": 134,
+      "community_name": "eslint-plugin-import",
       "norm_label": "concurrently"
     },
     {
@@ -13085,8 +13085,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_vue_tsc",
-      "community": 134,
-      "community_name": "eslint-plugin-import",
+      "community": 3,
+      "community_name": "devDependencies",
       "norm_label": "vue-tsc"
     },
     {
@@ -13096,8 +13096,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "vue_tsc",
-      "community": 134,
-      "community_name": "eslint-plugin-import",
+      "community": 3,
+      "community_name": "devDependencies",
       "norm_label": "vue-tsc"
     },
     {
@@ -21871,7 +21871,7 @@
       "label": "toggleCourse()",
       "file_type": "code",
       "source_file": "resources/js/pages/students/enrollments/Form.vue",
-      "source_location": "L149",
+      "source_location": "L158",
       "_origin": "ast",
       "id": "resources_js_pages_students_enrollments_form_togglecourse",
       "community": 77,
@@ -21882,7 +21882,7 @@
       "label": "studentName()",
       "file_type": "code",
       "source_file": "resources/js/pages/students/enrollments/Form.vue",
-      "source_location": "L164",
+      "source_location": "L173",
       "_origin": "ast",
       "id": "resources_js_pages_students_enrollments_form_studentname",
       "community": 77,
@@ -22182,8 +22182,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "routes_settings",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 54,
+      "community_name": "ProfileValidationRules.php",
       "norm_label": "settings.php"
     },
     {
@@ -26912,8 +26912,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "laravel_fortify_interactswithtwofactorstate",
-      "community": 11,
-      "community_name": "useAppearance.ts",
+      "community": 70,
+      "community_name": "AppSidebar.vue",
       "norm_label": "laravel\\fortify\\interactswithtwofactorstate"
     },
     {
@@ -63962,7 +63962,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "database/migrations/2026_07_24_111103_remove_teacher_id_from_students_table.php",
-      "source_location": "L23",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
       "source": "database_migrations_2026_07_24_111103_remove_teacher_id_from_students_table",
@@ -79810,7 +79810,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "resources/js/pages/students/enrollments/Form.vue",
-      "source_location": "L164",
+      "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_js_pages_students_enrollments_form",
@@ -79832,7 +79832,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "resources/js/pages/students/enrollments/Form.vue",
-      "source_location": "L149",
+      "source_location": "L158",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_js_pages_students_enrollments_form",
@@ -79856,7 +79856,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "resources/js/pages/students/enrollments/Form.vue",
-      "source_location": "L156",
+      "source_location": "L165",
       "weight": 1.0,
       "_origin": "ast",
       "source": "resources_js_pages_students_enrollments_form_togglecourse",
@@ -84257,5 +84257,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6a43b5e82eaa107005e3c03bb09d67338abf5ce8"
+  "built_at_commit": "9ad75280bcf386277a947af18a8388ce381bf09a"
 }

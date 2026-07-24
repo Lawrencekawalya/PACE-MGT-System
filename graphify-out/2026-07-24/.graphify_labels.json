@@ -149,7 +149,6 @@
   "147": "PasskeyRegister.vue",
   "148": "AppSidebar.vue",
   "149": "eslint-config-prettier",
-  "150": "AppearanceTabs.vue",
   "151": "eslint-plugin-import",
   "152": "StudentFactory",
   "153": "prettier",
@@ -174,13 +173,9 @@
   "172": "@stylistic/eslint-plugin",
   "173": "vite",
   "174": "reports.php",
-  "175": "Illuminate\\Console\\Command",
   "176": "DashboardReportService",
-  "177": "DropdownMenuContent.vue",
   "178": "staff/Index.vue",
   "179": "TwoFactorChallenge.vue",
-  "180": "post-create-project-cmd",
-  "181": "Input.vue",
   "182": "2026_07_24_120423_make_student_guardian_contact_optional.php",
   "185": "2026_07_22_235900_add_teacher_ownership_to_students_table.php"
 }

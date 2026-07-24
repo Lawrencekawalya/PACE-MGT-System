@@ -1575,8 +1575,8 @@
     "semantic_hash": ""
   },
   "app/RoleName.php": {
-    "mtime": 1784727730.9755564,
-    "ast_hash": "52ddc021a9bcc9fa1e5c18cf8f053782",
+    "mtime": 1784884998.2443528,
+    "ast_hash": "7236d95c90395aeabf27e929bccaa462",
     "semantic_hash": ""
   },
   "app/Services/ActivityLogger.php": {
@@ -1610,8 +1610,8 @@
     "semantic_hash": ""
   },
   "database/seeders/AccessControlSeeder.php": {
-    "mtime": 1784730088.8954012,
-    "ast_hash": "fc5f005406700192e4b942f1b510a20f",
+    "mtime": 1784884998.436352,
+    "ast_hash": "5e69209fa60e07cf62af96cceb4e518c",
     "semantic_hash": ""
   },
   "database/seeders/SchoolSettingSeeder.php": {
@@ -1645,8 +1645,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/Admin/AuthorizationTest.php": {
-    "mtime": 1784730857.9443016,
-    "ast_hash": "927d1baa9be7ee0d9e6823742cdd8898",
+    "mtime": 1784885066.7691045,
+    "ast_hash": "68249c7790ab8227f22f3972d81e0e95",
     "semantic_hash": ""
   },
   "tests/Feature/Admin/SchoolSettingTest.php": {
@@ -2035,13 +2035,13 @@
     "semantic_hash": ""
   },
   "resources/js/pages/students/enrollments/Form.vue": {
-    "mtime": 1784733550.9223,
-    "ast_hash": "ce0988204659093ad129b9ed4f111343",
+    "mtime": 1784885519.5374649,
+    "ast_hash": "c7a226973a8d0ea49c0a86fba767dc64",
     "semantic_hash": ""
   },
   "tests/Feature/StudentAuthorizationTest.php": {
-    "mtime": 1784881332.9756262,
-    "ast_hash": "56d8375284c76065c99b777c47cf58cd",
+    "mtime": 1784885031.6402318,
+    "ast_hash": "6c8f33227890c730a9f50640a8e9408e",
     "semantic_hash": ""
   },
   "tests/Feature/StudentEnrollmentTest.php": {
@@ -2150,8 +2150,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/PaceAssignmentAuthorizationTest.php": {
-    "mtime": 1784881440.7352362,
-    "ast_hash": "8c3206a9133fdbe718a7f198b4d09d3c",
+    "mtime": 1784885031.0742338,
+    "ast_hash": "b9b314a61c024d0cc32b6d2ad9574726",
     "semantic_hash": ""
   },
   "tests/Feature/PaceAssignmentTest.php": {
@@ -2285,8 +2285,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/PaceAssessmentAuthorizationTest.php": {
-    "mtime": 1784738039.2643905,
-    "ast_hash": "6b07709ac666ffa0d1c26f277dcee7a5",
+    "mtime": 1784885030.8932345,
+    "ast_hash": "3ff70bfcb5973339cbe37745273ad0cb",
     "semantic_hash": ""
   },
   "tests/Feature/PaceAssessmentTest.php": {
@@ -2510,13 +2510,13 @@
     "semantic_hash": ""
   },
   "tests/Feature/DashboardReportTest.php": {
-    "mtime": 1784748726.8615565,
-    "ast_hash": "fef22f53d4328e04f7956ae8de65c472",
+    "mtime": 1784885030.1492372,
+    "ast_hash": "aa6f5992b5caa3a4ae9eacb0f4909517",
     "semantic_hash": ""
   },
   "tests/Feature/InventoryAuthorizationTest.php": {
-    "mtime": 1784744137.421644,
-    "ast_hash": "d3dd5c005ea2c4d7944668afad200baf",
+    "mtime": 1784885030.3362365,
+    "ast_hash": "abb9fa8489cab242f5752eef709c28fd",
     "semantic_hash": ""
   },
   "tests/Feature/InventoryItemSeederTest.php": {
@@ -2525,18 +2525,18 @@
     "semantic_hash": ""
   },
   "tests/Feature/InventoryTest.php": {
-    "mtime": 1784739808.1492734,
-    "ast_hash": "b72149b4d808b28fef03537185041755",
+    "mtime": 1784885066.5701053,
+    "ast_hash": "50048451ebcf709de75996cb6d6c3d58",
     "semantic_hash": ""
   },
   "tests/Feature/ReportExportTest.php": {
-    "mtime": 1784752080.7756462,
-    "ast_hash": "d96f578386b21ff0070881dea45e8568",
+    "mtime": 1784885031.2592332,
+    "ast_hash": "3eaecb98470b77e6e928fd560dbc415b",
     "semantic_hash": ""
   },
   "tests/Feature/ReportTest.php": {
-    "mtime": 1784755806.722719,
-    "ast_hash": "953c950f1b211e262ded94e467edd8ab",
+    "mtime": 1784885031.4482324,
+    "ast_hash": "77b0236fcfb8f397e06fa6aa11616c1e",
     "semantic_hash": ""
   },
   "database/migrations/2026_07_22_235900_add_teacher_ownership_to_students_table.php": {
@@ -2655,8 +2655,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/SystemHealthTest.php": {
-    "mtime": 1784756637.0762322,
-    "ast_hash": "541fbf9844c846bb7979115a7e198bca",
+    "mtime": 1784885031.8272312,
+    "ast_hash": "98dbb3f991d7b906fdc521f46339d06a",
     "semantic_hash": ""
   },
   "docs/BACKUP_AND_RECOVERY.md": {
@@ -2670,13 +2670,13 @@
     "semantic_hash": ""
   },
   "docs/PHASE_8_RELEASE_CHECKLIST.md": {
-    "mtime": 1784755792.221781,
-    "ast_hash": "1769aca628fde8851bbf66d665c42069",
+    "mtime": 1784884999.3733487,
+    "ast_hash": "ff3d7461ecdb8ccc107097e259c3f6e0",
     "semantic_hash": ""
   },
   "docs/ROLE_AND_ACCEPTANCE_GUIDE.md": {
-    "mtime": 1784755791.1857855,
-    "ast_hash": "cd4a4200ff67b00ae239e2b2fc25175f",
+    "mtime": 1784884999.5663478,
+    "ast_hash": "bfcbc630aeb6405ecd132d1ed2235f39",
     "semantic_hash": ""
   },
   "app/Jobs/QueueHeartbeat.php": {
@@ -2745,8 +2745,8 @@
     "semantic_hash": ""
   },
   "tests/Feature/LearningCenterManagementTest.php": {
-    "mtime": 1784881496.1350355,
-    "ast_hash": "34094dd1c98630c92d9c14c532b0c6d0",
+    "mtime": 1784885030.714235,
+    "ast_hash": "a8acece0c4e4f0aeaf7c7e812a58e31b",
     "semantic_hash": ""
   },
   "tests/Feature/LearningCenterStudentAccessTest.php": {
@@ -2757,6 +2757,11 @@
   "database/migrations/2026_07_24_120423_make_student_guardian_contact_optional.php": {
     "mtime": 1784883923.6532443,
     "ast_hash": "9ada4329af514b50a4ece928d5c35ce5",
+    "semantic_hash": ""
+  },
+  "database/migrations/2026_07_24_122225_rename_storekeeper_role_to_pace_officer.php": {
+    "mtime": 1784884998.6203513,
+    "ast_hash": "c467a6d20daca24d1d106871169b0a6e",
     "semantic_hash": ""
   }
 }

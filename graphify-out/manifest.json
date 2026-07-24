@@ -2035,8 +2035,8 @@
     "semantic_hash": ""
   },
   "resources/js/pages/students/enrollments/Form.vue": {
-    "mtime": 1784733550.9223,
-    "ast_hash": "ce0988204659093ad129b9ed4f111343",
+    "mtime": 1784885519.5374649,
+    "ast_hash": "c7a226973a8d0ea49c0a86fba767dc64",
     "semantic_hash": ""
   },
   "tests/Feature/StudentAuthorizationTest.php": {
@@ -2735,8 +2735,8 @@
     "semantic_hash": ""
   },
   "database/migrations/2026_07_24_111103_remove_teacher_id_from_students_table.php": {
-    "mtime": 1784880735.9957883,
-    "ast_hash": "358ad62bfc6bfd8702064b6865e6a668",
+    "mtime": 1784885767.0515685,
+    "ast_hash": "925928648007a799aff0579dcf7320ce",
     "semantic_hash": ""
   },
   "resources/js/pages/admin/learning-centers/Index.vue": {

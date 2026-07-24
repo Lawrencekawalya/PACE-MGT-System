@@ -146,6 +146,15 @@ function applyCurriculum(): void {
         startingPaces[courseId] = first?.id ?? '';
     }
 }
+
+// Registration creates the enrollment before course placements are configured.
+if (
+    selectedLevelId.value !== '' &&
+    (props.enrollment?.courses.length ?? 0) === 0
+) {
+    applyCurriculum();
+}
+
 function toggleCourse(courseId: number, checked: boolean): void {
     if (checked) {
         if (!selectedCourseIds.value.includes(courseId)) {
