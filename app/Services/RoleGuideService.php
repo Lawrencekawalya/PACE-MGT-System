@@ -51,7 +51,7 @@ class RoleGuideService
                         'title' => 'Prepare the school',
                         'outcome' => 'The platform is ready for staff and student work.',
                         'steps' => [
-                            'Confirm the school identity, timezone, date format, assessment pass marks, and retry limits in School settings.',
+                            'Confirm the school identity, timezone, date format, assessment pass marks, retry limits, and minimum PACEs per subject per term in School settings.',
                             'Create the academic year and its terms, then keep exactly one year and one term active.',
                             'Create learning centers, assign each grade to one center, and attach the teachers responsible for that center.',
                         ],
@@ -154,6 +154,7 @@ class RoleGuideService
                         'outcome' => 'Every active PACE has a current and understandable status.',
                         'steps' => [
                             'Use the PACE work queue to review assigned, in-progress, awaiting-test, completed, and exception work.',
+                            'Review each subject term target; four completed PACEs is the default minimum, and students may continue with additional PACEs.',
                             'Update the assignment status when the student reaches the next learning stage.',
                             'Review the student progress tab before assigning another PACE in the same course.',
                         ],

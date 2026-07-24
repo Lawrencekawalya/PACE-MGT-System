@@ -7,8 +7,10 @@ use App\Models\CurriculumRequirement;
 use App\Models\InventoryItem;
 use App\Models\Pace;
 use App\Models\PaceAssignment;
+use App\Models\SchoolSetting;
 use App\Models\StockMovement;
 use App\Models\StudentCourse;
+use App\Models\Term;
 use App\Models\User;
 use App\PaceAssignmentStatus;
 use App\PermissionName;
@@ -22,6 +24,8 @@ use Illuminate\Support\Str;
 
 class ReportDataService
 {
+    public function __construct(private TermPaceTargetService $termTargets) {}
+
     /** @param array<string, mixed> $filters
      * @return array{rows: Collection<int, covariant array<string, mixed>>, summary: array<string, int|float>}
      */
@@ -71,12 +75,18 @@ class ReportDataService
                 'admission_number' => 'Admission number', 'student' => 'Student', 'level' => 'Level',
                 'course' => 'Course', 'current_pace' => 'Current PACE', 'assignment_status' => 'Assignment status',
                 'completed_paces' => 'Completed PACEs', 'sequence_total' => 'Sequence PACEs',
+                'target_term' => 'Target term', 'term_completed_paces' => 'Term PACEs completed',
+                'term_pace_target' => 'Term PACE target', 'term_target_status' => 'Term target status',
+                'term_target_remaining' => 'PACEs remaining to target',
                 'progress_percent' => 'Progress %', 'failed_cycles' => 'Failed/repeated cycles', 'days_inactive' => 'Days inactive',
             ],
             ReportType::CourseProgress => [
                 'level' => 'Level', 'course' => 'Course', 'students' => 'Students',
                 'active_students' => 'Active students', 'completed_courses' => 'Completed courses',
                 'completed_paces' => 'Completed PACEs', 'average_progress' => 'Average progress %',
+                'target_term' => 'Target term', 'term_completed_paces' => 'Term PACEs completed',
+                'term_target_total' => 'Combined term target', 'students_target_achieved' => 'Students target achieved',
+                'students_on_track' => 'Students on track', 'students_below_target' => 'Students below target',
                 'failed_cycles' => 'Failed/repeated cycles', 'inactive_students' => 'Inactive students',
             ],
             ReportType::PendingWork => [
@@ -174,10 +184,15 @@ class ReportDataService
             ->keyBy(fn (CurriculumRequirement $requirement): string => "{$requirement->level_id}:{$requirement->course_id}");
         $courseCounts = Course::query()->withCount(['paces' => fn ($query) => $query->where('is_active', true)])
             ->pluck('paces_count', 'id');
+        $targetTerm = $this->targetTerm($filters);
+        $termTarget = SchoolSetting::current()->term_pace_target;
 
-        return $query->orderBy('course_id')->get()->map(function (StudentCourse $studentCourse) use ($requirements, $courseCounts): array {
+        return $query->orderBy('course_id')->get()->map(function (StudentCourse $studentCourse) use ($requirements, $courseCounts, $targetTerm, $termTarget): array {
             $assignments = $studentCourse->paceAssignments;
             $completed = $assignments->where('status', PaceAssignmentStatus::Passed)->pluck('pace_id')->unique()->count();
+            $termProgress = $targetTerm === null
+                ? null
+                : $this->termTargets->summarize($assignments, $targetTerm, $termTarget);
             $requirementKey = "{$studentCourse->enrollment->level_id}:{$studentCourse->course_id}";
             $sequenceTotal = (int) ($requirements->has($requirementKey)
                 ? $requirements->get($requirementKey)->paces_count
@@ -200,6 +215,14 @@ class ReportDataService
                 'current_pace' => $current !== null ? $current->pace->number : $this->paceNumber($studentCourse->currentPace),
                 'assignment_status' => $current?->status->label() ?? Str::headline($studentCourse->status->value),
                 'completed_paces' => $completed, 'sequence_total' => $sequenceTotal,
+                'target_term' => $termProgress['term'] ?? null,
+                'term_completed_paces' => $termProgress['completed'] ?? null,
+                'term_pace_target' => $termProgress['target'] ?? null,
+                'term_target_status' => $termProgress['status_label'] ?? null,
+                'term_target_status_key' => $termProgress['status'] ?? null,
+                'term_target_remaining' => $termProgress['remaining'] ?? null,
+                'term_target_exceeded_by' => $termProgress['exceeded_by'] ?? null,
+                'term_target_progress_percent' => $termProgress['progress_percent'] ?? null,
                 'progress_percent' => $sequenceTotal > 0 ? round(($completed / $sequenceTotal) * 100, 1) : 0.0,
                 'failed_cycles' => $assignments->filter(fn (PaceAssignment $assignment): bool => $assignment->status === PaceAssignmentStatus::Failed || $assignment->attempt_cycle > 1)->count(),
                 'days_inactive' => $daysInactive, 'inactive' => $studentCourse->status === StudentCourseStatus::Active && $daysInactive >= 14,
@@ -225,6 +248,12 @@ class ReportDataService
                     'completed_courses' => $rows->where('assignment_status', 'Completed')->count(),
                     'completed_paces' => $rows->sum('completed_paces'),
                     'average_progress' => round((float) $rows->avg('progress_percent'), 1),
+                    'target_term' => $first['target_term'],
+                    'term_completed_paces' => $rows->sum('term_completed_paces'),
+                    'term_target_total' => $rows->sum('term_pace_target'),
+                    'students_target_achieved' => $rows->where('term_target_status_key', 'target_achieved')->count(),
+                    'students_on_track' => $rows->where('term_target_status_key', 'on_track')->count(),
+                    'students_below_target' => $rows->where('term_target_status_key', 'below_target')->count(),
                     'failed_cycles' => $rows->sum('failed_cycles'),
                     'inactive_students' => $rows->where('inactive', true)->count(),
                 ];
@@ -310,7 +339,6 @@ class ReportDataService
     private function applyStudentCourseFilters($query, array $filters): void
     {
         $query->when($filters['academic_year_id'] ?? null, fn ($query, $id) => $query->whereHas('enrollment', fn ($query) => $query->where('academic_year_id', $id)))
-            ->when($filters['term_id'] ?? null, fn ($query, $id) => $query->whereHas('enrollment', fn ($query) => $query->where('term_id', $id)))
             ->when($filters['level_id'] ?? null, fn ($query, $id) => $query->whereHas('enrollment', fn ($query) => $query->where('level_id', $id)))
             ->when($filters['course_id'] ?? null, fn ($query, $id) => $query->where('course_id', $id))
             ->when($filters['student_status'] ?? null, fn ($query, $status) => $query->whereHas('enrollment.student', fn ($query) => $query->where('status', $status)))
@@ -433,11 +461,18 @@ class ReportDataService
         return match ($type) {
             ReportType::StudentProgress => [
                 'records' => $rows->count(), 'completed_paces' => $rows->sum('completed_paces'),
-                'average_progress' => round((float) ($rows->avg('progress_percent') ?? 0), 1), 'attention' => $rows->where('inactive', true)->count(),
+                'average_progress' => round((float) ($rows->avg('progress_percent') ?? 0), 1),
+                'target_achieved' => $rows->where('term_target_status_key', 'target_achieved')->count(),
+                'on_track' => $rows->where('term_target_status_key', 'on_track')->count(),
+                'below_target' => $rows->where('term_target_status_key', 'below_target')->count(),
+                'attention' => $rows->where('inactive', true)->count(),
             ],
             ReportType::CourseProgress => [
                 'records' => $rows->count(), 'students' => $rows->sum('students'),
-                'average_progress' => round((float) ($rows->avg('average_progress') ?? 0), 1), 'attention' => $rows->sum('inactive_students'),
+                'average_progress' => round((float) ($rows->avg('average_progress') ?? 0), 1),
+                'target_achieved' => $rows->sum('students_target_achieved'),
+                'below_target' => $rows->sum('students_below_target'),
+                'attention' => $rows->sum('inactive_students'),
             ],
             ReportType::PendingWork => [
                 'records' => $rows->count(), 'overdue' => $rows->where('overdue', true)->count(),
@@ -456,6 +491,19 @@ class ReportDataService
                 'out_of_stock' => $rows->where('on_hand', 0)->count(),
             ],
         };
+    }
+
+    /** @param array<string, mixed> $filters */
+    private function targetTerm(array $filters): ?Term
+    {
+        return Term::query()
+            ->when(
+                $filters['term_id'] ?? null,
+                fn ($query, $termId) => $query->whereKey($termId),
+                fn ($query) => $query->where('is_active', true)->where('is_closed', false),
+            )
+            ->when($filters['academic_year_id'] ?? null, fn ($query, $yearId) => $query->where('academic_year_id', $yearId))
+            ->first();
     }
 
     /**

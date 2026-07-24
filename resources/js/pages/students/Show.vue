@@ -29,6 +29,18 @@ type Placement = {
         title: string | null;
     } | null;
     pace_options: Array<{ id: number; number: string; title: string | null }>;
+    term_progress: {
+        term_id: number;
+        term: string;
+        completed: number;
+        target: number;
+        remaining: number;
+        exceeded_by: number;
+        expected_by_now: number;
+        progress_percent: number;
+        status: 'target_achieved' | 'on_track' | 'below_target';
+        status_label: string;
+    } | null;
     pace_assignments: Array<{
         id: number;
         status: string;
@@ -412,6 +424,51 @@ defineOptions({
                             </p>
                         </div>
                         <Badge variant="outline">{{ placement.status }}</Badge>
+                    </div>
+                    <div
+                        v-if="tab === 'progress' && placement.term_progress"
+                        class="grid gap-4 border-y py-4 sm:grid-cols-[1fr_auto_auto] sm:items-center"
+                    >
+                        <div>
+                            <div class="text-sm font-medium">
+                                {{ placement.term_progress.term }} PACE target
+                            </div>
+                            <div class="mt-1 text-sm text-muted-foreground">
+                                {{ placement.term_progress.completed }} of
+                                {{ placement.term_progress.target }} distinct
+                                PACEs completed
+                            </div>
+                        </div>
+                        <div class="text-sm sm:text-right">
+                            <template
+                                v-if="placement.term_progress.exceeded_by > 0"
+                            >
+                                {{ placement.term_progress.exceeded_by }}
+                                additional
+                            </template>
+                            <template
+                                v-else-if="
+                                    placement.term_progress.remaining > 0
+                                "
+                            >
+                                {{ placement.term_progress.remaining }}
+                                remaining
+                            </template>
+                            <template v-else>Minimum completed</template>
+                        </div>
+                        <Badge
+                            :variant="
+                                placement.term_progress.status ===
+                                'below_target'
+                                    ? 'destructive'
+                                    : placement.term_progress.status ===
+                                        'on_track'
+                                      ? 'secondary'
+                                      : 'outline'
+                            "
+                        >
+                            {{ placement.term_progress.status_label }}
+                        </Badge>
                     </div>
                     <Form
                         v-if="

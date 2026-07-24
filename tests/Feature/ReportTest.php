@@ -32,6 +32,11 @@ test('student progress is calculated from the configured curriculum sequence', f
         ->where('rows.data.0.admission_number', 'FICA-0001')
         ->where('rows.data.0.completed_paces', 1)
         ->where('rows.data.0.sequence_total', 3)
+        ->where('rows.data.0.target_term', 'Term 1')
+        ->where('rows.data.0.term_completed_paces', 1)
+        ->where('rows.data.0.term_pace_target', 4)
+        ->where('rows.data.0.term_target_remaining', 3)
+        ->where('rows.data.0.term_target_status_key', 'below_target')
         ->where('rows.data.0.progress_percent', 33.3)
         ->where('rows.data.0.inactive', true));
 });
@@ -46,6 +51,9 @@ test('course comparison aggregates student progress and attention counts', funct
         ->where('rows.data.0.course', 'Mathematics')
         ->where('rows.data.0.students', 1)
         ->where('rows.data.0.average_progress', 33.3)
+        ->where('rows.data.0.term_completed_paces', 1)
+        ->where('rows.data.0.term_target_total', 4)
+        ->where('rows.data.0.students_below_target', 1)
         ->where('rows.data.0.inactive_students', 1));
 });
 
@@ -192,5 +200,5 @@ test('student progress query count remains bounded as representative rows increa
     DB::disableQueryLog();
 
     expect($result['rows'])->toHaveCount(101)
-        ->and($queryCount)->toBeLessThanOrEqual(15);
+        ->and($queryCount)->toBeLessThanOrEqual(16);
 });

@@ -21,6 +21,7 @@ type SchoolSettings = {
     self_test_pass_mark: string;
     pace_test_pass_mark: string;
     self_test_retry_limit: number;
+    term_pace_target: number;
 };
 
 defineProps<{ settings: SchoolSettings }>();
@@ -38,7 +39,7 @@ defineOptions({
     <div class="flex max-w-5xl flex-1 flex-col gap-7 p-4 md:p-6">
         <Heading
             title="School settings"
-            description="Manage FICA identity, regional formats, and assessment defaults"
+            description="Manage FICA identity, regional formats, assessment rules, and academic targets"
         />
 
         <Form
@@ -215,13 +216,14 @@ defineOptions({
 
             <section class="space-y-5 border-t pt-7">
                 <div>
-                    <h2 class="text-base font-semibold">Self Test defaults</h2>
+                    <h2 class="text-base font-semibold">Academic defaults</h2>
                     <p class="text-sm text-muted-foreground">
-                        New attempts use these values; finalized attempts retain
-                        their original rules.
+                        New attempts use these assessment values. The term
+                        target is a minimum and does not limit additional PACE
+                        work.
                     </p>
                 </div>
-                <div class="grid max-w-3xl gap-5 md:grid-cols-3">
+                <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                     <div class="grid gap-2">
                         <Label for="self_test_pass_mark">Pass mark (%)</Label>
                         <Input
@@ -267,6 +269,22 @@ defineOptions({
                             required
                         />
                         <InputError :message="errors.self_test_retry_limit" />
+                    </div>
+                    <div class="grid gap-2">
+                        <Label for="term_pace_target"
+                            >PACEs per subject per term</Label
+                        >
+                        <Input
+                            id="term_pace_target"
+                            name="term_pace_target"
+                            type="number"
+                            min="1"
+                            max="100"
+                            step="1"
+                            :default-value="settings.term_pace_target"
+                            required
+                        />
+                        <InputError :message="errors.term_pace_target" />
                     </div>
                 </div>
             </section>

@@ -377,7 +377,8 @@ defineOptions({
                         <th class="px-3 py-2">Student</th>
                         <th class="px-3 py-2">Level / course</th>
                         <th class="px-3 py-2">Current</th>
-                        <th class="px-3 py-2 text-right">Completed</th>
+                        <th class="px-3 py-2 text-right">Curriculum</th>
+                        <th class="px-3 py-2">Term target</th>
                         <th class="px-3 py-2 text-right">Progress</th>
                         <th class="px-3 py-2 text-right">Inactive</th>
                     </tr>
@@ -385,6 +386,7 @@ defineOptions({
                         <th class="px-3 py-2">Level / course</th>
                         <th class="px-3 py-2 text-right">Students</th>
                         <th class="px-3 py-2 text-right">Completed PACEs</th>
+                        <th class="px-3 py-2">Term target</th>
                         <th class="px-3 py-2 text-right">Average</th>
                         <th class="px-3 py-2 text-right">Failed/repeated</th>
                         <th class="px-3 py-2 text-right">Attention</th>
@@ -457,6 +459,47 @@ defineOptions({
                                 {{ row.completed_paces }} /
                                 {{ row.sequence_total }}
                             </td>
+                            <td class="px-3 py-3">
+                                <template v-if="row.term_pace_target !== null">
+                                    <div class="font-mono">
+                                        {{ row.term_completed_paces }} /
+                                        {{ row.term_pace_target }}
+                                    </div>
+                                    <Badge
+                                        class="mt-1"
+                                        :variant="
+                                            row.term_target_status_key ===
+                                            'below_target'
+                                                ? 'destructive'
+                                                : row.term_target_status_key ===
+                                                    'on_track'
+                                                  ? 'secondary'
+                                                  : 'outline'
+                                        "
+                                    >
+                                        {{ row.term_target_status }}
+                                    </Badge>
+                                    <div
+                                        v-if="row.term_target_exceeded_by > 0"
+                                        class="mt-1 text-xs text-muted-foreground"
+                                    >
+                                        +{{ row.term_target_exceeded_by }}
+                                        additional
+                                    </div>
+                                    <div
+                                        v-else-if="
+                                            row.term_target_remaining > 0
+                                        "
+                                        class="mt-1 text-xs text-muted-foreground"
+                                    >
+                                        {{ row.term_target_remaining }}
+                                        remaining
+                                    </div>
+                                </template>
+                                <span v-else class="text-muted-foreground"
+                                    >Not available</span
+                                >
+                            </td>
                             <td class="px-3 py-3 text-right font-mono">
                                 {{ row.progress_percent }}%
                             </td>
@@ -486,6 +529,17 @@ defineOptions({
                             </td>
                             <td class="px-3 py-3 text-right font-mono">
                                 {{ row.completed_paces }}
+                            </td>
+                            <td class="px-3 py-3">
+                                <div class="font-mono">
+                                    {{ row.term_completed_paces }} /
+                                    {{ row.term_target_total }}
+                                </div>
+                                <div class="mt-1 text-xs text-muted-foreground">
+                                    {{ row.students_target_achieved }} achieved
+                                    · {{ row.students_on_track }} on track ·
+                                    {{ row.students_below_target }} below
+                                </div>
                             </td>
                             <td class="px-3 py-3 text-right font-mono">
                                 {{ row.average_progress }}%

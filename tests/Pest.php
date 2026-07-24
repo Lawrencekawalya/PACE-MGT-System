@@ -81,7 +81,11 @@ function createReportFixture(): array
     AcademicYear::query()->update(['is_active' => false]);
     Term::query()->update(['is_active' => false]);
     $year = AcademicYear::factory()->create(['name' => '2026', 'is_active' => true, 'is_closed' => false]);
-    $term = Term::factory()->create(['academic_year_id' => $year->id, 'name' => 'Term 1', 'is_active' => true, 'is_closed' => false]);
+    $term = Term::factory()->create([
+        'academic_year_id' => $year->id, 'name' => 'Term 1',
+        'starts_on' => now()->subDays(60), 'ends_on' => now()->addDays(30),
+        'is_active' => true, 'is_closed' => false,
+    ]);
     $level = Level::factory()->create(['name' => 'Grade 1']);
     $course = Course::factory()->create(['name' => 'Mathematics']);
     $paces = collect([1001, 1002, 1003])->map(fn (int $number, int $index) => Pace::factory()->create([

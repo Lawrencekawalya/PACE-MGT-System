@@ -6,11 +6,14 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\AcademicYear;
 use App\Models\Level;
+use App\Models\SchoolSetting;
 use App\Models\Student;
+use App\Models\Term;
 use App\RoleName;
 use App\Services\ActivityLogger;
 use App\Services\PaceAssignmentService;
 use App\Services\StudentRegistrationService;
+use App\Services\TermPaceTargetService;
 use App\StudentStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,7 +24,12 @@ use Inertia\Response;
 
 class StudentController extends Controller
 {
-    public function __construct(private StudentRegistrationService $students, private ActivityLogger $activityLogger, private PaceAssignmentService $paceAssignments) {}
+    public function __construct(
+        private StudentRegistrationService $students,
+        private ActivityLogger $activityLogger,
+        private PaceAssignmentService $paceAssignments,
+        private TermPaceTargetService $termTargets,
+    ) {}
 
     public function index(Request $request): Response
     {
@@ -84,6 +92,12 @@ class StudentController extends Controller
     public function show(Request $request, Student $student): Response
     {
         Gate::authorize('view', $student);
+        $targetTerm = Term::query()
+            ->where('is_active', true)
+            ->where('is_closed', false)
+            ->whereHas('academicYear', fn ($query) => $query->where('is_active', true)->where('is_closed', false))
+            ->first();
+        $termTarget = SchoolSetting::current()->term_pace_target;
         $student->load(['registeredBy:id,name', 'enrollments' => fn ($query) => $query
             ->with([
                 'academicYear:id,name', 'term:id,name', 'level:id,name', 'learningCenter:id,name',
@@ -93,10 +107,16 @@ class StudentController extends Controller
                 'studentCourses.paceAssignments.assignedBy:id,name',
             ])->latest('enrolled_on')]);
 
-        $student->enrollments->each(function ($enrollment): void {
-            $enrollment->studentCourses->each(function ($studentCourse): void {
+        $student->enrollments->each(function ($enrollment) use ($targetTerm, $termTarget): void {
+            $enrollment->studentCourses->each(function ($studentCourse) use ($enrollment, $targetTerm, $termTarget): void {
                 $studentCourse->setAttribute('recommended_pace', $this->paceAssignments->recommend($studentCourse)?->only(['id', 'number', 'title']));
                 $studentCourse->setAttribute('pace_options', $this->paceAssignments->sequence($studentCourse)->map->only(['id', 'number', 'title'])->values());
+                $studentCourse->setAttribute(
+                    'term_progress',
+                    $targetTerm !== null && $enrollment->academic_year_id === $targetTerm->academic_year_id
+                        ? $this->termTargets->summarize($studentCourse->paceAssignments, $targetTerm, $termTarget)
+                        : null,
+                );
             });
         });
 

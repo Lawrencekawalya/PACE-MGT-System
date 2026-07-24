@@ -10,6 +10,7 @@ use App\Services\ReportExportGenerator;
 use Database\Seeders\AccessControlSeeder;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 beforeEach(function () {
@@ -108,14 +109,23 @@ test('CSV and XLSX jobs use the same report calculations and filters', function 
     Storage::disk('local')->assertExists($export->path);
     $contents = Storage::disk('local')->get($export->path);
     if ($format === 'csv') {
-        expect($contents)->toContain('Admission number')->toContain('FICA-0001')->toContain('33.3');
+        expect($contents)
+            ->toContain('Admission number')
+            ->toContain('Term PACE target')
+            ->toContain('FICA-0001')
+            ->toContain('33.3');
     } else {
         $temporary = tempnam(sys_get_temp_dir(), 'report-test-');
         file_put_contents($temporary, $contents);
         $sheet = IOFactory::load($temporary)->getActiveSheet();
         unlink($temporary);
+        $headers = $sheet->rangeToArray("A1:{$sheet->getHighestColumn()}1")[0];
+        $progressColumn = array_search('Progress %', $headers, true);
+        expect($progressColumn)->not->toBeFalse();
+        expect($headers)->toContain('Term PACE target');
+        $progressCell = Coordinate::stringFromColumnIndex(((int) $progressColumn) + 1).'2';
         expect($sheet->getCell('A2')->getValue())->toBe('FICA-0001')
-            ->and((float) $sheet->getCell('I2')->getValue())->toBe(33.3);
+            ->and((float) $sheet->getCell($progressCell)->getValue())->toBe(33.3);
     }
 })->with(['csv', 'xlsx']);
 

@@ -44,6 +44,7 @@ class UpdateSchoolSettingRequest extends FormRequest
             'self_test_pass_mark' => ['required', 'numeric', 'between:0,100'],
             'pace_test_pass_mark' => ['required', 'numeric', 'between:0,100'],
             'self_test_retry_limit' => ['required', 'integer', 'between:1,10'],
+            'term_pace_target' => ['required', 'integer', 'between:1,100'],
         ];
     }
 }
