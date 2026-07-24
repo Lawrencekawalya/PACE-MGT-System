@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\SystemStatusController;
 use App\Http\Controllers\Admin\TermController;
 use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\InventoryBulkSettingsController;
 use App\Http\Controllers\InventoryController;
@@ -48,6 +49,7 @@ Route::get('ready', ReadinessController::class)->name('ready');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('system-guide', DocumentationController::class)->name('documentation');
     Route::get('reports', ReportController::class)->name('reports.index');
     Route::post('report-exports', [ReportExportController::class, 'store'])->name('report-exports.store');
     Route::get('report-exports/{report_export}/download', ReportExportDownloadController::class)->name('report-exports.download');

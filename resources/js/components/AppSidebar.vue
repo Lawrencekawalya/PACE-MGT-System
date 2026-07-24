@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
 import {
+    BookOpenText,
     CalendarRange,
     ChartNoAxesCombined,
     ClipboardCheck,
@@ -35,7 +36,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
+import { dashboard, documentation } from '@/routes';
 import { systemStatus } from '@/routes/admin';
 import { index as academicPeriodsIndex } from '@/routes/admin/academic-periods';
 import { index as catalogueImportsIndex } from '@/routes/admin/catalogue-imports';
@@ -58,6 +60,7 @@ import { index as suppliersIndex } from '@/routes/suppliers';
 import type { NavGroup, NavItem } from '@/types';
 
 const page = usePage();
+const { isCurrentUrl } = useCurrentUrl();
 const hasPermission = (permission: string): boolean =>
     page.props.auth.permissions.includes(permission);
 
@@ -282,6 +285,20 @@ const navGroups = computed<NavGroup[]>(() => {
         </SidebarContent>
 
         <SidebarFooter>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton
+                        as-child
+                        :is-active="isCurrentUrl(documentation())"
+                        tooltip="System guide"
+                    >
+                        <Link :href="documentation()" prefetch>
+                            <BookOpenText />
+                            <span>System guide</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
             <NavUser />
         </SidebarFooter>
     </Sidebar>
