@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3';
-import { ArrowLeft, PackageCheck, Repeat2, Send, XCircle } from '@lucide/vue';
+import {
+    ArrowLeft,
+    GraduationCap,
+    PackageCheck,
+    Repeat2,
+    Send,
+    XCircle,
+} from '@lucide/vue';
 import PaceAssignmentStatusController from '@/actions/App/Http/Controllers/PaceAssignmentStatusController';
 import PaceAttemptController from '@/actions/App/Http/Controllers/PaceAttemptController';
 import PaceAttemptCorrectionController from '@/actions/App/Http/Controllers/PaceAttemptCorrectionController';
@@ -160,11 +167,27 @@ defineOptions({
 <template>
     <Head :title="`PACE ${assignment.pace.number}`" />
     <div class="flex max-w-[1200px] flex-1 flex-col gap-6 p-4 md:p-6">
-        <Button variant="ghost" size="sm" class="w-fit" as-child
-            ><Link :href="index()"
-                ><ArrowLeft class="size-4" />Work queue</Link
-            ></Button
-        >
+        <div class="flex flex-wrap items-center gap-2">
+            <Button variant="ghost" size="sm" as-child>
+                <Link :href="index()">
+                    <ArrowLeft class="size-4" />
+                    Work queue
+                </Link>
+            </Button>
+            <Button variant="outline" size="sm" as-child>
+                <Link
+                    :href="
+                        showStudent(
+                            assignment.student_course.enrollment.student.id,
+                            { query: { tab: 'progress' } },
+                        )
+                    "
+                >
+                    <GraduationCap class="size-4" />
+                    Student progress
+                </Link>
+            </Button>
+        </div>
         <div class="flex flex-wrap items-start justify-between gap-4">
             <Heading
                 :title="`PACE ${assignment.pace.number}`"
