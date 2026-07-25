@@ -12,6 +12,7 @@ import {
     Users,
 } from '@lucide/vue';
 import { computed } from 'vue';
+import DashboardChart from '@/components/dashboard/DashboardChart.vue';
 import Heading from '@/components/Heading.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,12 @@ type Academic = {
         completed_this_week: number;
         overdue: number;
     };
+    charts: {
+        target_status_by_subject: {
+            categories: string[];
+            series: Array<{ name: string; data: number[] }>;
+        };
+    };
     queue: Array<{
         id: number;
         student: string;
@@ -48,6 +55,16 @@ type Inventory = {
         low_stock: number;
         out_of_stock: number;
         awaiting_issue: number;
+    };
+    charts: {
+        issuance_trend: {
+            categories: string[];
+            series: Array<{ name: string; data: number[] }>;
+        };
+        stock_status: {
+            labels: string[];
+            series: number[];
+        };
     };
     queue: Array<{
         id: number;
@@ -73,6 +90,16 @@ type Clearance = {
         unconfirmed: number;
         restricted: number;
         approaching_or_at_target: number;
+    };
+    charts: {
+        status_distribution: {
+            labels: string[];
+            series: number[];
+        };
+        target_pressure: {
+            categories: string[];
+            series: Array<{ name: string; data: number[] }>;
+        };
     };
     queue: Array<{
         enrollment_id: number;
@@ -285,6 +312,29 @@ defineOptions({
                 </div>
             </div>
 
+            <div
+                class="grid gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]"
+            >
+                <DashboardChart
+                    title="Clearance distribution"
+                    description="Active students by tuition-clearance status"
+                    type="donut"
+                    total-label="Students"
+                    :labels="clearance.charts.status_distribution.labels"
+                    :series="clearance.charts.status_distribution.series"
+                    :colors="['#059669', '#d97706', '#71717a']"
+                />
+                <DashboardChart
+                    title="Target pressure by learning center"
+                    description="Students approaching the target, restricted, or cleared for extra PACEs"
+                    type="bar"
+                    stacked
+                    :categories="clearance.charts.target_pressure.categories"
+                    :series="clearance.charts.target_pressure.series"
+                    :colors="['#d97706', '#dc2626', '#059669']"
+                />
+            </div>
+
             <div>
                 <div class="mb-2 flex items-center justify-between gap-3">
                     <div>
@@ -444,6 +494,18 @@ defineOptions({
                     </div>
                 </div>
             </div>
+            <DashboardChart
+                title="Subject target status"
+                description="Active student subjects against the current term PACE target"
+                type="bar"
+                stacked
+                horizontal
+                :categories="
+                    academic.charts.target_status_by_subject.categories
+                "
+                :series="academic.charts.target_status_by_subject.series"
+                :colors="['#059669', '#0891b2', '#dc2626']"
+            />
             <div>
                 <div class="mb-2 flex items-center justify-between">
                     <h3 class="text-sm font-semibold">Overdue actions</h3>
@@ -551,6 +613,27 @@ defineOptions({
                         {{ metric.label }}
                     </div>
                 </div>
+            </div>
+            <div
+                class="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]"
+            >
+                <DashboardChart
+                    title="PACE issuance trend"
+                    description="Physical issues recorded over the last eight weeks"
+                    type="line"
+                    :categories="inventory.charts.issuance_trend.categories"
+                    :series="inventory.charts.issuance_trend.series"
+                    :colors="['#0891b2']"
+                />
+                <DashboardChart
+                    title="Stock status"
+                    description="Active inventory items by current stock position"
+                    type="donut"
+                    total-label="Inventory items"
+                    :labels="inventory.charts.stock_status.labels"
+                    :series="inventory.charts.stock_status.series"
+                    :colors="['#059669', '#d97706', '#dc2626']"
+                />
             </div>
             <div>
                 <div class="mb-2 flex items-center justify-between">

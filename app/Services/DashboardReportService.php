@@ -9,6 +9,7 @@ use App\Models\PaceRetryApproval;
 use App\Models\SchoolSetting;
 use App\Models\StockMovement;
 use App\Models\Student;
+use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Term;
 use App\Models\TuitionClearance;
@@ -18,12 +19,15 @@ use App\PermissionName;
 use App\RetryApprovalStatus;
 use App\RoleName;
 use App\StockMovementType;
+use App\StudentCourseStatus;
 use App\StudentStatus;
 use App\TuitionClearanceStatus;
 use Illuminate\Support\Collection;
 
 class DashboardReportService
 {
+    public function __construct(private TermPaceTargetService $termTargets) {}
+
     /** @return array<string, mixed>|null */
     public function academic(User $user): ?array
     {
@@ -63,6 +67,9 @@ class DashboardReportService
                 'completed_this_week' => PaceAssignment::query()->visibleTo($user)->where('status', PaceAssignmentStatus::Passed)->where('completed_at', '>=', now()->subDays(7))->count(),
                 'overdue' => (clone $overdue)->count(),
             ],
+            'charts' => [
+                'target_status_by_subject' => $this->academicTargetStatus($user),
+            ],
             'queue' => $queue,
         ];
     }
@@ -94,6 +101,21 @@ class DashboardReportService
                 'out_of_stock' => InventoryItem::query()->where('is_active', true)->whereRaw("{$balanceSql} = 0")->count(),
                 'awaiting_issue' => PaceAssignment::query()->where('status', PaceAssignmentStatus::Assigned)->count(),
             ],
+            'charts' => [
+                'issuance_trend' => $this->issuanceTrend(),
+                'stock_status' => [
+                    'labels' => ['Healthy', 'Low stock', 'Out of stock'],
+                    'series' => [
+                        InventoryItem::query()->where('is_active', true)
+                            ->whereRaw("{$balanceSql} > inventory_items.reorder_level")->count(),
+                        InventoryItem::query()->where('is_active', true)
+                            ->whereRaw("{$balanceSql} > 0")
+                            ->whereRaw("{$balanceSql} <= inventory_items.reorder_level")->count(),
+                        InventoryItem::query()->where('is_active', true)
+                            ->whereRaw("{$balanceSql} = 0")->count(),
+                    ],
+                ],
+            ],
             'queue' => $lowItems,
         ];
     }
@@ -117,6 +139,7 @@ class DashboardReportService
                 'period' => null,
                 'target' => $target,
                 'metrics' => $this->emptyClearanceMetrics(),
+                'charts' => $this->emptyClearanceCharts(),
                 'queue' => [],
             ];
         }
@@ -146,6 +169,8 @@ class DashboardReportService
             ->filter(fn (array $row): bool => $row['completed'] >= max(1, $target - 1))
             ->keys();
         $restrictedIds = $atTargetIds->diff($fullyPaidIds);
+        $nearOnlyIds = $nearTargetIds->diff($atTargetIds);
+        $clearedAtTargetIds = $atTargetIds->intersect($fullyPaidIds);
         $attention = $leadingProgress
             ->filter(fn (array $row, $enrollmentId): bool => $nearTargetIds->contains($enrollmentId)
                 && ! $fullyPaidIds->contains($enrollmentId))
@@ -187,6 +212,29 @@ class DashboardReportService
                     )->count(),
                 'restricted' => $restrictedIds->count(),
                 'approaching_or_at_target' => $nearTargetIds->count(),
+            ],
+            'charts' => [
+                'status_distribution' => [
+                    'labels' => ['Fully paid', 'Partially paid', 'Unconfirmed'],
+                    'series' => [
+                        $statuses->filter(
+                            fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::FullyPaid,
+                        )->count(),
+                        $statuses->filter(
+                            fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::PartiallyPaid,
+                        )->count(),
+                        $enrollmentIds->count()
+                            - $statuses->filter(
+                                fn (TuitionClearanceStatus $status): bool => $status !== TuitionClearanceStatus::Unconfirmed,
+                            )->count(),
+                    ],
+                ],
+                'target_pressure' => $this->clearanceTargetPressure(
+                    $nearTargetIds,
+                    $nearOnlyIds,
+                    $restrictedIds,
+                    $clearedAtTargetIds,
+                ),
             ],
             'queue' => $attention->map(function (array $row, $enrollmentId) use (
                 $queueEnrollments,
@@ -256,6 +304,194 @@ class DashboardReportService
             'unconfirmed' => 0,
             'restricted' => 0,
             'approaching_or_at_target' => 0,
+        ];
+    }
+
+    /**
+     * @return array{
+     *     categories: array<int, string>,
+     *     series: array<int, array{name: string, data: array<int, int>}>
+     * }
+     */
+    private function academicTargetStatus(User $user): array
+    {
+        $term = Term::query()
+            ->where('is_active', true)
+            ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
+            ->first();
+
+        if ($term === null) {
+            return ['categories' => [], 'series' => $this->emptyTargetStatusSeries()];
+        }
+
+        $target = SchoolSetting::current()->term_pace_target;
+        $subjects = StudentCourse::query()
+            ->visibleTo($user)
+            ->where('status', StudentCourseStatus::Active)
+            ->whereHas('enrollment', fn ($query) => $query
+                ->where('academic_year_id', $term->academic_year_id)
+                ->where('status', EnrollmentStatus::Active))
+            ->with([
+                'course:id,name',
+                'paceAssignments' => fn ($query) => $query
+                    ->where('term_id', $term->id)
+                    ->where('status', PaceAssignmentStatus::Passed)
+                    ->whereBetween('completed_at', [
+                        $term->starts_on->copy()->startOfDay(),
+                        $term->ends_on->copy()->endOfDay(),
+                    ])
+                    ->select(['id', 'student_course_id', 'pace_id', 'status', 'completed_at']),
+            ])
+            ->get()
+            ->groupBy(fn (StudentCourse $studentCourse): string => $studentCourse->course->name)
+            ->map(function (Collection $studentCourses) use ($term, $target): array {
+                $statuses = $studentCourses->map(
+                    fn (StudentCourse $studentCourse): string => $this->termTargets
+                        ->summarize($studentCourse->paceAssignments, $term, $target)['status'],
+                );
+
+                return [
+                    'target_achieved' => $statuses->filter(
+                        fn (string $status): bool => $status === 'target_achieved',
+                    )->count(),
+                    'on_track' => $statuses->filter(
+                        fn (string $status): bool => $status === 'on_track',
+                    )->count(),
+                    'below_target' => $statuses->filter(
+                        fn (string $status): bool => $status === 'below_target',
+                    )->count(),
+                ];
+            })
+            ->sortByDesc(fn (array $counts): int => array_sum($counts))
+            ->take(8);
+
+        return [
+            'categories' => $subjects->keys()->values()->all(),
+            'series' => [
+                [
+                    'name' => 'Target achieved',
+                    'data' => $subjects->pluck('target_achieved')->map(fn ($count): int => (int) $count)->values()->all(),
+                ],
+                [
+                    'name' => 'On track',
+                    'data' => $subjects->pluck('on_track')->map(fn ($count): int => (int) $count)->values()->all(),
+                ],
+                [
+                    'name' => 'Below target',
+                    'data' => $subjects->pluck('below_target')->map(fn ($count): int => (int) $count)->values()->all(),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<int, array{name: string, data: array<int, int>}>
+     */
+    private function emptyTargetStatusSeries(): array
+    {
+        return [
+            ['name' => 'Target achieved', 'data' => []],
+            ['name' => 'On track', 'data' => []],
+            ['name' => 'Below target', 'data' => []],
+        ];
+    }
+
+    /**
+     * @return array{
+     *     categories: array<int, string>,
+     *     series: array<int, array{name: string, data: array<int, int>}>
+     * }
+     */
+    private function issuanceTrend(): array
+    {
+        $weeks = collect(range(7, 0))->map(fn (int $weeksAgo) => now()
+            ->startOfWeek()
+            ->subWeeks($weeksAgo));
+        $movements = StockMovement::query()
+            ->where('type', StockMovementType::Issue)
+            ->where('recorded_at', '>=', $weeks->first()->copy()->startOfDay())
+            ->get(['quantity', 'recorded_at'])
+            ->groupBy(fn (StockMovement $movement): string => $movement->recorded_at
+                ->copy()
+                ->startOfWeek()
+                ->toDateString());
+
+        return [
+            'categories' => $weeks->map(fn ($week): string => $week->format('M j'))->all(),
+            'series' => [[
+                'name' => 'PACEs issued',
+                'data' => $weeks->map(fn ($week): int => abs((int) $movements
+                    ->get($week->toDateString(), collect())
+                    ->sum('quantity')))->all(),
+            ]],
+        ];
+    }
+
+    /**
+     * @param  Collection<int, int>  $nearTargetIds
+     * @param  Collection<int, int>  $nearOnlyIds
+     * @param  Collection<int, int>  $restrictedIds
+     * @param  Collection<int, int>  $clearedAtTargetIds
+     * @return array{
+     *     categories: array<int, string>,
+     *     series: array<int, array{name: string, data: array<int, int>}>
+     * }
+     */
+    private function clearanceTargetPressure(
+        Collection $nearTargetIds,
+        Collection $nearOnlyIds,
+        Collection $restrictedIds,
+        Collection $clearedAtTargetIds,
+    ): array {
+        $centers = StudentEnrollment::query()
+            ->whereKey($nearTargetIds)
+            ->with('learningCenter:id,name')
+            ->get(['id', 'learning_center_id'])
+            ->groupBy(fn (StudentEnrollment $enrollment): string => $enrollment->learning_center_id === null
+                ? 'Unassigned'
+                : $enrollment->learningCenter->name)
+            ->map(fn (Collection $enrollments): array => [
+                'near_target' => $enrollments->whereIn('id', $nearOnlyIds)->count(),
+                'restricted' => $enrollments->whereIn('id', $restrictedIds)->count(),
+                'cleared' => $enrollments->whereIn('id', $clearedAtTargetIds)->count(),
+            ])
+            ->sortByDesc(fn (array $counts): int => array_sum($counts))
+            ->take(8);
+
+        return [
+            'categories' => $centers->keys()->values()->all(),
+            'series' => [
+                ['name' => 'Near target', 'data' => $centers->pluck('near_target')->values()->all()],
+                ['name' => 'Restricted', 'data' => $centers->pluck('restricted')->values()->all()],
+                ['name' => 'Cleared at target', 'data' => $centers->pluck('cleared')->values()->all()],
+            ],
+        ];
+    }
+
+    /**
+     * @return array{
+     *     status_distribution: array{labels: array<int, string>, series: array<int, int>},
+     *     target_pressure: array{
+     *         categories: array<int, string>,
+     *         series: array<int, array{name: string, data: array<int, int>}>
+     *     }
+     * }
+     */
+    private function emptyClearanceCharts(): array
+    {
+        return [
+            'status_distribution' => [
+                'labels' => ['Fully paid', 'Partially paid', 'Unconfirmed'],
+                'series' => [0, 0, 0],
+            ],
+            'target_pressure' => [
+                'categories' => [],
+                'series' => [
+                    ['name' => 'Near target', 'data' => []],
+                    ['name' => 'Restricted', 'data' => []],
+                    ['name' => 'Cleared at target', 'data' => []],
+                ],
+            ],
         ];
     }
 }

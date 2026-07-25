@@ -1135,8 +1135,8 @@
     "semantic_hash": ""
   },
   "resources/js/pages/Dashboard.vue": {
-    "mtime": 1784972553.7367675,
-    "ast_hash": "75212bf48e6082224ce7c72b58ea1ae3",
+    "mtime": 1784970638.9782453,
+    "ast_hash": "096aa5ad06be405f20eddffb0a6b0ff1",
     "semantic_hash": ""
   },
   "resources/js/pages/auth/ConfirmPassword.vue": {
@@ -3105,8 +3105,8 @@
     "semantic_hash": ""
   },
   "resources/js/components/dashboard/DashboardChart.vue": {
-    "mtime": 1784972553.5367675,
-    "ast_hash": "f8f06ba8e7e9b513580f2d15a75fd065",
+    "mtime": 1784970359.8963149,
+    "ast_hash": "1d8f5370f077c6098853c3c836c466e3",
     "semantic_hash": ""
   },
   "resources/js/pages/documentation/Index.vue": {
