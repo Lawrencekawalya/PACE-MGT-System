@@ -6,6 +6,7 @@ import StaffPasswordController from '@/actions/App/Http/Controllers/Admin/StaffP
 import StaffAccessFields from '@/components/admin/StaffAccessFields.vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
+import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -114,21 +115,21 @@ defineOptions({
             >
                 <div class="grid gap-2">
                     <Label for="password">New password</Label>
-                    <Input
+                    <PasswordInput
                         id="password"
                         name="password"
-                        type="password"
                         required
+                        autocomplete="new-password"
                     />
                     <InputError :message="errors.password" />
                 </div>
                 <div class="grid gap-2">
                     <Label for="password_confirmation">Confirm password</Label>
-                    <Input
+                    <PasswordInput
                         id="password_confirmation"
                         name="password_confirmation"
-                        type="password"
                         required
+                        autocomplete="new-password"
                     />
                 </div>
                 <div class="grid gap-2 md:col-span-2">
