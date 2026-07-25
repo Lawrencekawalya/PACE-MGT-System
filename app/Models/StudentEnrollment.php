@@ -79,6 +79,12 @@ class StudentEnrollment extends Model
         return $this->hasMany(StudentCourse::class);
     }
 
+    /** @return HasMany<TuitionClearance, $this> */
+    public function tuitionClearances(): HasMany
+    {
+        return $this->hasMany(TuitionClearance::class);
+    }
+
     public function isManagedBy(User $user): bool
     {
         if ($user->hasRole(RoleName::Teacher) && ! $user->hasRole(RoleName::Administrator)) {

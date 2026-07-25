@@ -38,6 +38,18 @@ test('PACE Officer sees only the PACE Officer guide', function () {
             ->where('guides.0.role', RoleName::PaceOfficer->value));
 });
 
+test('Accountant sees only the Accountant guide', function () {
+    $accountant = createStaffWithRole(RoleName::Accountant);
+
+    $this->actingAs($accountant)
+        ->get(route('documentation'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('documentation/Index')
+            ->has('guides', 1)
+            ->where('guides.0.role', RoleName::Accountant->value));
+});
+
 test('staff member with two operational roles sees both guides', function () {
     $staff = createStaffWithRole(RoleName::Teacher);
     $staff->roles()->attach(
@@ -60,11 +72,13 @@ test('administrator sees every role guide for staff support', function () {
         ->get(route('documentation'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->has('guides', 3)
+            ->has('guides', 4)
             ->where('guides.0.role', RoleName::Administrator->value)
             ->where('guides.1.role', RoleName::Teacher->value)
             ->where('guides.2.role', RoleName::PaceOfficer->value)
+            ->where('guides.3.role', RoleName::Accountant->value)
             ->has('guides.0.workflows')
             ->has('guides.1.boundaries')
-            ->has('guides.2.workflows'));
+            ->has('guides.2.workflows')
+            ->has('guides.3.boundaries'));
 });

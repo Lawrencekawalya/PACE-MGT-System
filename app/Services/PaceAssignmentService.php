@@ -22,6 +22,8 @@ use Illuminate\Validation\ValidationException;
 
 class PaceAssignmentService
 {
+    public function __construct(private TuitionClearanceService $tuitionClearances) {}
+
     /** @return Collection<int, Pace> */
     public function sequence(StudentCourse $studentCourse): Collection
     {
@@ -85,6 +87,12 @@ class PaceAssignmentService
             $term = Term::query()->where('academic_year_id', $year->id)->where('is_active', true)->where('is_closed', false)->sole();
             if ($studentCourse->enrollment->academic_year_id !== $year->id) {
                 throw ValidationException::withMessages(['student_course_id' => 'The course placement is not in the active academic year.']);
+            }
+            $eligibility = $this->tuitionClearances->eligibility($studentCourse, $term);
+            if (! $eligibility['additional_pace_allowed']) {
+                throw ValidationException::withMessages([
+                    'pace_id' => "Additional PACE assignment requires full tuition clearance for {$term->name}. The student has completed the {$eligibility['target']}-PACE subject target and is currently {$eligibility['clearance_status_label']}.",
+                ]);
             }
 
             $activeStatuses = collect(PaceAssignmentStatus::cases())->reject->isTerminal()->map->value;

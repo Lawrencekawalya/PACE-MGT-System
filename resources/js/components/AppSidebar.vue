@@ -17,6 +17,7 @@ import {
     PackageOpen,
     Route,
     RefreshCw,
+    ReceiptText,
     School,
     ServerCog,
     Settings2,
@@ -57,6 +58,7 @@ import { index as reordersIndex } from '@/routes/reorders';
 import { index as reportsIndex } from '@/routes/reports';
 import { index as studentsIndex } from '@/routes/students';
 import { index as suppliersIndex } from '@/routes/suppliers';
+import { index as tuitionClearancesIndex } from '@/routes/tuition-clearances';
 import type { NavGroup, NavItem } from '@/types';
 
 const page = usePage();
@@ -77,6 +79,14 @@ const mainNavItems = computed<NavItem[]>(() => {
             title: 'Reports',
             href: reportsIndex(),
             icon: ChartNoAxesCombined,
+        });
+    }
+
+    if (hasPermission('manage-tuition-clearance')) {
+        items.push({
+            title: 'Tuition clearance',
+            href: tuitionClearancesIndex(),
+            icon: ReceiptText,
         });
     }
 

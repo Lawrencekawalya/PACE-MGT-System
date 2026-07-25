@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\SchoolSetting;
 use App\Models\User;
 use App\PermissionName;
+use App\RoleName;
 use App\Services\DashboardReportService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,13 +26,14 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'setup' => $canManageSetup ? [
                 'school_settings' => SchoolSetting::query()->exists(),
-                'roles' => Role::query()->count() === 3,
+                'roles' => Role::query()->count() === count(RoleName::cases()),
                 'administrator' => User::query()->where('is_active', true)
                     ->whereHas('roles', fn ($query) => $query->where('name', 'administrator'))
                     ->exists(),
             ] : null,
             'academic' => $this->reports->academic($request->user()),
             'inventory' => $this->reports->inventory($request->user()),
+            'clearance' => $this->reports->clearance($request->user()),
         ]);
     }
 }

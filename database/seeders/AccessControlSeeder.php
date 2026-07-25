@@ -25,7 +25,15 @@ class AccessControlSeeder extends Seeder
         $roles = collect(RoleName::cases())->mapWithKeys(function (RoleName $role): array {
             $model = Role::query()->updateOrCreate(
                 ['name' => $role->value],
-                ['display_name' => $role->label()],
+                [
+                    'display_name' => $role->label(),
+                    'description' => match ($role) {
+                        RoleName::Administrator => 'Full system oversight and configuration',
+                        RoleName::Teacher => 'Student learning, PACE assignment, and assessment',
+                        RoleName::PaceOfficer => 'PACE issuing, inventory, and ordering',
+                        RoleName::Accountant => 'Term tuition-clearance status management',
+                    },
+                ],
             );
 
             return [$role->value => $model];
@@ -48,6 +56,9 @@ class AccessControlSeeder extends Seeder
                 PermissionName::ManagePurchaseOrders,
                 PermissionName::ReceivePurchaseOrders,
                 PermissionName::ViewInventoryReports,
+            ],
+            RoleName::Accountant->value => [
+                PermissionName::ManageTuitionClearance,
             ],
         ];
 

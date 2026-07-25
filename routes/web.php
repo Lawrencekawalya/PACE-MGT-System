@@ -42,6 +42,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentEnrollmentController;
 use App\Http\Controllers\StudentStatusController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TuitionClearanceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'login'))->name('home');
@@ -50,6 +51,8 @@ Route::get('ready', ReadinessController::class)->name('ready');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::get('system-guide', DocumentationController::class)->name('documentation');
+    Route::get('tuition-clearances', [TuitionClearanceController::class, 'index'])->name('tuition-clearances.index');
+    Route::put('tuition-clearances/{student_enrollment}', [TuitionClearanceController::class, 'update'])->name('tuition-clearances.update');
     Route::get('reports', ReportController::class)->name('reports.index');
     Route::post('report-exports', [ReportExportController::class, 'store'])->name('report-exports.store');
     Route::get('report-exports/{report_export}/download', ReportExportDownloadController::class)->name('report-exports.download');

@@ -15,6 +15,7 @@ use App\Services\PaceAssignmentService;
 use App\Services\StudentRegistrationService;
 use App\Services\TermPaceTargetService;
 use App\StudentStatus;
+use App\TuitionClearanceStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -101,6 +102,9 @@ class StudentController extends Controller
         $student->load(['registeredBy:id,name', 'enrollments' => fn ($query) => $query
             ->with([
                 'academicYear:id,name', 'term:id,name', 'level:id,name', 'learningCenter:id,name',
+                'tuitionClearances' => fn ($query) => $targetTerm === null
+                    ? $query->whereRaw('1 = 0')
+                    : $query->where('term_id', $targetTerm->id),
                 'studentCourses.course.subject:id,name', 'studentCourses.startingPace:id,number',
                 'studentCourses.currentPace:id,number', 'studentCourses.assignedBy:id,name',
                 'studentCourses.paceAssignments.pace:id,course_id,number,title',
@@ -111,11 +115,20 @@ class StudentController extends Controller
             $enrollment->studentCourses->each(function ($studentCourse) use ($enrollment, $targetTerm, $termTarget): void {
                 $studentCourse->setAttribute('recommended_pace', $this->paceAssignments->recommend($studentCourse)?->only(['id', 'number', 'title']));
                 $studentCourse->setAttribute('pace_options', $this->paceAssignments->sequence($studentCourse)->map->only(['id', 'number', 'title'])->values());
+                $termProgress = $targetTerm !== null && $enrollment->academic_year_id === $targetTerm->academic_year_id
+                    ? $this->termTargets->summarize($studentCourse->paceAssignments, $targetTerm, $termTarget)
+                    : null;
+                $clearanceStatus = $enrollment->tuitionClearances->first()->status
+                    ?? TuitionClearanceStatus::Unconfirmed;
                 $studentCourse->setAttribute(
                     'term_progress',
-                    $targetTerm !== null && $enrollment->academic_year_id === $targetTerm->academic_year_id
-                        ? $this->termTargets->summarize($studentCourse->paceAssignments, $targetTerm, $termTarget)
-                        : null,
+                    $termProgress === null ? null : [
+                        ...$termProgress,
+                        'clearance_status' => $clearanceStatus->value,
+                        'clearance_status_label' => $clearanceStatus->label(),
+                        'additional_pace_allowed' => $termProgress['completed'] < $termTarget
+                            || $clearanceStatus === TuitionClearanceStatus::FullyPaid,
+                    ],
                 );
             });
         });

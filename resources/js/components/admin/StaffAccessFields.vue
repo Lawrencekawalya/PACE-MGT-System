@@ -83,7 +83,7 @@ withDefaults(
 
     <fieldset class="space-y-3">
         <legend class="text-sm font-medium">Roles</legend>
-        <div class="grid gap-3 md:grid-cols-3">
+        <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             <label
                 v-for="role in roles"
                 :key="role.name"

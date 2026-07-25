@@ -25,6 +25,17 @@ test('administrator can list staff accounts', function () {
             ->has('staff.data', 2));
 });
 
+test('administrator sees every operational role when creating staff', function () {
+    $this->actingAs($this->administrator)
+        ->get(route('admin.staff.create'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/staff/Create')
+            ->has('roles', count(RoleName::cases()))
+            ->where('roles.0.name', RoleName::Accountant->value)
+            ->where('roles.0.display_name', RoleName::Accountant->label()));
+});
+
 test('administrator can create staff with roles and approved optional permission', function () {
     $this->actingAs($this->administrator)
         ->post(route('admin.staff.store'), [

@@ -27,7 +27,7 @@ class RoleGuideService
         $roles = $user->hasRole(RoleName::Administrator)
             ? RoleName::cases()
             : array_filter(
-                [RoleName::Teacher, RoleName::PaceOfficer],
+                [RoleName::Teacher, RoleName::PaceOfficer, RoleName::Accountant],
                 fn (RoleName $role): bool => $user->hasRole($role),
             );
         $guides = $this->guides();
@@ -60,7 +60,7 @@ class RoleGuideService
                         'title' => 'Set up staff access',
                         'outcome' => 'Every staff member has only the access needed for their work.',
                         'steps' => [
-                            'Create staff accounts and assign the Administrator, Teacher, or PACE Officer role.',
+                            'Create staff accounts and assign the Administrator, Teacher, PACE Officer, or Accountant role.',
                             'Assign both Teacher and PACE Officer roles only when one person performs both duties.',
                             'Review active accounts, reset passwords when authorized, and remove access by deactivating accounts instead of deleting history.',
                         ],
@@ -107,7 +107,7 @@ class RoleGuideService
                         'steps' => [
                             'Use academic, issuing, and inventory reports with the appropriate period and export only the data required.',
                             'Use System status to review infrastructure, catalogue, stock-ledger, ownership, and active-period checks.',
-                            'Use the Teacher and PACE Officer guides on this page when training or supporting those users.',
+                            'Use the Teacher, PACE Officer, and Accountant guides on this page when training or supporting those users.',
                         ],
                     ],
                 ],
@@ -146,6 +146,7 @@ class RoleGuideService
                         'steps' => [
                             'Use the diagnostic result to select the starting PACE for each enrolled course.',
                             'Assign the next required PACE from the student progress view.',
+                            'After the subject term target is reached, confirm that tuition clearance permits an additional PACE before assignment.',
                             'Send the physical issue request to the PACE Officer; issuance moves the assignment into progress.',
                         ],
                     ],
@@ -250,6 +251,63 @@ class RoleGuideService
                     'You cannot register students, prescribe courses, assign PACEs academically, or record tests unless you also hold the Teacher role.',
                     'You can prepare and receive purchase orders, but administrator approval is required before an order is sent.',
                     'A consumable PACE issue is permanent; corrections must preserve the original issuance and stock audit trail.',
+                ],
+            ],
+            RoleName::Accountant->value => [
+                'role' => RoleName::Accountant->value,
+                'label' => RoleName::Accountant->label(),
+                'summary' => 'Maintain term tuition-clearance statuses that control eligibility for PACEs beyond the mandatory subject target.',
+                'workflows' => [
+                    [
+                        'title' => 'Open the active-term roster',
+                        'outcome' => 'The correct students and academic period are ready for clearance review.',
+                        'steps' => [
+                            'Open Tuition clearance and confirm the selected academic year and term.',
+                            'Filter the roster by learning center, grade, clearance status, student name, or admission number.',
+                            'Use the summary totals to identify fully paid, partially paid, and unconfirmed students.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Review additional PACE eligibility',
+                        'outcome' => 'Students at the subject target receive the correct clearance attention.',
+                        'steps' => [
+                            'Expand a student to review distinct PACEs completed in each subject during the selected term.',
+                            'Identify subjects that have reached the configured minimum PACE target.',
+                            'Treat partially paid and unconfirmed students as restricted only after they reach the subject target.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Record tuition clearance',
+                        'outcome' => 'The student has an auditable term clearance status.',
+                        'steps' => [
+                            'Choose Unconfirmed, Partially paid, or Fully paid for the selected term.',
+                            'Add the available receipt or administrative reference and a concise internal note.',
+                            'Save the status and confirm that the staff member, date, and new eligibility are displayed.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Correct a clearance status',
+                        'outcome' => 'Corrections preserve the original decision trail.',
+                        'steps' => [
+                            'Open the student details and review the recent clearance history before changing a status.',
+                            'Record the corrected status with the supporting reference or note.',
+                            'Confirm that previous and new statuses remain visible in clearance history.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Complete term review',
+                        'outcome' => 'Clearance records are ready before students request additional PACEs.',
+                        'steps' => [
+                            'Filter Unconfirmed and Partially paid students before the term target is widely reached.',
+                            'Resolve supported updates and leave uncertain records unconfirmed until evidence is available.',
+                            'Repeat the process independently for each new academic term.',
+                        ],
+                    ],
+                ],
+                'boundaries' => [
+                    'You record clearance statuses only; the module does not manage amounts, invoices, balances, expenses, or financial statements.',
+                    'You cannot register students, assign or issue PACEs, record assessments, adjust inventory, or make promotion decisions.',
+                    'Clearance is term-specific; a status from one term does not automatically apply to another term.',
                 ],
             ],
         ];

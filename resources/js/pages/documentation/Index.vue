@@ -4,6 +4,7 @@ import {
     BookOpenCheck,
     Check,
     GraduationCap,
+    ReceiptText,
     ShieldCheck,
     UserCog,
     Warehouse,
@@ -42,7 +43,11 @@ function roleIcon(role: string): Component {
         return UserCog;
     }
 
-    return role === 'teacher' ? GraduationCap : Warehouse;
+    if (role === 'teacher') {
+        return GraduationCap;
+    }
+
+    return role === 'accountant' ? ReceiptText : Warehouse;
 }
 
 defineOptions({

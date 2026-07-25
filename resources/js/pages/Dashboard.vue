@@ -6,6 +6,7 @@ import {
     Circle,
     ClipboardCheck,
     PackageCheck,
+    ReceiptText,
     School,
     ShieldCheck,
     Users,
@@ -20,6 +21,7 @@ import { index as staffIndex } from '@/routes/admin/staff';
 import { show as inventoryItemShow } from '@/routes/inventory-items';
 import { show as assignmentShow } from '@/routes/pace-assignments';
 import { index as reportsIndex } from '@/routes/reports';
+import { index as tuitionClearancesIndex } from '@/routes/tuition-clearances';
 
 type Academic = {
     metrics: {
@@ -56,6 +58,36 @@ type Inventory = {
         reorder_level: number;
     }>;
 };
+type Clearance = {
+    period: {
+        academic_year_id: number;
+        academic_year: string;
+        term_id: number;
+        term: string;
+    } | null;
+    target: number;
+    metrics: {
+        students: number;
+        fully_paid: number;
+        partially_paid: number;
+        unconfirmed: number;
+        restricted: number;
+        approaching_or_at_target: number;
+    };
+    queue: Array<{
+        enrollment_id: number;
+        student: string;
+        admission_number: string;
+        learning_center: string;
+        level: string;
+        course: string;
+        completed: number;
+        target: number;
+        clearance_status: string;
+        clearance_status_label: string;
+        restricted: boolean;
+    }>;
+};
 const props = defineProps<{
     setup: {
         school_settings: boolean;
@@ -64,6 +96,7 @@ const props = defineProps<{
     } | null;
     academic: Academic | null;
     inventory: Inventory | null;
+    clearance: Clearance | null;
 }>();
 const page = usePage();
 const setupItems = computed(() => [
@@ -145,6 +178,44 @@ const inventoryMetrics = computed(() =>
           ]
         : [],
 );
+const clearanceMetrics = computed(() =>
+    props.clearance
+        ? [
+              {
+                  label: 'Enrolled students',
+                  value: props.clearance.metrics.students,
+              },
+              {
+                  label: 'Fully paid',
+                  value: props.clearance.metrics.fully_paid,
+              },
+              {
+                  label: 'Partially paid',
+                  value: props.clearance.metrics.partially_paid,
+                  attention: true,
+              },
+              {
+                  label: 'Unconfirmed',
+                  value: props.clearance.metrics.unconfirmed,
+                  attention: true,
+              },
+              {
+                  label: 'Restricted from extras',
+                  value: props.clearance.metrics.restricted,
+                  critical: true,
+              },
+              {
+                  label: 'Near or at subject target',
+                  value: props.clearance.metrics.approaching_or_at_target,
+              },
+          ]
+        : [],
+);
+const dashboardDescription = computed(() =>
+    props.clearance && !props.academic && !props.inventory
+        ? 'Today’s tuition-clearance workload and additional PACE eligibility'
+        : 'Today’s PACE operations and exceptions',
+);
 defineOptions({
     layout: { breadcrumbs: [{ title: 'Dashboard', href: dashboard() }] },
 });
@@ -155,8 +226,178 @@ defineOptions({
     <div class="flex max-w-[1500px] flex-1 flex-col gap-8 p-4 md:p-6">
         <Heading
             :title="`Welcome, ${page.props.auth.user.name}`"
-            description="Today’s PACE operations and exceptions"
+            :description="dashboardDescription"
         />
+
+        <section v-if="clearance" class="space-y-4">
+            <div class="flex items-center justify-between gap-3">
+                <div>
+                    <h2 class="font-semibold">Tuition clearance</h2>
+                    <p class="text-sm text-muted-foreground">
+                        <template v-if="clearance.period">
+                            {{ clearance.period.academic_year }} ·
+                            {{ clearance.period.term }} ·
+                            {{ clearance.target }}-PACE subject target
+                        </template>
+                        <template v-else>
+                            No active academic term is configured
+                        </template>
+                    </p>
+                </div>
+                <Button size="sm" variant="outline" as-child>
+                    <Link :href="tuitionClearancesIndex()">
+                        <ReceiptText class="size-4" />
+                        Open clearance
+                    </Link>
+                </Button>
+            </div>
+
+            <div
+                class="grid grid-cols-2 gap-px overflow-hidden rounded-md border bg-border md:grid-cols-3 xl:grid-cols-6"
+            >
+                <div
+                    v-for="metric in clearanceMetrics"
+                    :key="metric.label"
+                    class="bg-background p-4"
+                >
+                    <div
+                        class="flex items-center gap-2 text-2xl font-semibold"
+                        :class="
+                            metric.critical && metric.value
+                                ? 'text-destructive'
+                                : metric.attention && metric.value
+                                  ? 'text-amber-700 dark:text-amber-400'
+                                  : ''
+                        "
+                    >
+                        <AlertTriangle
+                            v-if="
+                                (metric.critical || metric.attention) &&
+                                metric.value
+                            "
+                            class="size-4"
+                        />
+                        {{ metric.value }}
+                    </div>
+                    <div class="text-xs text-muted-foreground">
+                        {{ metric.label }}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-2 flex items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-sm font-semibold">
+                            Clearance attention
+                        </h3>
+                        <p class="text-xs text-muted-foreground">
+                            Unconfirmed or partially paid students near the
+                            subject target
+                        </p>
+                    </div>
+                    <Link
+                        class="text-sm text-primary hover:underline"
+                        :href="
+                            tuitionClearancesIndex({
+                                query: { status: 'unconfirmed' },
+                            })
+                        "
+                    >
+                        Review unconfirmed
+                    </Link>
+                </div>
+                <div class="overflow-x-auto rounded-md border">
+                    <table class="w-full min-w-4xl text-sm">
+                        <thead class="border-b bg-muted/40 text-left">
+                            <tr>
+                                <th class="px-3 py-2">Student</th>
+                                <th class="px-3 py-2">
+                                    Learning center / grade
+                                </th>
+                                <th class="px-3 py-2">Subject progress</th>
+                                <th class="px-3 py-2">Clearance</th>
+                                <th class="px-3 py-2">Eligibility</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr
+                                v-for="item in clearance.queue"
+                                :key="item.enrollment_id"
+                            >
+                                <td class="px-3 py-2.5">
+                                    <Link
+                                        class="font-medium hover:underline"
+                                        :href="
+                                            tuitionClearancesIndex({
+                                                query: {
+                                                    search: item.admission_number,
+                                                    term_id:
+                                                        clearance.period
+                                                            ?.term_id,
+                                                },
+                                            })
+                                        "
+                                    >
+                                        {{ item.student }}
+                                    </Link>
+                                    <div
+                                        class="font-mono text-xs text-muted-foreground"
+                                    >
+                                        {{ item.admission_number }}
+                                    </div>
+                                </td>
+                                <td class="px-3 py-2.5">
+                                    {{ item.learning_center }}
+                                    <div class="text-xs text-muted-foreground">
+                                        {{ item.level }}
+                                    </div>
+                                </td>
+                                <td class="px-3 py-2.5">
+                                    {{ item.course }}
+                                    <div
+                                        class="font-mono text-xs text-muted-foreground"
+                                    >
+                                        {{ item.completed }} /
+                                        {{ item.target }} passed
+                                    </div>
+                                </td>
+                                <td class="px-3 py-2.5">
+                                    <Badge variant="outline">
+                                        {{ item.clearance_status_label }}
+                                    </Badge>
+                                </td>
+                                <td class="px-3 py-2.5">
+                                    <Badge
+                                        :variant="
+                                            item.restricted
+                                                ? 'destructive'
+                                                : 'secondary'
+                                        "
+                                    >
+                                        {{
+                                            item.restricted
+                                                ? 'Additional PACEs restricted'
+                                                : 'Approaching target'
+                                        }}
+                                    </Badge>
+                                </td>
+                            </tr>
+                            <tr v-if="clearance.queue.length === 0">
+                                <td
+                                    colspan="5"
+                                    class="px-4 py-10 text-center text-muted-foreground"
+                                >
+                                    <ReceiptText class="mx-auto mb-2 size-5" />
+                                    No students currently require clearance
+                                    attention.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
 
         <section v-if="academic" class="space-y-4">
             <div class="flex items-center justify-between gap-3">
