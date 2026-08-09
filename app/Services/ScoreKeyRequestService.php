@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\InventoryItemType;
 use App\Models\InventoryItem;
-use App\Models\LearningCenter;
 use App\Models\ScoreKeyRequest;
 use App\Models\StockMovement;
 use App\Models\User;
@@ -26,14 +25,19 @@ class ScoreKeyRequestService
     {
         return DB::transaction(function () use ($data, $teacher): ScoreKeyRequest {
             $teacher = User::query()->lockForUpdate()->findOrFail($teacher->id);
-            $centerId = (int) $data['learning_center_id'];
             $itemId = (int) $data['inventory_item_id'];
-            $center = LearningCenter::query()->where('is_active', true)->findOrFail($centerId);
-            if (! $teacher->learningCenters()->whereKey($center->id)->exists()) {
+            $centers = $teacher->learningCenters()
+                ->where('learning_centers.is_active', true)
+                ->orderBy('learning_centers.id')
+                ->get();
+            if ($centers->count() !== 1) {
                 throw ValidationException::withMessages([
-                    'learning_center_id' => 'You may request Score Keys only for a learning center assigned to you.',
+                    'learning_center_id' => $centers->isEmpty()
+                        ? 'You must be assigned to an active learning center before requesting a Score Key.'
+                        : 'Your account has more than one active learning center. Ask an administrator to retain the correct assignment.',
                 ]);
             }
+            $center = $centers->firstOrFail();
             $item = InventoryItem::query()
                 ->where('item_type', InventoryItemType::ScoreKey)
                 ->where('is_active', true)

@@ -48,6 +48,7 @@ function scoreKeyFixture(int $stock = 3): array
 
 test('Teacher requests a matching Score Key for an assigned learning center', function () {
     $data = scoreKeyFixture();
+    $unrelatedCenter = LearningCenter::factory()->create();
 
     $this->actingAs($data['teacher'])
         ->get(route('score-key-requests.index'))
@@ -57,11 +58,13 @@ test('Teacher requests a matching Score Key for an assigned learning center', fu
             ->where('canRequest', true)
             ->where('canIssue', false)
             ->has('learningCenters', 1)
+            ->where('assignedLearningCenter.id', $data['center']->id)
+            ->where('learningCenterAssignmentIssue', null)
             ->has('scoreKeys', 1));
 
     $this->actingAs($data['teacher'])
         ->post(route('score-key-requests.store'), [
-            'learning_center_id' => $data['center']->id,
+            'learning_center_id' => $unrelatedCenter->id,
             'inventory_item_id' => $data['item']->id,
             'request_type' => ScoreKeyRequestType::NewIssue->value,
             'quantity_requested' => 1,
@@ -77,7 +80,7 @@ test('Teacher requests a matching Score Key for an assigned learning center', fu
         ->and(ActivityLog::query()->where('event', 'score-key-request.created')->exists())->toBeTrue();
 });
 
-test('Teacher cannot request outside assigned centers or submit duplicate and invalid issue types', function () {
+test('Teacher cannot submit duplicates or request with an ambiguous center assignment', function () {
     $data = scoreKeyFixture();
     $otherCenter = LearningCenter::factory()->create();
     $payload = [
@@ -87,15 +90,29 @@ test('Teacher cannot request outside assigned centers or submit duplicate and in
     ];
 
     $this->actingAs($data['teacher'])
-        ->post(route('score-key-requests.store'), [...$payload, 'learning_center_id' => $otherCenter->id])
-        ->assertSessionHasErrors('learning_center_id');
-
-    $this->actingAs($data['teacher'])
-        ->post(route('score-key-requests.store'), [...$payload, 'learning_center_id' => $data['center']->id])
+        ->post(route('score-key-requests.store'), $payload)
         ->assertSessionHasNoErrors();
     $this->actingAs($data['teacher'])
-        ->post(route('score-key-requests.store'), [...$payload, 'learning_center_id' => $data['center']->id])
+        ->post(route('score-key-requests.store'), $payload)
         ->assertSessionHasErrors('inventory_item_id');
+
+    $data['teacher']->learningCenters()->attach($otherCenter);
+    $this->actingAs($data['teacher'])
+        ->post(route('score-key-requests.store'), $payload)
+        ->assertSessionHasErrors('learning_center_id');
+});
+
+test('Teacher without an active learning center cannot request a Score Key', function () {
+    $data = scoreKeyFixture();
+    $data['teacher']->learningCenters()->detach();
+
+    $this->actingAs($data['teacher'])
+        ->post(route('score-key-requests.store'), [
+            'inventory_item_id' => $data['item']->id,
+            'request_type' => ScoreKeyRequestType::NewIssue->value,
+            'quantity_requested' => 1,
+        ])
+        ->assertSessionHasErrors('learning_center_id');
 });
 
 test('PACE Officer partially and then fully issues permanent Score Key stock', function () {
@@ -211,7 +228,6 @@ test('Teacher requests a reasoned replacement after an effective prior issue', f
 
     $this->actingAs($data['teacher'])
         ->post(route('score-key-requests.store'), [
-            'learning_center_id' => $data['center']->id,
             'inventory_item_id' => $data['item']->id,
             'request_type' => ScoreKeyRequestType::Replacement->value,
             'quantity_requested' => 1,

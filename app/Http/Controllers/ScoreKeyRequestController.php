@@ -74,6 +74,23 @@ class ScoreKeyRequestController extends Controller
                 'label' => "{$item->pace->course->name} · PACE {$item->pace->number}".($item->pace->title ? " · {$item->pace->title}" : '')." · {$item->sku}",
                 'on_hand' => (int) ($item->on_hand ?? 0),
             ]);
+        $learningCenters = $canRequest
+            ? $request->user()->learningCenters()
+                ->where('learning_centers.is_active', true)
+                ->orderBy('learning_centers.name')
+                ->get(['learning_centers.id', 'name', 'code'])
+            : LearningCenter::query()
+                ->where('is_active', true)
+                ->orderBy('name')
+                ->get(['id', 'name', 'code']);
+        $assignedLearningCenter = $canRequest && $learningCenters->count() === 1
+            ? $learningCenters->first()
+            : null;
+        $learningCenterAssignmentIssue = $canRequest && $assignedLearningCenter === null
+            ? ($learningCenters->isEmpty()
+                ? 'No active learning center is assigned to your account.'
+                : 'More than one active learning center is assigned to your account. Ask an administrator to retain the correct assignment.')
+            : null;
 
         return Inertia::render('score-key-requests/Index', [
             'requests' => $query,
@@ -84,10 +101,9 @@ class ScoreKeyRequestController extends Controller
                 'issued' => (clone $baseQuery)->where('status', ScoreKeyRequestStatus::Issued)->count(),
             ],
             'scoreKeys' => $scoreKeys,
-            'learningCenters' => ($canRequest
-                ? $request->user()->learningCenters()->where('is_active', true)
-                : LearningCenter::query()->where('is_active', true))
-                ->orderBy('name')->get(['learning_centers.id', 'name', 'code']),
+            'learningCenters' => $learningCenters,
+            'assignedLearningCenter' => $assignedLearningCenter,
+            'learningCenterAssignmentIssue' => $learningCenterAssignmentIssue,
             'requestTypes' => collect(ScoreKeyRequestType::cases())->map(fn ($type) => ['value' => $type->value, 'label' => $type->label()]),
             'statuses' => collect(ScoreKeyRequestStatus::cases())->map(fn ($status) => ['value' => $status->value, 'label' => $status->label()]),
             'myScoreKeys' => $canRequest ? $this->teacherScoreKeys($request->user()->id) : [],

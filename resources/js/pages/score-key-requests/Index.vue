@@ -71,6 +71,8 @@ const props = defineProps<{
     summary: { pending: number; partially_issued: number; issued: number };
     scoreKeys: Array<{ id: number; label: string; on_hand: number }>;
     learningCenters: Array<{ id: number; name: string; code: string }>;
+    assignedLearningCenter: { id: number; name: string; code: string } | null;
+    learningCenterAssignmentIssue: string | null;
     requestTypes: Array<{ value: string; label: string }>;
     statuses: Array<{ value: string; label: string }>;
     myScoreKeys: Array<{
@@ -157,27 +159,27 @@ defineOptions({
                     Issued copies remain with you across academic terms.
                 </p>
             </div>
-            <div class="grid gap-3 lg:grid-cols-[0.8fr_1.6fr_0.7fr_0.5fr]">
+            <div class="grid gap-3 lg:grid-cols-[0.9fr_1.6fr_0.7fr_0.5fr]">
                 <div>
-                    <label class="text-sm font-medium" for="learning_center_id">
-                        Learning center
-                    </label>
-                    <select
-                        id="learning_center_id"
-                        name="learning_center_id"
-                        required
-                        class="mt-1 h-9 w-full rounded-md border bg-transparent px-3 text-sm"
+                    <div class="text-sm font-medium">Learning center</div>
+                    <div
+                        class="mt-1 flex h-9 items-center rounded-md border bg-muted/30 px-3 text-sm"
                     >
-                        <option value="">Select center</option>
-                        <option
-                            v-for="center in learningCenters"
-                            :key="center.id"
-                            :value="center.id"
-                        >
-                            {{ center.name }}
-                        </option>
-                    </select>
-                    <InputError :message="errors.learning_center_id" />
+                        <span v-if="assignedLearningCenter">
+                            {{ assignedLearningCenter.name }} ·
+                            {{ assignedLearningCenter.code }}
+                        </span>
+                        <span v-else class="text-destructive">
+                            Assignment required
+                        </span>
+                    </div>
+                    <InputError
+                        :message="
+                            errors.learning_center_id ||
+                            learningCenterAssignmentIssue ||
+                            undefined
+                        "
+                    />
                 </div>
                 <div>
                     <label class="text-sm font-medium"
@@ -261,7 +263,7 @@ defineOptions({
                 </div>
             </div>
             <div>
-                <Button :disabled="processing || learningCenters.length === 0">
+                <Button :disabled="processing || !assignedLearningCenter">
                     <Send class="size-4" />
                     Submit request
                 </Button>

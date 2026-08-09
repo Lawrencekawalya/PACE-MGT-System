@@ -164,7 +164,7 @@ class RoleGuideService
                         'title' => 'Request and keep Score Keys',
                         'outcome' => 'You have the answer keys needed to supervise PACEs in your learning center.',
                         'steps' => [
-                            'Open Score Key requests and select your learning center and the matching PACE Score Key.',
+                            'Open Score Key requests, confirm the learning center fetched from your staff assignment, and select the matching PACE Score Key.',
                             'Choose New issue for your first copy, or give a reason when requesting a replacement or additional copy.',
                             'Track pending and partially issued requests until the PACE Officer completes the handover.',
                             'Keep issued Score Keys securely; they remain assigned to you and may be reused across academic terms.',

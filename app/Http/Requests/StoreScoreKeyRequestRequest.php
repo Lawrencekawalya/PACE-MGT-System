@@ -30,7 +30,6 @@ class StoreScoreKeyRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'learning_center_id' => ['required', 'integer', 'exists:learning_centers,id'],
             'inventory_item_id' => [
                 'required',
                 'integer',
