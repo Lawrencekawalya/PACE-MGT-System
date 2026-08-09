@@ -81,6 +81,16 @@ class PurchaseOrderPolicy
             && $user->hasPermission(PermissionName::ManagePurchaseOrders);
     }
 
+    public function export(User $user, PurchaseOrder $purchaseOrder): bool
+    {
+        return in_array($purchaseOrder->status, [
+            PurchaseOrderStatus::Approved,
+            PurchaseOrderStatus::Sent,
+            PurchaseOrderStatus::PartiallyReceived,
+            PurchaseOrderStatus::Received,
+        ], true) && $this->viewAny($user);
+    }
+
     public function receive(User $user, PurchaseOrder $purchaseOrder): bool
     {
         return in_array($purchaseOrder->status, [PurchaseOrderStatus::Sent, PurchaseOrderStatus::PartiallyReceived], true)

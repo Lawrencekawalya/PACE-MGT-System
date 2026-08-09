@@ -30,6 +30,7 @@ use App\Http\Controllers\PaceAttemptCorrectionController;
 use App\Http\Controllers\PaceIssuingController;
 use App\Http\Controllers\PaceRetryApprovalController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\PurchaseOrderExportController;
 use App\Http\Controllers\PurchaseOrderLineController;
 use App\Http\Controllers\PurchaseOrderQueueController;
 use App\Http\Controllers\PurchaseOrderWorkflowController;
@@ -72,6 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('suppliers', SupplierController::class)->only(['index', 'store', 'update']);
     Route::get('purchase-orders/submitted', [PurchaseOrderQueueController::class, 'submitted'])->name('purchase-orders.submitted');
     Route::get('purchase-orders/approved', [PurchaseOrderQueueController::class, 'approved'])->name('purchase-orders.approved');
+    Route::get('purchase-orders/{purchase_order}/download', PurchaseOrderExportController::class)->name('purchase-orders.download');
     Route::resource('purchase-orders', PurchaseOrderController::class)->only(['index', 'store', 'show']);
     Route::post('purchase-orders/{purchase_order}/lines', [PurchaseOrderLineController::class, 'store'])->name('purchase-orders.lines.store');
     Route::put('purchase-order-lines/{purchase_order_line}', [PurchaseOrderLineController::class, 'update'])->name('purchase-order-lines.update');

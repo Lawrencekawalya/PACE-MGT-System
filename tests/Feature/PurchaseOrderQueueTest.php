@@ -39,7 +39,8 @@ test('administrators review only submitted orders in the approval queue', functi
             ->where('orders.data.0.lines_count', 1)
             ->where('orders.data.0.units_count', 12)
             ->where('orders.data.0.can_decide', true)
-            ->where('orders.data.0.can_send', false));
+            ->where('orders.data.0.can_send', false)
+            ->where('orders.data.0.can_export', false));
 });
 
 test('only administrators can access the submitted order queue', function (RoleName $role) {
@@ -75,7 +76,8 @@ test('administrators and PACE Officers see only approved orders in the dispatch 
             ->has('orders.data', 1)
             ->where('orders.data.0.id', $approved->id)
             ->where('orders.data.0.can_decide', false)
-            ->where('orders.data.0.can_send', $canSend));
+            ->where('orders.data.0.can_send', $canSend)
+            ->where('orders.data.0.can_export', true));
 })->with([
     'Administrator oversight' => [RoleName::Administrator, false],
     'PACE Officer dispatch' => [RoleName::PaceOfficer, true],

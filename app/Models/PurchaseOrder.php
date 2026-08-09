@@ -4,21 +4,23 @@ namespace App\Models;
 
 use App\PurchaseOrderSource;
 use App\PurchaseOrderStatus;
+use Carbon\CarbonInterface;
 use Database\Factories\PurchaseOrderFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
 /**
  * @property PurchaseOrderSource $source
  * @property PurchaseOrderStatus $status
- * @property Carbon|null $submitted_at
- * @property Carbon|null $decided_at
- * @property Carbon|null $sent_at
- * @property Carbon|null $cancelled_at
+ * @property CarbonInterface|null $expected_on
+ * @property CarbonInterface|null $submitted_at
+ * @property int|null $decided_by
+ * @property CarbonInterface|null $decided_at
+ * @property CarbonInterface|null $sent_at
+ * @property CarbonInterface|null $cancelled_at
  */
 #[Fillable([
     'order_number', 'supplier_id', 'source', 'status', 'expected_on', 'notes',

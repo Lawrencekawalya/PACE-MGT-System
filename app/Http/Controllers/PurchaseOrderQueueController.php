@@ -70,6 +70,8 @@ class PurchaseOrderQueueController extends Controller
                 'can_send' => $status === PurchaseOrderStatus::Approved
                     && $user->hasRole(RoleName::PaceOfficer)
                     && $user->hasPermission(PermissionName::ManagePurchaseOrders),
+                'can_export' => $status === PurchaseOrderStatus::Approved
+                    && Gate::allows('export', $order),
             ]);
 
         return Inertia::render('purchase-orders/Queue', [

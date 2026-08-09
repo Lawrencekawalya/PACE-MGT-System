@@ -3,8 +3,12 @@ import { Form, Head, Link, router } from '@inertiajs/vue3';
 import {
     BadgeCheck,
     Check,
+    ChevronDown,
     ChevronRight,
+    Download,
     Eye,
+    FileSpreadsheet,
+    FileText,
     FilePenLine,
     Search,
     Send,
@@ -16,9 +20,20 @@ import PurchaseOrderWorkflowController from '@/actions/App/Http/Controllers/Purc
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { formatDateOnly } from '@/lib/utils';
-import { approved, show, submitted } from '@/routes/purchase-orders';
+import {
+    approved,
+    download as downloadPurchaseOrder,
+    show,
+    submitted,
+} from '@/routes/purchase-orders';
 
 type QueueName = 'submitted' | 'approved';
 type Order = {
@@ -37,6 +52,7 @@ type Order = {
     decided_by: { id: number; name: string } | null;
     can_decide: boolean;
     can_send: boolean;
+    can_export: boolean;
 };
 type Paginator = {
     data: Order[];
@@ -339,8 +355,51 @@ defineOptions({
                                     </Form>
                                 </template>
 
+                                <DropdownMenu v-if="order.can_export">
+                                    <DropdownMenuTrigger as-child>
+                                        <Button variant="outline">
+                                            <Download class="size-4" />Export
+                                            <ChevronDown class="size-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem :as-child="true">
+                                            <a
+                                                :href="
+                                                    downloadPurchaseOrder(
+                                                        order.id,
+                                                        {
+                                                            query: {
+                                                                format: 'xlsx',
+                                                            },
+                                                        },
+                                                    ).url
+                                                "
+                                            >
+                                                <FileSpreadsheet />Excel (.xlsx)
+                                            </a>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem :as-child="true">
+                                            <a
+                                                :href="
+                                                    downloadPurchaseOrder(
+                                                        order.id,
+                                                        {
+                                                            query: {
+                                                                format: 'csv',
+                                                            },
+                                                        },
+                                                    ).url
+                                                "
+                                            >
+                                                <FileText />CSV (.csv)
+                                            </a>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
                                 <Form
-                                    v-else-if="order.can_send"
+                                    v-if="order.can_send"
                                     v-bind="
                                         PurchaseOrderWorkflowController.send.form(
                                             order.id,

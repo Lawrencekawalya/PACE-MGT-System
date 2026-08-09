@@ -255,7 +255,7 @@ class RoleGuideService
                         'steps' => [
                             'Select reorder suggestions, choose an active supplier, review quantities, and create the draft order.',
                             'Submit the order for administrator approval and monitor its decision in Purchase orders.',
-                            'Open Approved orders after approval, review the supplier handoff, and mark the order as sent.',
+                            'Open Approved orders after approval, export the order as Excel or CSV for the procurement handoff, and mark the order as sent.',
                             'Record each delivery against the sent order, including partial receipts, delivery reference, date, and received quantities.',
                             'Confirm that received quantities increase stock and outstanding quantities decrease.',
                         ],
