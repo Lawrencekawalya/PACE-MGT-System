@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     BookOpenText,
+    BookKey,
     CalendarRange,
     ChartNoAxesCombined,
     ClipboardCheck,
@@ -57,6 +58,7 @@ import { index as paceIssuingIndex } from '@/routes/pace-issuing';
 import { index as purchaseOrdersIndex } from '@/routes/purchase-orders';
 import { index as reordersIndex } from '@/routes/reorders';
 import { index as reportsIndex } from '@/routes/reports';
+import { index as scoreKeyRequestsIndex } from '@/routes/score-key-requests';
 import { index as studentsIndex } from '@/routes/students';
 import { index as suppliersIndex } from '@/routes/suppliers';
 import type { NavGroup, NavItem } from '@/types';
@@ -132,6 +134,17 @@ const navGroups = computed<NavGroup[]>(() => {
             title: 'PACE issuing',
             href: paceIssuingIndex(),
             icon: PackageCheck,
+        });
+    }
+
+    if (
+        hasPermission('request-score-keys') ||
+        hasPermission('issue-score-keys')
+    ) {
+        inventoryAndOrders.push({
+            title: 'Score Key requests',
+            href: scoreKeyRequestsIndex(),
+            icon: BookKey,
         });
     }
 

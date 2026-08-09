@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
  * @property StockMovementType $type
  * @property Carbon $recorded_at
  */
-#[Fillable(['inventory_item_id', 'type', 'quantity', 'balance_after', 'student_id', 'pace_assignment_id', 'academic_year_id', 'term_id', 'reference', 'reason', 'recorded_by', 'recorded_at', 'corrects_movement_id'])]
+#[Fillable(['inventory_item_id', 'type', 'quantity', 'balance_after', 'student_id', 'pace_assignment_id', 'score_key_request_id', 'issued_to_user_id', 'academic_year_id', 'term_id', 'reference', 'reason', 'recorded_by', 'recorded_at', 'corrects_movement_id'])]
 class StockMovement extends Model
 {
     /** @use HasFactory<StockMovementFactory> */
@@ -39,6 +39,18 @@ class StockMovement extends Model
     public function paceAssignment(): BelongsTo
     {
         return $this->belongsTo(PaceAssignment::class);
+    }
+
+    /** @return BelongsTo<ScoreKeyRequest, $this> */
+    public function scoreKeyRequest(): BelongsTo
+    {
+        return $this->belongsTo(ScoreKeyRequest::class);
+    }
+
+    /** @return BelongsTo<User, $this> */
+    public function issuedTo(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'issued_to_user_id');
     }
 
     /** @return BelongsTo<AcademicYear, $this> */

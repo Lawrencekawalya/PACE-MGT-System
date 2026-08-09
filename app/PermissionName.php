@@ -13,6 +13,8 @@ enum PermissionName: string
     case RegisterStudents = 'register-students';
     case AssignPaces = 'assign-paces';
     case IssuePaces = 'issue-paces';
+    case RequestScoreKeys = 'request-score-keys';
+    case IssueScoreKeys = 'issue-score-keys';
     case EnterTestResults = 'enter-test-results';
     case ApproveRetests = 'approve-retests';
     case AdjustInventory = 'adjust-inventory';
@@ -36,6 +38,8 @@ enum PermissionName: string
             self::RegisterStudents => 'Register and enroll students',
             self::AssignPaces => 'Assign PACEs academically',
             self::IssuePaces => 'Physically issue PACEs',
+            self::RequestScoreKeys => 'Request Score Keys',
+            self::IssueScoreKeys => 'Issue Score Keys',
             self::EnterTestResults => 'Enter test results',
             self::ApproveRetests => 'Approve ordinary retests and repeats',
             self::AdjustInventory => 'Receive and adjust stock',

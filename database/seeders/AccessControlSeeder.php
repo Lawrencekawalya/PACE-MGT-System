@@ -45,6 +45,7 @@ class AccessControlSeeder extends Seeder
                 PermissionName::ViewPaceCatalogue,
                 PermissionName::RegisterStudents,
                 PermissionName::AssignPaces,
+                PermissionName::RequestScoreKeys,
                 PermissionName::EnterTestResults,
                 PermissionName::ApproveRetests,
                 PermissionName::ViewAcademicReports,
@@ -52,6 +53,7 @@ class AccessControlSeeder extends Seeder
             RoleName::PaceOfficer->value => [
                 PermissionName::ViewPaceCatalogue,
                 PermissionName::IssuePaces,
+                PermissionName::IssueScoreKeys,
                 PermissionName::AdjustInventory,
                 PermissionName::ManagePurchaseOrders,
                 PermissionName::ReceivePurchaseOrders,

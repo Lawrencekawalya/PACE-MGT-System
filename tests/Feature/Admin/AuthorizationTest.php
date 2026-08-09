@@ -20,6 +20,7 @@ test('approved role permission matrix is seeded', function () {
         PermissionName::AssignPaces,
         PermissionName::EnterTestResults,
         PermissionName::ApproveRetests,
+        PermissionName::RequestScoreKeys,
         PermissionName::ViewAcademicReports,
         PermissionName::ViewPaceCatalogue,
     ])->map->value->sort()->values()->all())
@@ -29,6 +30,7 @@ test('approved role permission matrix is seeded', function () {
             PermissionName::AdjustInventory,
             PermissionName::ManagePurchaseOrders,
             PermissionName::ReceivePurchaseOrders,
+            PermissionName::IssueScoreKeys,
             PermissionName::ViewInventoryReports,
             PermissionName::ViewPaceCatalogue,
         ])->map->value->sort()->values()->all())

@@ -31,6 +31,8 @@ type Movement = {
         last_name: string;
     } | null;
     pace_assignment: { id: number } | null;
+    score_key_request: { id: number } | null;
+    issued_to: { id: number; name: string } | null;
     recorded_by: { name: string } | null;
     corrects_movement: { id: number; type: string; quantity: number } | null;
 };
@@ -95,7 +97,7 @@ defineOptions({
             ></Button
         ><Heading
             title="Stock movement ledger"
-            description="Immutable receipts, student issues, losses, adjustments, and linked corrections"
+            description="Immutable receipts, issues, losses, adjustments, and linked corrections"
         />
         <form
             class="grid gap-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]"
@@ -142,7 +144,7 @@ defineOptions({
                         <th class="px-3 py-2 text-right">Quantity</th>
                         <th class="px-3 py-2 text-right">Balance</th>
                         <th class="px-3 py-2">Reference</th>
-                        <th class="px-3 py-2">Student / assignment</th>
+                        <th class="px-3 py-2">Issued to / assignment</th>
                         <th class="px-3 py-2">Recorded by</th>
                         <th></th>
                     </tr>
@@ -217,6 +219,14 @@ defineOptions({
                                     movement.pace_assignment.id
                                 }}</Link
                             >
+                            <div v-if="movement.issued_to">
+                                {{ movement.issued_to.name }}
+                                <div class="text-xs text-muted-foreground">
+                                    Score Key request #{{
+                                        movement.score_key_request?.id
+                                    }}
+                                </div>
+                            </div>
                         </td>
                         <td class="px-3 py-2">
                             {{ movement.recorded_by?.name || 'System' }}

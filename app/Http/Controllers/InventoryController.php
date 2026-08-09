@@ -76,11 +76,13 @@ class InventoryController extends Controller
         ];
         $movements = StockMovement::query()->with([
             'inventoryItem.pace:id,number,title', 'student:id,admission_number,first_name,last_name',
-            'paceAssignment:id', 'recordedBy:id,name', 'correctsMovement:id,type,quantity',
+            'paceAssignment:id', 'scoreKeyRequest:id', 'issuedTo:id,name',
+            'recordedBy:id,name', 'correctsMovement:id,type,quantity',
         ])->when($filters['search'], fn ($query, $search) => $query->where(fn ($query) => $query
             ->where('reference', 'like', "%{$search}%")
             ->orWhereHas('inventoryItem', fn ($query) => $query->where('sku', 'like', "%{$search}%"))
-            ->orWhereHas('student', fn ($query) => $query->where('admission_number', 'like', "%{$search}%")->orWhere('first_name', 'like', "%{$search}%")->orWhere('last_name', 'like', "%{$search}%"))))
+            ->orWhereHas('student', fn ($query) => $query->where('admission_number', 'like', "%{$search}%")->orWhere('first_name', 'like', "%{$search}%")->orWhere('last_name', 'like', "%{$search}%"))
+            ->orWhereHas('issuedTo', fn ($query) => $query->where('name', 'like', "%{$search}%"))))
             ->when(in_array($filters['type'], array_column(StockMovementType::cases(), 'value'), true), fn ($query) => $query->where('type', $filters['type']))
             ->when($filters['inventory_item_id'], fn ($query, $id) => $query->where('inventory_item_id', $id))
             ->when($filters['date_from'], fn ($query, $date) => $query->whereDate('recorded_at', '>=', $date))

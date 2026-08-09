@@ -3,13 +3,17 @@
 namespace App\Services;
 
 use App\InventoryItemType;
+use App\Models\AcademicYear;
 use App\Models\GoodsReceiptLine;
 use App\Models\InventoryItem;
 use App\Models\PaceAssignment;
 use App\Models\PurchaseOrderLine;
+use App\Models\ScoreKeyRequest;
 use App\Models\StockMovement;
+use App\Models\Term;
 use App\Models\User;
 use App\PurchaseOrderStatus;
+use App\ScoreKeyRequestStatus;
 use App\StockMovementType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -90,6 +94,29 @@ class StockLedgerService
         ], true);
     }
 
+    public function issueScoreKeyRequest(ScoreKeyRequest $request, int $quantity, ?string $notes, User $actor): StockMovement
+    {
+        $request->loadMissing('inventoryItem');
+        if ($request->inventoryItem->item_type !== InventoryItemType::ScoreKey) {
+            throw ValidationException::withMessages(['inventory_item' => 'Only Score Key inventory can fulfil this request.']);
+        }
+        $academicYearId = AcademicYear::query()->where('is_active', true)->value('id');
+        $termId = $academicYearId === null ? null : Term::query()
+            ->where('academic_year_id', $academicYearId)
+            ->where('is_active', true)
+            ->value('id');
+        $issueNumber = $request->issueMovements()->count() + 1;
+
+        return $this->record($request->inventoryItem, StockMovementType::Issue, -abs($quantity), $actor, [
+            'score_key_request_id' => $request->id,
+            'issued_to_user_id' => $request->teacher_id,
+            'academic_year_id' => $academicYearId,
+            'term_id' => $termId,
+            'reference' => "SK-ISSUE-{$request->id}-{$issueNumber}",
+            'reason' => filled($notes) ? trim($notes) : 'Permanent Score Key issue to Teacher.',
+        ]);
+    }
+
     public function correct(StockMovement $movement, string $reason, User $actor): StockMovement
     {
         if ($movement->type === StockMovementType::Correction || $movement->corrects_movement_id !== null) {
@@ -103,6 +130,8 @@ class StockLedgerService
             $correction = $this->record($movement->inventoryItem, StockMovementType::Correction, -$movement->quantity, $actor, [
                 'student_id' => $movement->student_id,
                 'pace_assignment_id' => $movement->pace_assignment_id,
+                'score_key_request_id' => $movement->score_key_request_id,
+                'issued_to_user_id' => $movement->issued_to_user_id,
                 'academic_year_id' => $movement->academic_year_id,
                 'term_id' => $movement->term_id,
                 'reference' => "CORRECTION-{$movement->id}",
@@ -127,6 +156,18 @@ class StockLedgerService
                     'status' => $fullyReceived
                         ? PurchaseOrderStatus::Received
                         : ($hasEffectiveReceipt ? PurchaseOrderStatus::PartiallyReceived : PurchaseOrderStatus::Sent),
+                ]);
+            }
+
+            if ($movement->score_key_request_id !== null) {
+                $request = ScoreKeyRequest::query()->lockForUpdate()->findOrFail($movement->score_key_request_id);
+                $issued = $request->issuedQuantity();
+                $request->update([
+                    'status' => $issued === 0
+                        ? ScoreKeyRequestStatus::Pending
+                        : ($issued >= $request->quantity_requested
+                            ? ScoreKeyRequestStatus::Issued
+                            : ScoreKeyRequestStatus::PartiallyIssued),
                 ]);
             }
 

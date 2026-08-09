@@ -161,6 +161,16 @@ class RoleGuideService
                         ],
                     ],
                     [
+                        'title' => 'Request and keep Score Keys',
+                        'outcome' => 'You have the answer keys needed to supervise PACEs in your learning center.',
+                        'steps' => [
+                            'Open Score Key requests and select your learning center and the matching PACE Score Key.',
+                            'Choose New issue for your first copy, or give a reason when requesting a replacement or additional copy.',
+                            'Track pending and partially issued requests until the PACE Officer completes the handover.',
+                            'Keep issued Score Keys securely; they remain assigned to you and may be reused across academic terms.',
+                        ],
+                    ],
+                    [
                         'title' => 'Record assessments and retries',
                         'outcome' => 'Self Tests, final PACE Tests, failures, and retries remain traceable.',
                         'steps' => [
@@ -184,6 +194,7 @@ class RoleGuideService
                     'You can manage only students in grades attached to your assigned learning centers.',
                     'You cannot physically issue PACEs, adjust stock, or receive purchase orders unless you also hold the PACE Officer role.',
                     'You cannot manage staff, school setup, suppliers, purchase-order approval, or promotions.',
+                    'Issued Score Keys are not returned to store stock; request a replacement with a reason if one is lost or unusable.',
                 ],
             ],
             RoleName::PaceOfficer->value => [
@@ -219,6 +230,16 @@ class RoleGuideService
                         ],
                     ],
                     [
+                        'title' => 'Issue Score Keys to teachers',
+                        'outcome' => 'Teachers receive durable Score Keys through a traceable permanent handover.',
+                        'steps' => [
+                            'Open Score Key requests and filter by learning center, teacher, or request status.',
+                            'Confirm the matching PACE, available stock, request type, quantity, and any replacement reason.',
+                            'Issue all or part of the requested quantity; each handover deducts store stock and records the receiving teacher.',
+                            'Reject an invalid request with a reason, and correct a mistaken issue through the stock ledger rather than deleting it.',
+                        ],
+                    ],
+                    [
                         'title' => 'Configure replenishment',
                         'outcome' => 'The reorder queue reflects practical stock requirements.',
                         'steps' => [
@@ -251,6 +272,7 @@ class RoleGuideService
                     'You cannot register students, prescribe courses, assign PACEs academically, or record tests unless you also hold the Teacher role.',
                     'You can prepare and receive purchase orders, but administrator approval is required before an order is sent.',
                     'A consumable PACE issue is permanent; corrections must preserve the original issuance and stock audit trail.',
+                    'A Score Key is not returnable stock after handover; it remains in the named teacher’s custody for reuse across terms.',
                 ],
             ],
             RoleName::Accountant->value => [

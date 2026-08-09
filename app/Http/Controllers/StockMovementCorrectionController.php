@@ -22,7 +22,7 @@ class StockMovementCorrectionController extends Controller
     public function store(CorrectStockMovementRequest $request, StockMovement $stockMovement): RedirectResponse
     {
         $reason = $request->string('reason')->trim()->toString();
-        $correction = $stockMovement->type === StockMovementType::Issue
+        $correction = $stockMovement->type === StockMovementType::Issue && $stockMovement->pace_assignment_id !== null
             ? $this->issues->reverse($stockMovement, $reason, $request->user())
             : $this->stock->correct($stockMovement, $reason, $request->user());
         $this->activityLogger->record($request->user(), 'stock-movement.corrected', $correction, newValues: $correction->only(['inventory_item_id', 'quantity', 'balance_after', 'corrects_movement_id']), reason: $reason);
