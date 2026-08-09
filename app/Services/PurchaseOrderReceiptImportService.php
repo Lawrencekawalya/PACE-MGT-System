@@ -71,7 +71,7 @@ class PurchaseOrderReceiptImportService
             $counts = ['valid' => 0, 'skipped' => 0, 'invalid' => 0];
 
             foreach ($rows as $rowNumber => $row) {
-                if ($rowNumber <= $headerRow || $rowNumber > $headerRow + 2000 || $this->emptyLine($row, $headers)) {
+                if ($rowNumber <= $headerRow || $rowNumber > $headerRow + 5000 || $this->emptyLine($row, $headers)) {
                     continue;
                 }
 

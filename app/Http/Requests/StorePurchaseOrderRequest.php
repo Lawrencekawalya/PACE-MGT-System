@@ -29,7 +29,7 @@ class StorePurchaseOrderRequest extends FormRequest
             'source' => ['required', Rule::enum(PurchaseOrderSource::class)],
             'expected_on' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:5000'],
-            'lines' => ['sometimes', 'array', 'max:2000'],
+            'lines' => ['sometimes', 'array', 'max:5000'],
             'lines.*.inventory_item_id' => ['required', 'integer', Rule::exists('inventory_items', 'id')->where('is_active', true), 'distinct'],
             'lines.*.quantity_ordered' => ['required', 'integer', 'min:1', 'max:100000'],
         ];

@@ -102,7 +102,7 @@ test('a draft order can contain more than five hundred catalogue items', functio
     expect(PurchaseOrder::query()->sole()->lines()->count())->toBe(501);
 });
 
-test('a draft order rejects more than two thousand catalogue items', function () {
+test('a draft order accepts five thousand lines and rejects any additional line', function () {
     $officer = createStaffWithRole(RoleName::PaceOfficer);
     $supplier = Supplier::factory()->create();
     $item = InventoryItem::factory()->create();
@@ -112,17 +112,26 @@ test('a draft order rejects more than two thousand catalogue items', function ()
         [
             'supplier_id' => $supplier->id,
             'source' => 'reorder',
-            'lines' => array_fill(0, 2001, [
+            'lines' => array_fill(0, 5001, [
                 'inventory_item_id' => $item->id,
                 'quantity_ordered' => 10,
             ]),
         ],
     );
     $request->setUserResolver(fn () => $officer);
-    $validator = validator($request->all(), $request->rules())->stopOnFirstFailure();
+    $rules = $request->rules();
+    $maximumValidator = validator(
+        ['lines' => array_fill(0, 5000, [])],
+        ['lines' => $rules['lines']],
+    );
+    $overMaximumValidator = validator(
+        ['lines' => $request->input('lines')],
+        ['lines' => $rules['lines']],
+    );
 
-    expect($validator->fails())->toBeTrue()
-        ->and($validator->errors()->has('lines'))->toBeTrue();
+    expect($maximumValidator->passes())->toBeTrue()
+        ->and($overMaximumValidator->fails())->toBeTrue()
+        ->and($overMaximumValidator->errors()->has('lines'))->toBeTrue();
 });
 
 test('an over receipt is rejected without posting stock', function () {
