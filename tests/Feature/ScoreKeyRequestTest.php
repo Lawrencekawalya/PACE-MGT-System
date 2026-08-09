@@ -25,12 +25,10 @@ function scoreKeyFixture(int $stock = 3): array
     $fixture = createReportFixture();
     $teacher = $fixture['teacher'];
     $center = $fixture['enrollment']->learningCenter;
-    $item = InventoryItem::factory()->create([
-        'pace_id' => $fixture['paces'][1]->id,
-        'item_type' => InventoryItemType::ScoreKey,
-        'sku' => 'SK-MATH-1002',
-        'is_consumable' => false,
-    ]);
+    $item = InventoryItem::query()
+        ->where('pace_id', $fixture['paces'][1]->id)
+        ->where('item_type', InventoryItemType::ScoreKey)
+        ->sole();
     $officer = createStaffWithRole(RoleName::PaceOfficer);
     if ($stock > 0) {
         app(StockLedgerService::class)->postManual(
@@ -60,7 +58,7 @@ test('Teacher requests a matching Score Key for an assigned learning center', fu
             ->has('learningCenters', 1)
             ->where('assignedLearningCenter.id', $data['center']->id)
             ->where('learningCenterAssignmentIssue', null)
-            ->has('scoreKeys', 1));
+            ->has('scoreKeys', 3));
 
     $this->actingAs($data['teacher'])
         ->post(route('score-key-requests.store'), [

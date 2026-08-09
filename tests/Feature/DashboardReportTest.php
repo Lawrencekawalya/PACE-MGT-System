@@ -35,12 +35,12 @@ test('storekeeper dashboard shows inventory metrics but no academic data', funct
         ->assertInertia(fn ($page) => $page
             ->where('academic', null)
             ->where('inventory.metrics.on_hand', 0)
-            ->where('inventory.metrics.out_of_stock', 3)
+            ->where('inventory.metrics.out_of_stock', 6)
             ->where('inventory.charts.stock_status.labels', ['Healthy', 'Low stock', 'Out of stock'])
-            ->where('inventory.charts.stock_status.series', [0, 0, 3])
+            ->where('inventory.charts.stock_status.series', [0, 0, 6])
             ->has('inventory.charts.issuance_trend.categories', 8)
             ->where('inventory.charts.issuance_trend.series.0.data', [0, 0, 0, 0, 0, 0, 0, 0])
-            ->has('inventory.queue', 3)
+            ->has('inventory.queue', 6)
             ->where('paceAccounts', null));
 });
 

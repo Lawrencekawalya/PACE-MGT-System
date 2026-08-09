@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\InventoryItem;
 use App\Models\PaceAssignment;
 use App\Models\StockMovement;
 use App\Models\Student;
@@ -83,7 +82,7 @@ test('academic and inventory reports enforce their separate permissions', functi
 test('inventory report reconciles balances and period movements', function () {
     $fixture = createReportFixture();
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
-    $item = InventoryItem::query()->where('pace_id', $fixture['paces'][0]->id)->sole();
+    $item = paceBookletFor($fixture['paces'][0]->id);
     $item->update(['reorder_level' => 4]);
     $ledger = app(StockLedgerService::class);
     $ledger->postManual($item, StockMovementType::Receipt, 5, 'REPORT-DEL-001', null, $storekeeper);
@@ -93,7 +92,7 @@ test('inventory report reconciles balances and period movements', function () {
         'report_type' => 'inventory', 'course_id' => $fixture['course']->id,
         'stock' => 'low', 'date_from' => now()->toDateString(), 'date_to' => now()->toDateString(),
     ]))->assertOk()->assertInertia(fn ($page) => $page
-        ->where('summary.records', 3)
+        ->where('summary.records', 6)
         ->where('summary.on_hand', 4)
         ->where('rows.data.0.on_hand', 4)
         ->where('rows.data.0.received', 5)
@@ -113,7 +112,7 @@ test('PACE issuing report applies inclusive date and learning centre filters', f
         'issued_by' => $fixture['officer']->id,
         'issued_at' => now()->setDate(2026, 7, 5),
     ]);
-    $olderItem = InventoryItem::query()->where('pace_id', $fixture['paces'][2]->id)->sole();
+    $olderItem = paceBookletFor($fixture['paces'][2]->id);
     StockMovement::factory()->create([
         'inventory_item_id' => $olderItem->id,
         'type' => StockMovementType::Issue,

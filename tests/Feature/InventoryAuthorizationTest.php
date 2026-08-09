@@ -1,5 +1,6 @@
 <?php
 
+use App\InventoryItemType;
 use App\Models\InventoryItem;
 use App\Models\Pace;
 use App\Models\Permission;
@@ -47,9 +48,12 @@ test('a score key must be linked to one exact PACE', function () {
     $this->actingAs($storekeeper)->post(route('inventory-items.store'), $data)
         ->assertSessionHasErrors('pace_id');
     $this->actingAs($storekeeper)->post(route('inventory-items.store'), [...$data, 'pace_id' => $pace->id])
-        ->assertRedirect();
+        ->assertSessionHasErrors('pace_id');
 
-    $item = InventoryItem::query()->where('sku', 'SK-MATH-1008')->sole();
+    $item = InventoryItem::query()
+        ->where('pace_id', $pace->id)
+        ->where('item_type', InventoryItemType::ScoreKey)
+        ->sole();
     expect($item->pace_id)->toBe($pace->id)
         ->and($item->is_consumable)->toBeFalse();
 
@@ -61,7 +65,8 @@ test('a score key must be linked to one exact PACE', function () {
 test('an unlinked score key can be repaired without losing its ledger balance', function () {
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $pace = Pace::factory()->create(['number' => '1008']);
-    $item = InventoryItem::factory()->create(['sku' => 'PACE 1008', 'reorder_level' => 2]);
+    $pace->inventoryItems()->where('item_type', InventoryItemType::ScoreKey)->delete();
+    $item = InventoryItem::factory()->create(['pace_id' => null, 'sku' => 'PACE 1008', 'reorder_level' => 2]);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 20, 'DEL-REPAIR-001', null, $storekeeper);
 
     $this->actingAs($storekeeper)->put(route('inventory-items.update', $item), [
@@ -76,7 +81,7 @@ test('an unlinked score key can be repaired without losing its ledger balance', 
 
 test('an unidentified legacy score key can be deactivated without a false PACE link', function () {
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
-    $item = InventoryItem::factory()->create(['sku' => 'UNKNOWN-1008']);
+    $item = InventoryItem::factory()->create(['pace_id' => null, 'sku' => 'UNKNOWN-1008']);
 
     $this->actingAs($storekeeper)->put(route('inventory-items.update', $item), [
         'pace_id' => null, 'sku' => $item->sku,

@@ -1,5 +1,6 @@
 <?php
 
+use App\InventoryItemType;
 use App\Models\AcademicYear;
 use App\Models\CatalogueImport;
 use App\Models\Course;
@@ -85,7 +86,10 @@ test('the Physical Science 1 correction migration preserves existing PACE identi
         ]);
     });
     $customSkuPaceId = (int) array_values($paceIds)[1];
-    InventoryItem::query()->where('pace_id', $customSkuPaceId)->update(['sku' => 'CUSTOM-PHYSICS-SKU']);
+    InventoryItem::query()
+        ->where('pace_id', $customSkuPaceId)
+        ->where('item_type', InventoryItemType::PaceBooklet)
+        ->update(['sku' => 'CUSTOM-PHYSICS-SKU']);
 
     $migration = require database_path('migrations/2026_08_09_103330_correct_physical_science_one_grade_and_pace_sequence.php');
     $migration->up();
@@ -96,9 +100,15 @@ test('the Physical Science 1 correction migration preserves existing PACE identi
     expect($requirement->level_id)->toBe($gradeNine->id)
         ->and($requirement->sort_order)->toBe(7)
         ->and($correctedPaces)->toBe($paceIds)
-        ->and(InventoryItem::query()->where('pace_id', (int) array_values($paceIds)[0])->value('sku'))
+        ->and(InventoryItem::query()
+            ->where('pace_id', (int) array_values($paceIds)[0])
+            ->where('item_type', InventoryItemType::PaceBooklet)
+            ->value('sku'))
         ->toBe('PACE-1097-'.array_values($paceIds)[0])
-        ->and(InventoryItem::query()->where('pace_id', $customSkuPaceId)->value('sku'))
+        ->and(InventoryItem::query()
+            ->where('pace_id', $customSkuPaceId)
+            ->where('item_type', InventoryItemType::PaceBooklet)
+            ->value('sku'))
         ->toBe('CUSTOM-PHYSICS-SKU');
 });
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 #[ObservedBy(PaceObserver::class)]
 #[Fillable(['course_id', 'number', 'title', 'edition', 'sequence_order', 'is_active'])]
@@ -43,6 +44,17 @@ class Pace extends Model
     public function inventoryItems(): HasMany
     {
         return $this->hasMany(InventoryItem::class);
+    }
+
+    public function scoreKeySku(): string
+    {
+        $this->loadMissing('course:id,code');
+        $parts = ['SK', $this->course->code, $this->number];
+        if (filled($this->edition)) {
+            $parts[] = $this->edition;
+        }
+
+        return Str::upper(Str::slug(implode('-', $parts)));
     }
 
     protected function casts(): array

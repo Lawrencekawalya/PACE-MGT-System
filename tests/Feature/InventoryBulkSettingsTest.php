@@ -74,10 +74,10 @@ test('bulk settings can target all items connected to one course', function () {
         ->where('pace_id', $selectedPace->id)
         ->where('item_type', InventoryItemType::PaceBooklet)
         ->sole();
-    $scoreKey = InventoryItem::factory()->create([
-        'pace_id' => $selectedPace->id,
-        'item_type' => InventoryItemType::ScoreKey,
-    ]);
+    $scoreKey = InventoryItem::query()
+        ->where('pace_id', $selectedPace->id)
+        ->where('item_type', InventoryItemType::ScoreKey)
+        ->sole();
     $other = InventoryItem::query()
         ->where('pace_id', $otherPace->id)
         ->where('item_type', InventoryItemType::PaceBooklet)

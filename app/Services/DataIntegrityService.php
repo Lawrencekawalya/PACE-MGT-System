@@ -155,14 +155,21 @@ class DataIntegrityService
             }
             $balances[$movement->inventory_item_id] = $running;
         }
-        $missingInventory = Pace::query()->where('is_active', true)
+        $missingBooklets = Pace::query()->where('is_active', true)
             ->whereDoesntHave('inventoryItems', fn ($query) => $query->where('item_type', InventoryItemType::PaceBooklet))
             ->count();
-        if ($missingInventory > 0) {
-            $issues[] = "{$missingInventory} active PACE(s) have no booklet inventory item.";
+        $missingScoreKeys = Pace::query()->where('is_active', true)
+            ->whereDoesntHave('inventoryItems', fn ($query) => $query->where('item_type', InventoryItemType::ScoreKey))
+            ->count();
+        if ($missingBooklets > 0) {
+            $issues[] = "{$missingBooklets} active PACE(s) have no booklet inventory item.";
         }
+        if ($missingScoreKeys > 0) {
+            $issues[] = "{$missingScoreKeys} active PACE(s) have no Score Key inventory item.";
+        }
+        $coverageGaps = $missingBooklets + $missingScoreKeys;
 
-        return ['detail' => "{$movementCount} movement(s) checked; {$missingInventory} inventory coverage gap(s).", 'issues' => $issues];
+        return ['detail' => "{$movementCount} movement(s) checked; {$coverageGaps} inventory coverage gap(s).", 'issues' => $issues];
     }
 
     /** @param list<string> $expected

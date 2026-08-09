@@ -41,7 +41,7 @@ function inventoryAssignmentFixture(): array
     $teacher = createStaffWithRole(RoleName::Teacher);
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $assignment = app(PaceAssignmentService::class)->assign($studentCourse, $pace, $teacher);
-    $item = InventoryItem::query()->where('pace_id', $pace->id)->sole();
+    $item = paceBookletFor($pace->id);
     $term->update(['pace_cost' => 10000]);
     PaceAccountTransaction::factory()->create([
         'student_id' => $enrollment->student_id,

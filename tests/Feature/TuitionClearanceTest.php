@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\ActivityLog;
-use App\Models\InventoryItem;
 use App\Models\PaceAccountTransaction;
 use App\Models\Term;
 use App\PaceAccountTransactionType;
@@ -116,7 +115,7 @@ test('physical issue requires the full PACE cost and deducts it atomically', fun
         'started_at' => null,
     ]);
     $fixture['term']->update(['pace_cost' => 15000]);
-    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    $item = paceBookletFor($fixture['active']->pace_id);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-ACCOUNT', null, $officer);
     app(PaceAccountService::class)->recordPayment(
         $fixture['student'],
@@ -161,7 +160,7 @@ test('valid issue reversal restores the exact price originally charged', functio
         'started_at' => null,
     ]);
     $fixture['term']->update(['pace_cost' => 12000]);
-    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    $item = paceBookletFor($fixture['active']->pace_id);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-REV', null, $officer);
     app(PaceAccountService::class)->recordPayment($fixture['student'], '20000.00', now(), 'RCT-REV', null, $accountant);
     app(PaceIssueService::class)->issue($fixture['active'], $officer);
@@ -200,7 +199,7 @@ test('a delayed issue uses the cost retained on its assignment term', function (
         'pace_cost' => 15000,
         'is_active' => true,
     ]);
-    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    $item = paceBookletFor($fixture['active']->pace_id);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-DELAYED', null, $officer);
     app(PaceAccountService::class)->recordPayment($fixture['student'], '12000.00', now(), 'RCT-DELAYED', null, $accountant);
 

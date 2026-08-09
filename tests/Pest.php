@@ -1,5 +1,6 @@
 <?php
 
+use App\InventoryItemType;
 use App\Models\AcademicYear;
 use App\Models\Course;
 use App\Models\CurriculumRequirement;
@@ -75,6 +76,14 @@ function createStaffWithRole(RoleName $role, array $attributes = []): User
     return $user;
 }
 
+function paceBookletFor(int $paceId): InventoryItem
+{
+    return InventoryItem::query()
+        ->where('pace_id', $paceId)
+        ->where('item_type', InventoryItemType::PaceBooklet)
+        ->sole();
+}
+
 /** @return array<string, mixed> */
 function createReportFixture(): array
 {
@@ -134,7 +143,7 @@ function createIssuingReportFixture(): array
         'issued_at' => $issuedAt,
         'started_at' => $issuedAt,
     ])->save();
-    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    $item = paceBookletFor($fixture['active']->pace_id);
     $movement = StockMovement::factory()->create([
         'inventory_item_id' => $item->id,
         'type' => StockMovementType::Issue,

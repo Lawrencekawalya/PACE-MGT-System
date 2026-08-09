@@ -47,8 +47,11 @@ class SystemHealthService
             ->whereNull('learning_center_id')
             ->count();
         $paceCount = Pace::query()->where('is_active', true)->count();
-        $missingInventory = Pace::query()->where('is_active', true)
+        $missingBooklets = Pace::query()->where('is_active', true)
             ->whereDoesntHave('inventoryItems', fn ($query) => $query->where('item_type', InventoryItemType::PaceBooklet))
+            ->count();
+        $missingScoreKeys = Pace::query()->where('is_active', true)
+            ->whereDoesntHave('inventoryItems', fn ($query) => $query->where('item_type', InventoryItemType::ScoreKey))
             ->count();
         $committedImports = CatalogueImport::query()->where('status', 'committed')->count();
 
@@ -62,7 +65,12 @@ class SystemHealthService
                 "{$unassignedLevels} unassigned grade(s), {$centersWithoutTeachers} center(s) without teachers, {$unassignedEnrollments} unassigned enrollment(s)",
             ),
             $this->releaseCheck('catalogue', 'Committed PACE catalogue', $committedImports > 0 && $paceCount > 0, "{$committedImports} import(s), {$paceCount} active PACEs"),
-            $this->releaseCheck('inventory_coverage', 'PACE inventory coverage', $missingInventory === 0 && InventoryItem::query()->exists(), "{$missingInventory} active PACEs missing inventory"),
+            $this->releaseCheck(
+                'inventory_coverage',
+                'PACE inventory coverage',
+                $missingBooklets === 0 && $missingScoreKeys === 0 && InventoryItem::query()->exists(),
+                "{$missingBooklets} active PACEs missing booklets, {$missingScoreKeys} missing Score Keys",
+            ),
         ];
     }
 

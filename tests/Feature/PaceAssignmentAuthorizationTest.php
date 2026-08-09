@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\InventoryItem;
 use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
 use App\Models\User;
@@ -35,7 +34,7 @@ test('storekeeper can physically issue while teacher cannot', function () {
     $fixture['studentCourse']->enrollment->learningCenter->teachers()->attach($teacher);
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $assignment = app(PaceAssignmentService::class)->assign($fixture['studentCourse'], $fixture['paces'][1], $teacher);
-    $item = InventoryItem::query()->where('pace_id', $fixture['paces'][1]->id)->sole();
+    $item = paceBookletFor($fixture['paces'][1]->id);
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'AUTH-ISSUE-001', null, $storekeeper);
     $fixture['term']->update(['pace_cost' => 10000]);
     PaceAccountTransaction::factory()->create([

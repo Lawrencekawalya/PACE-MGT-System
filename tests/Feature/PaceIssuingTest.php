@@ -3,7 +3,6 @@
 use App\Models\AcademicYear;
 use App\Models\ActivityLog;
 use App\Models\Course;
-use App\Models\InventoryItem;
 use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\Pace;
@@ -82,8 +81,8 @@ function paceIssuingFixture(): array
     $aminaScience = $createAssignment('Amina', 'Nabirye', 'FICA-001', $lowerCenter, $lowerLevel, $science, $sciencePace);
     $benScience = $createAssignment('Ben', 'Okello', 'FICA-002', $upperCenter, $upperLevel, $science, $sciencePace);
     $claireMath = $createAssignment('Claire', 'Auma', 'FICA-003', $lowerCenter, $lowerLevel, $math, $mathPace);
-    $scienceItem = InventoryItem::query()->where('pace_id', $sciencePace->id)->sole();
-    $mathItem = InventoryItem::query()->where('pace_id', $mathPace->id)->sole();
+    $scienceItem = paceBookletFor($sciencePace->id);
+    $mathItem = paceBookletFor($mathPace->id);
     $stock = app(StockLedgerService::class);
     $stock->postManual($scienceItem, StockMovementType::Receipt, 2, 'DEL-SCIENCE', null, $officer);
     $stock->postManual($mathItem, StockMovementType::Receipt, 1, 'DEL-MATH', null, $officer);
