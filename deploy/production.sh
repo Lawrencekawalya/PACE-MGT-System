@@ -99,6 +99,8 @@ fi
 php artisan migrate --force
 php artisan db:seed --class='Database\Seeders\AccessControlSeeder' --force
 php artisan db:seed --class='Database\Seeders\SchoolSettingSeeder' --force
+php artisan db:seed --class='Database\Seeders\PaceCatalogueSeeder' --force
+php artisan db:seed --class='Database\Seeders\InventoryItemSeeder' --force
 php artisan storage:link
 php artisan optimize
 
