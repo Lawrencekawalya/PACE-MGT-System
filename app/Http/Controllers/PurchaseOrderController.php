@@ -80,6 +80,9 @@ class PurchaseOrderController extends Controller
             'approved' => Gate::allows('viewApproved', PurchaseOrder::class)
                 ? ['label' => 'Approved orders', 'url' => route('purchase-orders.approved')]
                 : null,
+            'sent' => Gate::allows('viewSent', PurchaseOrder::class)
+                ? ['label' => 'Sent orders', 'url' => route('purchase-orders.sent')]
+                : null,
             default => null,
         };
 

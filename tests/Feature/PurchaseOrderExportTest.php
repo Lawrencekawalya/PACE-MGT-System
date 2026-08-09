@@ -61,13 +61,15 @@ test('a PACE Officer can download a formatted approved order workbook', function
 
     expect($sheet->getCell('A1')->getValue())->toBe("Purchase Order {$fixture['order']->order_number}")
         ->and($sheet->getCell('B4')->getValue())->toBe('ACE Books (ACE-UG)')
-        ->and($sheet->rangeToArray('A8:J8')[0])->toBe([
-            'SKU', 'Item type', 'Subject', 'Course', 'PACE number',
-            'PACE title', 'Ordered', 'Received', 'Outstanding', 'Line notes',
+        ->and($sheet->rangeToArray('A8:M8')[0])->toBe([
+            'Order line ID', 'Inventory item ID', 'SKU', 'Item type', 'Subject',
+            'Course', 'PACE number', 'PACE title', 'Ordered', 'Previously received',
+            'Quantity delivered now', 'Outstanding', 'Line notes',
         ])
-        ->and($sheet->getCell('A9')->getValue())->toBe('PACE-MATH-1001')
-        ->and($sheet->getCell('G9')->getValue())->toBe(25)
-        ->and($sheet->getCell('I9')->getValue())->toBe(25);
+        ->and($sheet->getCell('C9')->getValue())->toBe('PACE-MATH-1001')
+        ->and($sheet->getCell('I9')->getValue())->toBe(25)
+        ->and($sheet->getCell('K9')->getValue())->toBeNull()
+        ->and($sheet->getCell('L9')->getValue())->toBe(25);
 });
 
 test('purchase order exports require a supported format and eligible order status', function () {

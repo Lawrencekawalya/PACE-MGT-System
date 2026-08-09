@@ -51,6 +51,12 @@ class PurchaseOrder extends Model
         return $this->hasMany(GoodsReceipt::class);
     }
 
+    /** @return HasMany<PurchaseOrderReceiptImport, $this> */
+    public function receiptImports(): HasMany
+    {
+        return $this->hasMany(PurchaseOrderReceiptImport::class);
+    }
+
     /** @return BelongsTo<User, $this> */
     public function createdBy(): BelongsTo
     {

@@ -18,6 +18,7 @@ import {
     ListTree,
     PackageCheck,
     PackageOpen,
+    PackageSearch,
     Route,
     RefreshCw,
     ReceiptText,
@@ -60,6 +61,7 @@ import { index as paceIssuingIndex } from '@/routes/pace-issuing';
 import {
     approved as approvedPurchaseOrders,
     index as purchaseOrdersIndex,
+    sent as sentPurchaseOrders,
     submitted as submittedPurchaseOrders,
 } from '@/routes/purchase-orders';
 import { index as reordersIndex } from '@/routes/reorders';
@@ -188,11 +190,12 @@ const navGroups = computed<NavGroup[]>(() => {
             icon: ClipboardList,
             isActive:
                 isCurrentOrParentUrl(purchaseOrdersIndex()) &&
-                !['submitted', 'approved'].includes(
+                !['submitted', 'approved', 'sent'].includes(
                     purchaseOrderWorkflowSource.value,
                 ) &&
                 !isCurrentUrl(submittedPurchaseOrders()) &&
-                !isCurrentUrl(approvedPurchaseOrders()),
+                !isCurrentUrl(approvedPurchaseOrders()) &&
+                !isCurrentUrl(sentPurchaseOrders()),
         });
     }
 
@@ -218,6 +221,20 @@ const navGroups = computed<NavGroup[]>(() => {
             isActive:
                 isCurrentUrl(approvedPurchaseOrders()) ||
                 purchaseOrderWorkflowSource.value === 'approved',
+        });
+    }
+
+    if (
+        hasPermission('receive-purchase-orders') ||
+        hasPermission('approve-purchase-orders')
+    ) {
+        inventoryAndOrders.push({
+            title: 'Sent orders',
+            href: sentPurchaseOrders(),
+            icon: PackageSearch,
+            isActive:
+                isCurrentUrl(sentPurchaseOrders()) ||
+                purchaseOrderWorkflowSource.value === 'sent',
         });
     }
 

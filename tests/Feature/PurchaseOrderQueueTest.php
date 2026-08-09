@@ -94,6 +94,44 @@ test('teachers and accountants cannot access the approved order queue', function
     'Accountant' => RoleName::Accountant,
 ]);
 
+test('PACE Officers and administrators can view sent and partially received orders', function (RoleName $role, bool $canImport) {
+    $user = createStaffWithRole($role);
+    $sent = PurchaseOrder::factory()->create([
+        'status' => PurchaseOrderStatus::Sent,
+        'sent_by' => $user->id,
+        'sent_at' => now(),
+    ]);
+    $partial = PurchaseOrder::factory()->create([
+        'status' => PurchaseOrderStatus::PartiallyReceived,
+        'sent_by' => $user->id,
+        'sent_at' => now()->subDay(),
+    ]);
+    PurchaseOrder::factory()->create(['status' => PurchaseOrderStatus::Received]);
+
+    $this->actingAs($user)
+        ->get(route('purchase-orders.sent'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('purchase-orders/Queue')
+            ->where('queue', 'sent')
+            ->has('orders.data', 2)
+            ->where('orders.data.0.id', $sent->id)
+            ->where('orders.data.0.can_import', $canImport)
+            ->where('orders.data.1.id', $partial->id));
+})->with([
+    'PACE Officer receiving' => [RoleName::PaceOfficer, true],
+    'Administrator oversight' => [RoleName::Administrator, true],
+]);
+
+test('teachers and accountants cannot access the sent order queue', function (RoleName $role) {
+    $this->actingAs(createStaffWithRole($role))
+        ->get(route('purchase-orders.sent'))
+        ->assertForbidden();
+})->with([
+    'Teacher' => RoleName::Teacher,
+    'Accountant' => RoleName::Accountant,
+]);
+
 test('a PACE Officer can mark an approved order as sent from the dispatch queue', function () {
     $administrator = createStaffWithRole(RoleName::Administrator);
     $officer = createStaffWithRole(RoleName::PaceOfficer);

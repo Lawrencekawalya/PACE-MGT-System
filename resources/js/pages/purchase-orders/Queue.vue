@@ -13,13 +13,23 @@ import {
     Search,
     Send,
     ShieldCheck,
+    Upload,
     X,
 } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import PurchaseOrderReceiptImportController from '@/actions/App/Http/Controllers/PurchaseOrderReceiptImportController';
 import PurchaseOrderWorkflowController from '@/actions/App/Http/Controllers/PurchaseOrderWorkflowController';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -31,11 +41,12 @@ import { formatDateOnly } from '@/lib/utils';
 import {
     approved,
     download as downloadPurchaseOrder,
+    sent,
     show,
     submitted,
 } from '@/routes/purchase-orders';
 
-type QueueName = 'submitted' | 'approved';
+type QueueName = 'submitted' | 'approved' | 'sent';
 type Order = {
     id: number;
     order_number: string;
@@ -47,12 +58,15 @@ type Order = {
     units_count: number;
     submitted_at: string | null;
     decided_at: string | null;
+    sent_at: string | null;
     supplier: { id: number; name: string; code: string };
     submitted_by: { id: number; name: string } | null;
     decided_by: { id: number; name: string } | null;
+    sent_by: { id: number; name: string } | null;
     can_decide: boolean;
     can_send: boolean;
     can_export: boolean;
+    can_import: boolean;
 };
 type Paginator = {
     data: Order[];
@@ -69,21 +83,34 @@ const props = defineProps<{
 
 const searchText = ref(props.filters.search);
 const isSubmitted = computed(() => props.queue === 'submitted');
+const isSent = computed(() => props.queue === 'sent');
 const queueRoute = computed(() =>
-    isSubmitted.value ? submitted() : approved(),
+    ({ submitted, approved, sent })[props.queue](),
 );
-const title = computed(() =>
-    isSubmitted.value ? 'Submitted orders' : 'Approved orders',
+const title = computed(
+    () =>
+        ({
+            submitted: 'Submitted orders',
+            approved: 'Approved orders',
+            sent: 'Sent orders',
+        })[props.queue],
 );
-const description = computed(() =>
-    isSubmitted.value
-        ? 'Review PACE Officer submissions and record the final approval decision'
-        : 'Approved orders waiting to be sent to their suppliers',
+const description = computed(
+    () =>
+        ({
+            submitted:
+                'Review PACE Officer submissions and record the final approval decision',
+            approved: 'Approved orders waiting to be sent to their suppliers',
+            sent: 'Record physical supplier deliveries from completed order spreadsheets',
+        })[props.queue],
 );
-const emptyMessage = computed(() =>
-    isSubmitted.value
-        ? 'No orders are waiting for administrator approval.'
-        : 'No approved orders are waiting to be sent.',
+const emptyMessage = computed(
+    () =>
+        ({
+            submitted: 'No orders are waiting for administrator approval.',
+            approved: 'No approved orders are waiting to be sent.',
+            sent: 'No sent orders are waiting for supplier delivery.',
+        })[props.queue],
 );
 const stages = [
     {
@@ -223,7 +250,13 @@ defineOptions({
                         <th class="px-4 py-3 text-right">Units</th>
                         <th class="px-4 py-3">Expected</th>
                         <th class="px-4 py-3">
-                            {{ isSubmitted ? 'Submitted' : 'Approved' }}
+                            {{
+                                isSubmitted
+                                    ? 'Submitted'
+                                    : isSent
+                                      ? 'Sent'
+                                      : 'Approved'
+                            }}
                         </th>
                         <th class="px-4 py-3">Action</th>
                     </tr>
@@ -269,7 +302,9 @@ defineOptions({
                                     formatDateTime(
                                         isSubmitted
                                             ? order.submitted_at
-                                            : order.decided_at,
+                                            : isSent
+                                              ? order.sent_at
+                                              : order.decided_at,
                                     )
                                 }}
                             </div>
@@ -277,7 +312,9 @@ defineOptions({
                                 {{
                                     (isSubmitted
                                         ? order.submitted_by?.name
-                                        : order.decided_by?.name) ||
+                                        : isSent
+                                          ? order.sent_by?.name
+                                          : order.decided_by?.name) ||
                                     'Former staff member'
                                 }}
                             </div>
@@ -398,6 +435,67 @@ defineOptions({
                                     </DropdownMenuContent>
                                 </DropdownMenu>
 
+                                <Dialog v-if="order.can_import">
+                                    <DialogTrigger as-child>
+                                        <Button>
+                                            <Upload class="size-4" />Import
+                                            delivery
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent class="sm:max-w-lg">
+                                        <DialogHeader>
+                                            <DialogTitle
+                                                >Import supplier
+                                                delivery</DialogTitle
+                                            >
+                                            <DialogDescription>
+                                                Upload the exported order file
+                                                after filling in Quantity
+                                                delivered now. Stock changes
+                                                only after the validation
+                                                preview is confirmed.
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <Form
+                                            v-bind="
+                                                PurchaseOrderReceiptImportController.store.form(
+                                                    order.id,
+                                                )
+                                            "
+                                            class="space-y-4"
+                                            reset-on-success
+                                            v-slot="{ errors, processing }"
+                                        >
+                                            <div class="space-y-2">
+                                                <label
+                                                    class="text-sm font-medium"
+                                                    :for="`workbook-${order.id}`"
+                                                    >Completed order file</label
+                                                >
+                                                <Input
+                                                    :id="`workbook-${order.id}`"
+                                                    name="workbook"
+                                                    type="file"
+                                                    accept=".xlsx,.csv"
+                                                    required
+                                                />
+                                                <InputError
+                                                    :message="errors.workbook"
+                                                />
+                                            </div>
+                                            <Button
+                                                type="submit"
+                                                class="w-full"
+                                                :disabled="processing"
+                                            >
+                                                <Upload
+                                                    class="size-4"
+                                                />Validate delivery file
+                                            </Button>
+                                        </Form>
+                                    </DialogContent>
+                                </Dialog>
+
                                 <Form
                                     v-if="order.can_send"
                                     v-bind="
@@ -417,7 +515,7 @@ defineOptions({
                                 </Form>
 
                                 <div
-                                    v-else-if="!isSubmitted"
+                                    v-else-if="!isSubmitted && !isSent"
                                     class="flex h-9 items-center gap-2 text-sm text-muted-foreground"
                                 >
                                     <ShieldCheck class="size-4" />Awaiting PACE

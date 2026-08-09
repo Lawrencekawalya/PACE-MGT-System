@@ -38,6 +38,12 @@ class PurchaseOrderPolicy
             || $user->hasPermission(PermissionName::ManagePurchaseOrders);
     }
 
+    public function viewSent(User $user): bool
+    {
+        return $user->hasPermission(PermissionName::ReceivePurchaseOrders)
+            || $user->hasPermission(PermissionName::ApprovePurchaseOrders);
+    }
+
     /**
      * Determine whether the user can create models.
      */

@@ -16,6 +16,8 @@ class PurchaseOrderExportService
 {
     /** @var list<string> */
     private const LINE_HEADERS = [
+        'Order line ID',
+        'Inventory item ID',
         'SKU',
         'Item type',
         'Subject',
@@ -23,7 +25,8 @@ class PurchaseOrderExportService
         'PACE number',
         'PACE title',
         'Ordered',
-        'Received',
+        'Previously received',
+        'Quantity delivered now',
         'Outstanding',
         'Line notes',
     ];
@@ -100,7 +103,7 @@ class PurchaseOrderExportService
         $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Purchase Order');
-        $sheet->mergeCells('A1:J1');
+        $sheet->mergeCells('A1:M1');
         $sheet->setCellValue('A1', "Purchase Order {$order->order_number}");
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
 
@@ -120,7 +123,7 @@ class PurchaseOrderExportService
 
         $sheet->setCellValue('A6', 'Order notes');
         $sheet->getStyle('A6')->getFont()->setBold(true);
-        $sheet->mergeCells('B6:J6');
+        $sheet->mergeCells('B6:M6');
         $sheet->setCellValue('B6', $this->sanitize($order->notes ?? '—'));
 
         $headerRow = 8;
@@ -130,15 +133,16 @@ class PurchaseOrderExportService
             null,
             'A9',
         );
-        $sheet->getStyle("A{$headerRow}:J{$headerRow}")->applyFromArray([
+        $sheet->getStyle("A{$headerRow}:M{$headerRow}")->applyFromArray([
             'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '222222']],
             'alignment' => ['vertical' => Alignment::VERTICAL_CENTER],
         ]);
         $sheet->freezePane('A9');
-        $sheet->setAutoFilter("A{$headerRow}:J".max($headerRow, $sheet->getHighestRow()));
-        $sheet->getStyle('G9:I'.$sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-        foreach (range('A', 'J') as $column) {
+        $sheet->setAutoFilter("A{$headerRow}:M".max($headerRow, $sheet->getHighestRow()));
+        $sheet->getStyle('I9:L'.$sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->getStyle('K9:K'.$sheet->getHighestRow())->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('DCEAF7');
+        foreach (range('A', 'M') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
         $sheet->getPageSetup()
@@ -174,6 +178,8 @@ class PurchaseOrderExportService
         $received = (int) ($line->received_quantity ?? 0);
 
         return [
+            $line->id,
+            $item->id,
             $item->sku,
             $item->item_type->label(),
             $pace?->course->subject->name,
@@ -182,6 +188,7 @@ class PurchaseOrderExportService
             $pace?->title,
             $line->quantity_ordered,
             $received,
+            null,
             max($line->quantity_ordered - $received, 0),
             $line->notes,
         ];
