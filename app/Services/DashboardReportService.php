@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\EnrollmentStatus;
 use App\Models\InventoryItem;
+use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
 use App\Models\PaceRetryApproval;
 use App\Models\SchoolSetting;
@@ -12,7 +13,6 @@ use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Term;
-use App\Models\TuitionClearance;
 use App\Models\User;
 use App\PaceAssignmentStatus;
 use App\PermissionName;
@@ -21,7 +21,6 @@ use App\RoleName;
 use App\StockMovementType;
 use App\StudentCourseStatus;
 use App\StudentStatus;
-use App\TuitionClearanceStatus;
 use Illuminate\Support\Collection;
 
 class DashboardReportService
@@ -121,189 +120,87 @@ class DashboardReportService
     }
 
     /** @return array<string, mixed>|null */
-    public function clearance(User $user): ?array
+    public function paceAccounts(User $user): ?array
     {
-        if (! $user->can(PermissionName::ManageTuitionClearance->value)) {
+        if (! $user->can(PermissionName::ManagePaceAccounts->value)) {
             return null;
         }
 
-        $target = SchoolSetting::current()->term_pace_target;
+        $paceCost = (float) SchoolSetting::current()->pace_cost;
         $term = Term::query()
             ->with('academicYear:id,name')
             ->where('is_active', true)
             ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
             ->first();
-
-        if ($term === null) {
-            return [
-                'period' => null,
-                'target' => $target,
-                'metrics' => $this->emptyClearanceMetrics(),
-                'charts' => $this->emptyClearanceCharts(),
-                'queue' => [],
-            ];
-        }
-
-        $enrollmentIds = StudentEnrollment::query()
-            ->where('academic_year_id', $term->academic_year_id)
+        $academicYearId = $term?->academic_year_id;
+        $balanceSql = '(select coalesce(sum(pace_account_transactions.amount), 0) from pace_account_transactions where pace_account_transactions.student_id = student_enrollments.student_id)';
+        $enrollments = StudentEnrollment::query()
+            ->when($academicYearId, fn ($query, $id) => $query->where('academic_year_id', $id))
             ->where('status', EnrollmentStatus::Active)
-            ->pluck('id');
-        $statuses = TuitionClearance::query()
-            ->where('term_id', $term->id)
-            ->whereIn('student_enrollment_id', $enrollmentIds)
-            ->get(['student_enrollment_id', 'status'])
-            ->mapWithKeys(fn (TuitionClearance $clearance): array => [
-                $clearance->student_enrollment_id => $clearance->status,
-            ]);
-        $progress = $this->clearanceProgress($term);
-        $leadingProgress = $progress
-            ->groupBy('enrollment_id')
-            ->map(fn (Collection $rows): array => $rows->sortByDesc('completed')->first());
-        $fullyPaidIds = $statuses
-            ->filter(fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::FullyPaid)
-            ->keys();
-        $atTargetIds = $leadingProgress
-            ->filter(fn (array $row): bool => $row['completed'] >= $target)
-            ->keys();
-        $nearTargetIds = $leadingProgress
-            ->filter(fn (array $row): bool => $row['completed'] >= max(1, $target - 1))
-            ->keys();
-        $restrictedIds = $atTargetIds->diff($fullyPaidIds);
-        $nearOnlyIds = $nearTargetIds->diff($atTargetIds);
-        $clearedAtTargetIds = $atTargetIds->intersect($fullyPaidIds);
-        $attention = $leadingProgress
-            ->filter(fn (array $row, $enrollmentId): bool => $nearTargetIds->contains($enrollmentId)
-                && ! $fullyPaidIds->contains($enrollmentId))
-            ->sortByDesc(fn (array $row, $enrollmentId): string => sprintf(
-                '%d-%08d',
-                $restrictedIds->contains($enrollmentId) ? 1 : 0,
-                $row['completed'],
-            ))
-            ->take(6);
-        $queueEnrollments = StudentEnrollment::query()
-            ->whereKey($attention->keys())
             ->with([
                 'student:id,admission_number,first_name,last_name,other_names',
                 'level:id,name',
                 'learningCenter:id,name',
             ])
-            ->get()
-            ->keyBy('id');
+            ->select('student_enrollments.*')
+            ->selectRaw("{$balanceSql} as pace_balance")
+            ->get();
+        $funded = $paceCost > 0
+            ? $enrollments->filter(fn (StudentEnrollment $enrollment): bool => (float) $enrollment->getAttribute('pace_balance') >= $paceCost)
+            : collect();
+        $zero = $enrollments->filter(fn (StudentEnrollment $enrollment): bool => (float) $enrollment->getAttribute('pace_balance') <= 0);
+        $insufficient = $enrollments->whereNotIn('id', $funded->pluck('id'))->whereNotIn('id', $zero->pluck('id'));
+        $centerBalances = $enrollments
+            ->groupBy(fn (StudentEnrollment $enrollment): string => $enrollment->learning_center_id === null
+                ? 'Unassigned'
+                : $enrollment->learningCenter->name)
+            ->map(fn (Collection $rows): float => round($rows->sum(fn (StudentEnrollment $enrollment): float => (float) $enrollment->getAttribute('pace_balance')), 2))
+            ->sortDesc()
+            ->take(8);
+        $attention = $enrollments
+            ->filter(fn (StudentEnrollment $enrollment): bool => ! $funded->contains('id', $enrollment->id))
+            ->sortBy(fn (StudentEnrollment $enrollment): float => (float) $enrollment->getAttribute('pace_balance'))
+            ->take(6);
+        $totalBalance = PaceAccountTransaction::query()
+            ->whereIn('student_id', $enrollments->pluck('student_id'))
+            ->sum('amount');
 
         return [
-            'period' => [
+            'period' => $term === null ? null : [
                 'academic_year_id' => $term->academic_year_id,
                 'academic_year' => $term->academicYear->name,
                 'term_id' => $term->id,
                 'term' => $term->name,
             ],
-            'target' => $target,
+            'pace_cost' => number_format($paceCost, 2, '.', ''),
             'metrics' => [
-                'students' => $enrollmentIds->count(),
-                'fully_paid' => $statuses->filter(
-                    fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::FullyPaid,
-                )->count(),
-                'partially_paid' => $statuses->filter(
-                    fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::PartiallyPaid,
-                )->count(),
-                'unconfirmed' => $enrollmentIds->count()
-                    - $statuses->filter(
-                        fn (TuitionClearanceStatus $status): bool => $status !== TuitionClearanceStatus::Unconfirmed,
-                    )->count(),
-                'restricted' => $restrictedIds->count(),
-                'approaching_or_at_target' => $nearTargetIds->count(),
+                'students' => $enrollments->count(),
+                'total_balance' => number_format((float) $totalBalance, 2, '.', ''),
+                'funded' => $funded->count(),
+                'insufficient' => $insufficient->count(),
+                'zero' => $zero->count(),
             ],
             'charts' => [
-                'status_distribution' => [
-                    'labels' => ['Fully paid', 'Partially paid', 'Unconfirmed'],
-                    'series' => [
-                        $statuses->filter(
-                            fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::FullyPaid,
-                        )->count(),
-                        $statuses->filter(
-                            fn (TuitionClearanceStatus $status): bool => $status === TuitionClearanceStatus::PartiallyPaid,
-                        )->count(),
-                        $enrollmentIds->count()
-                            - $statuses->filter(
-                                fn (TuitionClearanceStatus $status): bool => $status !== TuitionClearanceStatus::Unconfirmed,
-                            )->count(),
-                    ],
+                'balance_status' => [
+                    'labels' => ['Can issue', 'Insufficient', 'Zero balance'],
+                    'series' => [$funded->count(), $insufficient->count(), $zero->count()],
                 ],
-                'target_pressure' => $this->clearanceTargetPressure(
-                    $nearTargetIds,
-                    $nearOnlyIds,
-                    $restrictedIds,
-                    $clearedAtTargetIds,
-                ),
+                'balance_by_center' => [
+                    'categories' => $centerBalances->keys()->values()->all(),
+                    'series' => [['name' => 'PACE credit (UGX)', 'data' => $centerBalances->values()->all()]],
+                ],
             ],
-            'queue' => $attention->map(function (array $row, $enrollmentId) use (
-                $queueEnrollments,
-                $restrictedIds,
-                $statuses,
-                $target,
-            ): array {
-                $enrollment = $queueEnrollments->get($enrollmentId);
-                $status = $statuses->get($enrollmentId, TuitionClearanceStatus::Unconfirmed);
-
-                return [
-                    'enrollment_id' => $enrollmentId,
-                    'student' => $enrollment->student->full_name,
-                    'admission_number' => $enrollment->student->admission_number,
-                    'learning_center' => $enrollment->learningCenter->name ?? 'Unassigned',
-                    'level' => $enrollment->level->name,
-                    'course' => $row['course'],
-                    'completed' => $row['completed'],
-                    'target' => $target,
-                    'clearance_status' => $status->value,
-                    'clearance_status_label' => $status->label(),
-                    'restricted' => $restrictedIds->contains($enrollmentId),
-                ];
-            })->values(),
-        ];
-    }
-
-    /**
-     * @return Collection<int, array{
-     *     enrollment_id: int,
-     *     course: string,
-     *     completed: int
-     * }>
-     */
-    private function clearanceProgress(Term $term): Collection
-    {
-        return PaceAssignment::query()
-            ->selectRaw('student_courses.student_enrollment_id as enrollment_id')
-            ->selectRaw('courses.name as course_name')
-            ->selectRaw('COUNT(DISTINCT pace_assignments.pace_id) as completed_count')
-            ->join('student_courses', 'student_courses.id', '=', 'pace_assignments.student_course_id')
-            ->join('student_enrollments', 'student_enrollments.id', '=', 'student_courses.student_enrollment_id')
-            ->join('courses', 'courses.id', '=', 'student_courses.course_id')
-            ->where('student_enrollments.academic_year_id', $term->academic_year_id)
-            ->where('student_enrollments.status', EnrollmentStatus::Active)
-            ->where('pace_assignments.status', PaceAssignmentStatus::Passed)
-            ->whereBetween('pace_assignments.completed_at', [
-                $term->starts_on->copy()->startOfDay(),
-                $term->ends_on->copy()->endOfDay(),
-            ])
-            ->groupBy('student_courses.student_enrollment_id', 'student_courses.id', 'courses.name')
-            ->get()
-            ->map(fn (PaceAssignment $assignment): array => [
-                'enrollment_id' => (int) $assignment->getAttribute('enrollment_id'),
-                'course' => (string) $assignment->getAttribute('course_name'),
-                'completed' => (int) $assignment->getAttribute('completed_count'),
-            ]);
-    }
-
-    /** @return array{students: int, fully_paid: int, partially_paid: int, unconfirmed: int, restricted: int, approaching_or_at_target: int} */
-    private function emptyClearanceMetrics(): array
-    {
-        return [
-            'students' => 0,
-            'fully_paid' => 0,
-            'partially_paid' => 0,
-            'unconfirmed' => 0,
-            'restricted' => 0,
-            'approaching_or_at_target' => 0,
+            'queue' => $attention->map(fn (StudentEnrollment $enrollment): array => [
+                'enrollment_id' => $enrollment->id,
+                'student' => $enrollment->student->full_name,
+                'admission_number' => $enrollment->student->admission_number,
+                'learning_center' => $enrollment->learning_center_id === null
+                    ? 'Unassigned'
+                    : $enrollment->learningCenter->name,
+                'level' => $enrollment->level->name,
+                'balance' => number_format((float) $enrollment->getAttribute('pace_balance'), 2, '.', ''),
+                'shortfall' => number_format(max(0, $paceCost - (float) $enrollment->getAttribute('pace_balance')), 2, '.', ''),
+            ])->values(),
         ];
     }
 
@@ -424,74 +321,6 @@ class DashboardReportService
                     ->get($week->toDateString(), collect())
                     ->sum('quantity')))->all(),
             ]],
-        ];
-    }
-
-    /**
-     * @param  Collection<int, int>  $nearTargetIds
-     * @param  Collection<int, int>  $nearOnlyIds
-     * @param  Collection<int, int>  $restrictedIds
-     * @param  Collection<int, int>  $clearedAtTargetIds
-     * @return array{
-     *     categories: array<int, string>,
-     *     series: array<int, array{name: string, data: array<int, int>}>
-     * }
-     */
-    private function clearanceTargetPressure(
-        Collection $nearTargetIds,
-        Collection $nearOnlyIds,
-        Collection $restrictedIds,
-        Collection $clearedAtTargetIds,
-    ): array {
-        $centers = StudentEnrollment::query()
-            ->whereKey($nearTargetIds)
-            ->with('learningCenter:id,name')
-            ->get(['id', 'learning_center_id'])
-            ->groupBy(fn (StudentEnrollment $enrollment): string => $enrollment->learning_center_id === null
-                ? 'Unassigned'
-                : $enrollment->learningCenter->name)
-            ->map(fn (Collection $enrollments): array => [
-                'near_target' => $enrollments->whereIn('id', $nearOnlyIds)->count(),
-                'restricted' => $enrollments->whereIn('id', $restrictedIds)->count(),
-                'cleared' => $enrollments->whereIn('id', $clearedAtTargetIds)->count(),
-            ])
-            ->sortByDesc(fn (array $counts): int => array_sum($counts))
-            ->take(8);
-
-        return [
-            'categories' => $centers->keys()->values()->all(),
-            'series' => [
-                ['name' => 'Near target', 'data' => $centers->pluck('near_target')->values()->all()],
-                ['name' => 'Restricted', 'data' => $centers->pluck('restricted')->values()->all()],
-                ['name' => 'Cleared at target', 'data' => $centers->pluck('cleared')->values()->all()],
-            ],
-        ];
-    }
-
-    /**
-     * @return array{
-     *     status_distribution: array{labels: array<int, string>, series: array<int, int>},
-     *     target_pressure: array{
-     *         categories: array<int, string>,
-     *         series: array<int, array{name: string, data: array<int, int>}>
-     *     }
-     * }
-     */
-    private function emptyClearanceCharts(): array
-    {
-        return [
-            'status_distribution' => [
-                'labels' => ['Fully paid', 'Partially paid', 'Unconfirmed'],
-                'series' => [0, 0, 0],
-            ],
-            'target_pressure' => [
-                'categories' => [],
-                'series' => [
-                    ['name' => 'Near target', 'data' => []],
-                    ['name' => 'Restricted', 'data' => []],
-                    ['name' => 'Cleared at target', 'data' => []],
-                ],
-            ],
         ];
     }
 }

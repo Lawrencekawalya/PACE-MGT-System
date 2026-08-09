@@ -4,11 +4,14 @@ use App\Models\AcademicYear;
 use App\Models\Course;
 use App\Models\InventoryItem;
 use App\Models\Pace;
+use App\Models\PaceAccountTransaction;
+use App\Models\SchoolSetting;
 use App\Models\StockMovement;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Subject;
 use App\Models\Term;
+use App\PaceAccountTransactionType;
 use App\PaceAssignmentStatus;
 use App\RoleName;
 use App\Services\PaceAssignmentService;
@@ -40,6 +43,14 @@ function inventoryAssignmentFixture(): array
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $assignment = app(PaceAssignmentService::class)->assign($studentCourse, $pace, $teacher);
     $item = InventoryItem::query()->where('pace_id', $pace->id)->sole();
+    SchoolSetting::current()->update(['pace_cost' => 10000]);
+    PaceAccountTransaction::factory()->create([
+        'student_id' => $enrollment->student_id,
+        'type' => PaceAccountTransactionType::Payment,
+        'amount' => '50000.00',
+        'balance_after' => '50000.00',
+        'recorded_by' => $storekeeper->id,
+    ]);
 
     return compact('year', 'term', 'pace', 'enrollment', 'studentCourse', 'teacher', 'storekeeper', 'assignment', 'item');
 }
@@ -90,6 +101,13 @@ test('the last copy cannot be issued to two assignments', function () {
     $secondEnrollment = StudentEnrollment::factory()->create(['academic_year_id' => $fixture['year']->id, 'term_id' => $fixture['term']->id, 'level_id' => $fixture['enrollment']->level_id]);
     $secondCourse = StudentCourse::factory()->create(['student_enrollment_id' => $secondEnrollment->id, 'course_id' => $fixture['studentCourse']->course_id, 'starting_pace_id' => $fixture['pace']->id, 'current_pace_id' => $fixture['pace']->id]);
     $second = app(PaceAssignmentService::class)->assign($secondCourse, $fixture['pace'], $fixture['teacher']);
+    PaceAccountTransaction::factory()->create([
+        'student_id' => $secondEnrollment->student_id,
+        'type' => PaceAccountTransactionType::Payment,
+        'amount' => '10000.00',
+        'balance_after' => '10000.00',
+        'recorded_by' => $fixture['storekeeper']->id,
+    ]);
 
     app(PaceIssueService::class)->issue($fixture['assignment'], $fixture['storekeeper']);
     expect(fn () => app(PaceIssueService::class)->issue($second, $fixture['storekeeper']))

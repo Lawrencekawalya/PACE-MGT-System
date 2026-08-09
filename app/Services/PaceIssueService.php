@@ -15,7 +15,11 @@ use Illuminate\Validation\ValidationException;
 
 class PaceIssueService
 {
-    public function __construct(private PaceAssignmentService $assignments, private StockLedgerService $stock) {}
+    public function __construct(
+        private PaceAssignmentService $assignments,
+        private StockLedgerService $stock,
+        private PaceAccountService $accounts,
+    ) {}
 
     /**
      * @param  list<int>  $assignmentIds
@@ -91,6 +95,7 @@ class PaceIssueService
     {
         return DB::transaction(function () use ($assignment, $actor): PaceAssignment {
             $assignment = PaceAssignment::query()->lockForUpdate()->findOrFail($assignment->id);
+            $this->accounts->chargeIssue($assignment, $actor);
             $this->stock->issueAssignment($assignment, $actor);
             $assignment = $this->assignments->transition($assignment, PaceAssignmentStatus::InProgress, $actor);
             $assignment->forceFill(['issued_by' => $actor->id, 'issued_at' => now()])->save();
@@ -109,6 +114,7 @@ class PaceIssueService
             $assignment = PaceAssignment::query()->lockForUpdate()->findOrFail($movement->pace_assignment_id);
             $correction = $this->stock->correct($movement, $reason, $actor);
             $this->assignments->reversePhysicalIssue($assignment, $actor, $reason);
+            $this->accounts->reverseIssueCharge($assignment, $reason, $actor);
 
             return $correction;
         }, 3);

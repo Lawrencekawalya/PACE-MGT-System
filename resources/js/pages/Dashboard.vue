@@ -20,9 +20,9 @@ import { dashboard } from '@/routes';
 import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
 import { show as inventoryItemShow } from '@/routes/inventory-items';
+import { index as paceAccountsIndex } from '@/routes/pace-accounts';
 import { show as assignmentShow } from '@/routes/pace-assignments';
 import { index as reportsIndex } from '@/routes/reports';
-import { index as tuitionClearancesIndex } from '@/routes/tuition-clearances';
 
 type Academic = {
     metrics: {
@@ -75,28 +75,27 @@ type Inventory = {
         reorder_level: number;
     }>;
 };
-type Clearance = {
+type PaceAccounts = {
     period: {
         academic_year_id: number;
         academic_year: string;
         term_id: number;
         term: string;
     } | null;
-    target: number;
+    pace_cost: string;
     metrics: {
         students: number;
-        fully_paid: number;
-        partially_paid: number;
-        unconfirmed: number;
-        restricted: number;
-        approaching_or_at_target: number;
+        total_balance: string;
+        funded: number;
+        insufficient: number;
+        zero: number;
     };
     charts: {
-        status_distribution: {
+        balance_status: {
             labels: string[];
             series: number[];
         };
-        target_pressure: {
+        balance_by_center: {
             categories: string[];
             series: Array<{ name: string; data: number[] }>;
         };
@@ -107,12 +106,8 @@ type Clearance = {
         admission_number: string;
         learning_center: string;
         level: string;
-        course: string;
-        completed: number;
-        target: number;
-        clearance_status: string;
-        clearance_status_label: string;
-        restricted: boolean;
+        balance: string;
+        shortfall: string;
     }>;
 };
 const props = defineProps<{
@@ -123,7 +118,7 @@ const props = defineProps<{
     } | null;
     academic: Academic | null;
     inventory: Inventory | null;
-    clearance: Clearance | null;
+    paceAccounts: PaceAccounts | null;
 }>();
 const page = usePage();
 const setupItems = computed(() => [
@@ -205,42 +200,43 @@ const inventoryMetrics = computed(() =>
           ]
         : [],
 );
-const clearanceMetrics = computed(() =>
-    props.clearance
+const formatMoney = (amount: string | number): string =>
+    new Intl.NumberFormat('en-UG', {
+        style: 'currency',
+        currency: 'UGX',
+        maximumFractionDigits: 0,
+    }).format(Number(amount));
+const paceAccountMetrics = computed(() =>
+    props.paceAccounts
         ? [
               {
                   label: 'Enrolled students',
-                  value: props.clearance.metrics.students,
+                  value: props.paceAccounts.metrics.students,
               },
               {
-                  label: 'Fully paid',
-                  value: props.clearance.metrics.fully_paid,
+                  label: 'PACE credit held',
+                  value: formatMoney(props.paceAccounts.metrics.total_balance),
               },
               {
-                  label: 'Partially paid',
-                  value: props.clearance.metrics.partially_paid,
+                  label: 'Can receive a PACE',
+                  value: props.paceAccounts.metrics.funded,
+              },
+              {
+                  label: 'Insufficient balance',
+                  value: props.paceAccounts.metrics.insufficient,
                   attention: true,
               },
               {
-                  label: 'Unconfirmed',
-                  value: props.clearance.metrics.unconfirmed,
-                  attention: true,
-              },
-              {
-                  label: 'Restricted from extras',
-                  value: props.clearance.metrics.restricted,
+                  label: 'Zero balance',
+                  value: props.paceAccounts.metrics.zero,
                   critical: true,
-              },
-              {
-                  label: 'Near or at subject target',
-                  value: props.clearance.metrics.approaching_or_at_target,
               },
           ]
         : [],
 );
 const dashboardDescription = computed(() =>
-    props.clearance && !props.academic && !props.inventory
-        ? 'Today’s tuition-clearance workload and additional PACE eligibility'
+    props.paceAccounts && !props.academic && !props.inventory
+        ? 'Today’s student PACE account position and funding attention'
         : 'Today’s PACE operations and exceptions',
 );
 defineOptions({
@@ -256,34 +252,32 @@ defineOptions({
             :description="dashboardDescription"
         />
 
-        <section v-if="clearance" class="space-y-4">
+        <section v-if="paceAccounts" class="space-y-4">
             <div class="flex items-center justify-between gap-3">
                 <div>
-                    <h2 class="font-semibold">Tuition clearance</h2>
+                    <h2 class="font-semibold">PACE accounts</h2>
                     <p class="text-sm text-muted-foreground">
-                        <template v-if="clearance.period">
-                            {{ clearance.period.academic_year }} ·
-                            {{ clearance.period.term }} ·
-                            {{ clearance.target }}-PACE subject target
-                        </template>
-                        <template v-else>
-                            No active academic term is configured
-                        </template>
+                        Uniform PACE cost:
+                        {{
+                            Number(paceAccounts.pace_cost) > 0
+                                ? formatMoney(paceAccounts.pace_cost)
+                                : 'Not configured'
+                        }}
                     </p>
                 </div>
                 <Button size="sm" variant="outline" as-child>
-                    <Link :href="tuitionClearancesIndex()">
+                    <Link :href="paceAccountsIndex()">
                         <ReceiptText class="size-4" />
-                        Open clearance
+                        Open PACE accounts
                     </Link>
                 </Button>
             </div>
 
             <div
-                class="grid grid-cols-2 gap-px overflow-hidden rounded-md border bg-border md:grid-cols-3 xl:grid-cols-6"
+                class="grid grid-cols-2 gap-px overflow-hidden rounded-md border bg-border md:grid-cols-3 xl:grid-cols-5"
             >
                 <div
-                    v-for="metric in clearanceMetrics"
+                    v-for="metric in paceAccountMetrics"
                     :key="metric.label"
                     class="bg-background p-4"
                 >
@@ -316,45 +310,43 @@ defineOptions({
                 class="grid gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]"
             >
                 <DashboardChart
-                    title="Clearance distribution"
-                    description="Active students by tuition-clearance status"
+                    title="Issue readiness"
+                    description="Active students by available PACE credit"
                     type="donut"
                     total-label="Students"
-                    :labels="clearance.charts.status_distribution.labels"
-                    :series="clearance.charts.status_distribution.series"
-                    :colors="['#059669', '#d97706', '#71717a']"
+                    :labels="paceAccounts.charts.balance_status.labels"
+                    :series="paceAccounts.charts.balance_status.series"
+                    :colors="['#059669', '#d97706', '#dc2626']"
                 />
                 <DashboardChart
-                    title="Target pressure by learning center"
-                    description="Students approaching the target, restricted, or cleared for extra PACEs"
+                    title="PACE credit by learning center"
+                    description="Available student credit carried by each learning center"
                     type="bar"
-                    stacked
-                    :categories="clearance.charts.target_pressure.categories"
-                    :series="clearance.charts.target_pressure.series"
-                    :colors="['#d97706', '#dc2626', '#059669']"
+                    :categories="
+                        paceAccounts.charts.balance_by_center.categories
+                    "
+                    :series="paceAccounts.charts.balance_by_center.series"
+                    :colors="['#2563eb']"
                 />
             </div>
 
             <div>
                 <div class="mb-2 flex items-center justify-between gap-3">
                     <div>
-                        <h3 class="text-sm font-semibold">
-                            Clearance attention
-                        </h3>
+                        <h3 class="text-sm font-semibold">Funding attention</h3>
                         <p class="text-xs text-muted-foreground">
-                            Unconfirmed or partially paid students near the
-                            subject target
+                            Students who cannot currently receive another PACE
                         </p>
                     </div>
                     <Link
                         class="text-sm text-primary hover:underline"
                         :href="
-                            tuitionClearancesIndex({
-                                query: { status: 'unconfirmed' },
+                            paceAccountsIndex({
+                                query: { balance_status: 'insufficient' },
                             })
                         "
                     >
-                        Review unconfirmed
+                        Review accounts
                     </Link>
                 </div>
                 <div class="overflow-x-auto rounded-md border">
@@ -365,26 +357,22 @@ defineOptions({
                                 <th class="px-3 py-2">
                                     Learning center / grade
                                 </th>
-                                <th class="px-3 py-2">Subject progress</th>
-                                <th class="px-3 py-2">Clearance</th>
-                                <th class="px-3 py-2">Eligibility</th>
+                                <th class="px-3 py-2 text-right">Balance</th>
+                                <th class="px-3 py-2 text-right">Shortfall</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y">
                             <tr
-                                v-for="item in clearance.queue"
+                                v-for="item in paceAccounts.queue"
                                 :key="item.enrollment_id"
                             >
                                 <td class="px-3 py-2.5">
                                     <Link
                                         class="font-medium hover:underline"
                                         :href="
-                                            tuitionClearancesIndex({
+                                            paceAccountsIndex({
                                                 query: {
                                                     search: item.admission_number,
-                                                    term_id:
-                                                        clearance.period
-                                                            ?.term_id,
                                                 },
                                             })
                                         "
@@ -403,44 +391,23 @@ defineOptions({
                                         {{ item.level }}
                                     </div>
                                 </td>
-                                <td class="px-3 py-2.5">
-                                    {{ item.course }}
-                                    <div
-                                        class="font-mono text-xs text-muted-foreground"
-                                    >
-                                        {{ item.completed }} /
-                                        {{ item.target }} passed
-                                    </div>
+                                <td class="px-3 py-2.5 text-right font-mono">
+                                    {{ formatMoney(item.balance) }}
                                 </td>
-                                <td class="px-3 py-2.5">
-                                    <Badge variant="outline">
-                                        {{ item.clearance_status_label }}
-                                    </Badge>
-                                </td>
-                                <td class="px-3 py-2.5">
-                                    <Badge
-                                        :variant="
-                                            item.restricted
-                                                ? 'destructive'
-                                                : 'secondary'
-                                        "
-                                    >
-                                        {{
-                                            item.restricted
-                                                ? 'Additional PACEs restricted'
-                                                : 'Approaching target'
-                                        }}
-                                    </Badge>
+                                <td
+                                    class="px-3 py-2.5 text-right font-mono text-destructive"
+                                >
+                                    {{ formatMoney(item.shortfall) }}
                                 </td>
                             </tr>
-                            <tr v-if="clearance.queue.length === 0">
+                            <tr v-if="paceAccounts.queue.length === 0">
                                 <td
-                                    colspan="5"
+                                    colspan="4"
                                     class="px-4 py-10 text-center text-muted-foreground"
                                 >
                                     <ReceiptText class="mx-auto mb-2 size-5" />
-                                    No students currently require clearance
-                                    attention.
+                                    All active students have enough credit for
+                                    another PACE.
                                 </td>
                             </tr>
                         </tbody>

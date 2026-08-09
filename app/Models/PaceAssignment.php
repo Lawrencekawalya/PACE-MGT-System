@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\PaceAccountTransactionType;
 use App\PaceAssignmentStatus;
 use App\RoleName;
 use Database\Factories\PaceAssignmentFactory;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -85,6 +87,13 @@ class PaceAssignment extends Model
     public function stockMovements(): HasMany
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    /** @return HasOne<PaceAccountTransaction, $this> */
+    public function paceAccountCharge(): HasOne
+    {
+        return $this->hasOne(PaceAccountTransaction::class)
+            ->where('type', PaceAccountTransactionType::PaceIssue);
     }
 
     /** @param Builder<PaceAssignment> $query */

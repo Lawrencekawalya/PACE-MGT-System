@@ -38,6 +38,11 @@ type Assignment = {
     pace_id: number;
     pace: { id: number; number: string; title: string | null };
     inventory: Inventory | null;
+    pace_account: {
+        balance: string;
+        pace_cost: string;
+        can_issue: boolean;
+    };
     student_course: {
         course: Option;
         enrollment: {
@@ -79,7 +84,15 @@ const props = defineProps<{
     };
     learningCenters: LearningCenter[];
     courses: Option[];
+    paceCost: string;
 }>();
+
+const formatMoney = (amount: string | number): string =>
+    new Intl.NumberFormat('en-UG', {
+        style: 'currency',
+        currency: 'UGX',
+        maximumFractionDigits: 0,
+    }).format(Number(amount));
 
 const mode = ref<Mode>(props.filters.mode);
 const search = ref(props.filters.search);
@@ -107,7 +120,8 @@ const selectableIds = computed(() =>
             (assignment) =>
                 assignment.inventory?.is_active &&
                 assignment.inventory.is_consumable &&
-                assignment.inventory.on_hand > 0,
+                assignment.inventory.on_hand > 0 &&
+                assignment.pace_account.can_issue,
         )
         .map((assignment) => assignment.id),
 );
@@ -156,6 +170,27 @@ const reviewLines = computed<ReviewLine[]>(() => {
 const hasShortage = computed(() =>
     reviewLines.value.some((line) => !line.available),
 );
+const hasBalanceShortage = computed(() => {
+    const selectedByStudent = new Map<
+        number,
+        { count: number; balance: number; cost: number }
+    >();
+
+    for (const assignment of selectedAssignments.value) {
+        const studentId = assignment.student_course.enrollment.student.id;
+        const current = selectedByStudent.get(studentId) ?? {
+            count: 0,
+            balance: Number(assignment.pace_account.balance),
+            cost: Number(assignment.pace_account.pace_cost),
+        };
+        current.count += 1;
+        selectedByStudent.set(studentId, current);
+    }
+
+    return [...selectedByStudent.values()].some(
+        (account) => account.balance < account.count * account.cost,
+    );
+});
 const searchPlaceholder = computed(() => {
     if (mode.value === 'pace') {
         return 'PACE number or title';
@@ -215,7 +250,7 @@ function togglePage(checked: boolean): void {
 function confirmIssue(event: globalThis.Event): void {
     if (
         !window.confirm(
-            `Confirm physical handover of ${selectedIds.value.length} PACE assignment(s)? Stock will be deducted immediately.`,
+            `Confirm physical handover of ${selectedIds.value.length} PACE assignment(s)? Stock and ${formatMoney(Number(props.paceCost) * selectedIds.value.length)} in student PACE credit will be deducted immediately.`,
         )
     ) {
         event.preventDefault();
@@ -347,6 +382,7 @@ defineOptions({
                                 <th class="px-4 py-3">Student</th>
                                 <th class="px-4 py-3">Course</th>
                                 <th class="px-4 py-3">PACE</th>
+                                <th class="px-4 py-3">PACE balance</th>
                                 <th class="px-4 py-3">Stock</th>
                                 <th class="w-12"></th>
                             </tr>
@@ -365,7 +401,8 @@ defineOptions({
                                             !assignment.inventory?.is_active ||
                                             !assignment.inventory
                                                 ?.is_consumable ||
-                                            assignment.inventory.on_hand <= 0
+                                            assignment.inventory.on_hand <= 0 ||
+                                            !assignment.pace_account.can_issue
                                         "
                                         :aria-label="`Select PACE ${assignment.pace.number} for ${assignment.student_course.enrollment.student.first_name}`"
                                         @update:model-value="
@@ -426,6 +463,32 @@ defineOptions({
                                 </td>
                                 <td class="px-4 py-3">
                                     <Badge
+                                        :variant="
+                                            assignment.pace_account.can_issue
+                                                ? 'outline'
+                                                : 'destructive'
+                                        "
+                                    >
+                                        {{
+                                            formatMoney(
+                                                assignment.pace_account.balance,
+                                            )
+                                        }}
+                                    </Badge>
+                                    <div
+                                        class="mt-1 text-xs text-muted-foreground"
+                                    >
+                                        Cost
+                                        {{
+                                            formatMoney(
+                                                assignment.pace_account
+                                                    .pace_cost,
+                                            )
+                                        }}
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <Badge
                                         v-if="
                                             assignment.inventory?.is_active &&
                                             assignment.inventory
@@ -470,7 +533,7 @@ defineOptions({
                             </tr>
                             <tr v-if="assignments.data.length === 0">
                                 <td
-                                    colspan="8"
+                                    colspan="9"
                                     class="px-4 py-14 text-center text-muted-foreground"
                                 >
                                     No assigned PACEs match these filters.
@@ -560,6 +623,16 @@ defineOptions({
                     <AlertTriangle class="mt-0.5 size-4 shrink-0" />
                     <span>Resolve stock shortages before issuing.</span>
                 </div>
+                <div
+                    v-if="hasBalanceShortage"
+                    class="flex gap-2 border-l-4 border-destructive px-3 py-2 text-sm"
+                >
+                    <AlertTriangle class="mt-0.5 size-4 shrink-0" />
+                    <span>
+                        A selected student does not have enough credit for all
+                        selected PACEs.
+                    </span>
+                </div>
 
                 <Form
                     v-bind="PaceIssuingController.store.form()"
@@ -575,10 +648,18 @@ defineOptions({
                         :value="id"
                     />
                     <p
-                        v-if="errors.assignment_ids || errors.stock"
+                        v-if="
+                            errors.assignment_ids ||
+                            errors.stock ||
+                            errors.balance
+                        "
                         class="mb-3 text-sm text-destructive"
                     >
-                        {{ errors.assignment_ids || errors.stock }}
+                        {{
+                            errors.assignment_ids ||
+                            errors.stock ||
+                            errors.balance
+                        }}
                     </p>
                     <Button
                         class="w-full"
@@ -586,6 +667,7 @@ defineOptions({
                         :disabled="
                             selectedIds.length === 0 ||
                             hasShortage ||
+                            hasBalanceShortage ||
                             processing
                         "
                     >

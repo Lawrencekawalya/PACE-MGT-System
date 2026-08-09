@@ -37,6 +37,12 @@ class Student extends Model
         return $this->hasMany(StudentEnrollment::class)->orderByDesc('enrolled_on');
     }
 
+    /** @return HasMany<PaceAccountTransaction, $this> */
+    public function paceAccountTransactions(): HasMany
+    {
+        return $this->hasMany(PaceAccountTransaction::class)->orderByDesc('recorded_at');
+    }
+
     /** @return HasOne<StudentEnrollment, $this> */
     public function activeEnrollment(): HasOne
     {

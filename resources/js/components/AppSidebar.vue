@@ -51,6 +51,7 @@ import { edit as editSchoolSettings } from '@/routes/admin/school-settings';
 import { index as staffIndex } from '@/routes/admin/staff';
 import { index as assessmentsIndex } from '@/routes/assessments';
 import { index as inventoryIndex } from '@/routes/inventory';
+import { index as paceAccountsIndex } from '@/routes/pace-accounts';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
 import { index as paceIssuingIndex } from '@/routes/pace-issuing';
 import { index as purchaseOrdersIndex } from '@/routes/purchase-orders';
@@ -58,7 +59,6 @@ import { index as reordersIndex } from '@/routes/reorders';
 import { index as reportsIndex } from '@/routes/reports';
 import { index as studentsIndex } from '@/routes/students';
 import { index as suppliersIndex } from '@/routes/suppliers';
-import { index as tuitionClearancesIndex } from '@/routes/tuition-clearances';
 import type { NavGroup, NavItem } from '@/types';
 
 const page = usePage();
@@ -84,8 +84,8 @@ const mainNavItems = computed<NavItem[]>(() => {
 
     if (hasPermission('manage-tuition-clearance')) {
         items.push({
-            title: 'Tuition clearance',
-            href: tuitionClearancesIndex(),
+            title: 'PACE accounts',
+            href: paceAccountsIndex(),
             icon: ReceiptText,
         });
     }

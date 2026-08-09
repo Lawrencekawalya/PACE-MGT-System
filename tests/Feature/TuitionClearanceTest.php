@@ -1,15 +1,16 @@
 <?php
 
 use App\Models\ActivityLog;
-use App\Models\Pace;
-use App\Models\PaceAssignment;
-use App\Models\TuitionClearance;
-use App\Models\TuitionClearanceEvent;
+use App\Models\InventoryItem;
+use App\Models\PaceAccountTransaction;
+use App\Models\SchoolSetting;
+use App\PaceAccountTransactionType;
 use App\PaceAssignmentStatus;
 use App\RoleName;
-use App\Services\PaceAssignmentService;
-use App\Services\TuitionClearanceService;
-use App\TuitionClearanceStatus;
+use App\Services\PaceAccountService;
+use App\Services\PaceIssueService;
+use App\Services\StockLedgerService;
+use App\StockMovementType;
 use Database\Seeders\AccessControlSeeder;
 use Illuminate\Validation\ValidationException;
 
@@ -18,75 +19,83 @@ beforeEach(function () {
     $this->seed(AccessControlSeeder::class);
 });
 
-test('Accountant sees the active term roster and can filter by school structure', function () {
+test('Accountant sees student PACE accounts and can filter by school structure', function () {
     $fixture = createReportFixture();
     $accountant = createStaffWithRole(RoleName::Accountant);
 
     $this->actingAs($accountant)
-        ->get(route('tuition-clearances.index', [
+        ->get(route('pace-accounts.index', [
             'learning_center_id' => $fixture['enrollment']->learning_center_id,
             'level_id' => $fixture['level']->id,
-            'status' => TuitionClearanceStatus::Unconfirmed->value,
+            'balance_status' => 'zero',
             'search' => 'FICA-0001',
         ]))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
-            ->component('tuition-clearances/Index')
+            ->component('pace-accounts/Index')
             ->where('summary.students', 1)
-            ->where('summary.unconfirmed', 1)
-            ->where('target', 4)
+            ->where('summary.zero', 1)
+            ->where('paceCost', '0.00')
+            ->where('canSetPaceCost', true)
             ->has('enrollments.data', 1)
             ->where('enrollments.data.0.student.admission_number', 'FICA-0001')
-            ->where('enrollments.data.0.clearance.status', TuitionClearanceStatus::Unconfirmed->value)
-            ->where('enrollments.data.0.course_progress.0.completed', 1));
+            ->where('enrollments.data.0.balance', '0.00')
+            ->where('enrollments.data.0.can_issue', false));
 });
 
-test('Accountant records auditable term clearance without financial amounts', function () {
+test('only an Accountant can set the uniform PACE cost', function () {
+    $accountant = createStaffWithRole(RoleName::Accountant);
+    $administrator = createStaffWithRole(RoleName::Administrator);
+
+    $this->actingAs($accountant)
+        ->put(route('pace-accounts.cost.update'), ['pace_cost' => 15000])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    expect(SchoolSetting::current()->fresh()->pace_cost)->toBe('15000.00')
+        ->and(ActivityLog::query()->where('event', 'pace-account.cost-updated')->exists())->toBeTrue();
+
+    $this->actingAs($administrator)
+        ->put(route('pace-accounts.cost.update'), ['pace_cost' => 20000])
+        ->assertForbidden();
+});
+
+test('Accountant records an auditable payment that increases the carried student balance', function () {
     $fixture = createReportFixture();
     $accountant = createStaffWithRole(RoleName::Accountant);
 
     $this->actingAs($accountant)
-        ->put(route('tuition-clearances.update', $fixture['enrollment']), [
-            'term_id' => $fixture['term']->id,
-            'status' => TuitionClearanceStatus::PartiallyPaid->value,
+        ->post(route('pace-accounts.payments.store', $fixture['student']), [
+            'amount' => 60000,
+            'paid_on' => now()->toDateString(),
             'reference' => 'RCT-2026-104',
-            'notes' => 'Term clearance reviewed.',
+            'notes' => 'PACE credit received.',
         ])
-        ->assertRedirect();
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
 
-    $clearance = TuitionClearance::query()->sole();
-    expect($clearance->status)->toBe(TuitionClearanceStatus::PartiallyPaid)
-        ->and($clearance->recorded_by)->toBe($accountant->id)
-        ->and($clearance->reference)->toBe('RCT-2026-104')
-        ->and(TuitionClearanceEvent::query()->count())->toBe(1)
-        ->and(ActivityLog::query()->where('event', 'tuition-clearance.recorded')->exists())->toBeTrue();
+    $transaction = PaceAccountTransaction::query()->sole();
+    expect($transaction->type)->toBe(PaceAccountTransactionType::Payment)
+        ->and($transaction->amount)->toBe('60000.00')
+        ->and($transaction->balance_after)->toBe('60000.00')
+        ->and($transaction->reference)->toBe('RCT-2026-104')
+        ->and($transaction->recorded_by)->toBe($accountant->id)
+        ->and(app(PaceAccountService::class)->balance($fixture['student']))->toBe('60000.00')
+        ->and(ActivityLog::query()->where('event', 'pace-account.payment-recorded')->exists())->toBeTrue();
 
-    $this->actingAs($accountant)
-        ->put(route('tuition-clearances.update', $fixture['enrollment']), [
-            'term_id' => $fixture['term']->id,
-            'status' => TuitionClearanceStatus::FullyPaid->value,
-            'reference' => 'RCT-2026-205',
-            'notes' => 'Full-term clearance confirmed.',
-        ])
-        ->assertRedirect();
-
-    expect($clearance->fresh()->status)->toBe(TuitionClearanceStatus::FullyPaid)
-        ->and(TuitionClearanceEvent::query()->count())->toBe(2)
-        ->and(TuitionClearanceEvent::query()->latest('id')->first()->from_status)
-        ->toBe(TuitionClearanceStatus::PartiallyPaid);
+    expect(fn () => $transaction->update(['amount' => 1]))->toThrow(LogicException::class)
+        ->and(fn () => $transaction->delete())->toThrow(LogicException::class);
 });
 
-test('Teacher and PACE Officer cannot manage tuition clearance', function (RoleName $role) {
+test('Teacher and PACE Officer cannot manage PACE accounts', function (RoleName $role) {
     $fixture = createReportFixture();
     $staff = createStaffWithRole($role);
 
+    $this->actingAs($staff)->get(route('pace-accounts.index'))->assertForbidden();
     $this->actingAs($staff)
-        ->get(route('tuition-clearances.index'))
-        ->assertForbidden();
-    $this->actingAs($staff)
-        ->put(route('tuition-clearances.update', $fixture['enrollment']), [
-            'term_id' => $fixture['term']->id,
-            'status' => TuitionClearanceStatus::FullyPaid->value,
+        ->post(route('pace-accounts.payments.store', $fixture['student']), [
+            'amount' => 10000,
+            'paid_on' => now()->toDateString(),
         ])
         ->assertForbidden();
 })->with([
@@ -94,85 +103,72 @@ test('Teacher and PACE Officer cannot manage tuition clearance', function (RoleN
     'PACE Officer' => RoleName::PaceOfficer,
 ]);
 
-test('additional PACE requires full tuition clearance after the subject target', function () {
+test('physical issue requires the full PACE cost and deducts it atomically', function () {
     $fixture = createReportFixture();
     $accountant = createStaffWithRole(RoleName::Accountant);
+    $officer = createStaffWithRole(RoleName::PaceOfficer);
     $fixture['active']->update([
-        'status' => PaceAssignmentStatus::Passed,
-        'completed_at' => now(),
+        'status' => PaceAssignmentStatus::Assigned,
+        'issued_at' => null,
+        'started_at' => null,
     ]);
-    $assignmentWithinTarget = app(PaceAssignmentService::class)->assign(
-        $fixture['studentCourse'],
-        $fixture['paces'][2],
-        $fixture['teacher'],
-    );
-    expect($assignmentWithinTarget->status)->toBe(PaceAssignmentStatus::Assigned);
-    $assignmentWithinTarget->update([
-        'status' => PaceAssignmentStatus::Passed,
-        'completed_at' => now(),
-    ]);
-
-    $extraPassedPace = Pace::factory()->create([
-        'course_id' => $fixture['course']->id,
-        'number' => '1004',
-        'sequence_order' => 4,
-    ]);
-    $nextPace = Pace::factory()->create([
-        'course_id' => $fixture['course']->id,
-        'number' => '1005',
-        'sequence_order' => 5,
-    ]);
-    $requirement = $fixture['level']->curriculumRequirements()
-        ->where('course_id', $fixture['course']->id)
-        ->sole();
-    $requirement->paces()->attach([
-        $extraPassedPace->id => ['sequence_order' => 4],
-        $nextPace->id => ['sequence_order' => 5],
-    ]);
-    PaceAssignment::factory()->create([
-        'student_course_id' => $fixture['studentCourse']->id,
-        'pace_id' => $extraPassedPace->id,
-        'academic_year_id' => $fixture['year']->id,
-        'term_id' => $fixture['term']->id,
-        'status' => PaceAssignmentStatus::Passed,
-        'completed_at' => now(),
-    ]);
-
-    expect(fn () => app(PaceAssignmentService::class)->assign(
-        $fixture['studentCourse'],
-        $nextPace,
-        $fixture['teacher'],
-    ))->toThrow(ValidationException::class, 'requires full tuition clearance');
-
-    app(TuitionClearanceService::class)->record(
-        $fixture['enrollment'],
-        $fixture['term'],
-        TuitionClearanceStatus::PartiallyPaid,
-        'RCT-PARTIAL',
+    SchoolSetting::current()->update(['pace_cost' => 15000]);
+    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-ACCOUNT', null, $officer);
+    app(PaceAccountService::class)->recordPayment(
+        $fixture['student'],
+        '14999.00',
+        now(),
+        'RCT-SHORT',
         null,
         $accountant,
     );
 
-    expect(fn () => app(PaceAssignmentService::class)->assign(
-        $fixture['studentCourse'],
-        $nextPace,
-        $fixture['teacher'],
-    ))->toThrow(ValidationException::class, 'requires full tuition clearance');
+    expect(fn () => app(PaceIssueService::class)->issue($fixture['active'], $officer))
+        ->toThrow(ValidationException::class, 'insufficient PACE balance')
+        ->and($item->onHand())->toBe(1)
+        ->and($fixture['active']->fresh()->status)->toBe(PaceAssignmentStatus::Assigned)
+        ->and(PaceAccountTransaction::query()->where('type', PaceAccountTransactionType::PaceIssue)->exists())->toBeFalse();
 
-    app(TuitionClearanceService::class)->record(
-        $fixture['enrollment'],
-        $fixture['term'],
-        TuitionClearanceStatus::FullyPaid,
-        'RCT-FULL',
+    app(PaceAccountService::class)->recordPayment(
+        $fixture['student'],
+        '1.00',
+        now(),
+        'RCT-TOPUP',
         null,
         $accountant,
     );
-    $assignment = app(PaceAssignmentService::class)->assign(
-        $fixture['studentCourse'],
-        $nextPace,
-        $fixture['teacher'],
-    );
+    $issued = app(PaceIssueService::class)->issue($fixture['active'], $officer);
+    $charge = PaceAccountTransaction::query()->where('type', PaceAccountTransactionType::PaceIssue)->sole();
 
-    expect($assignment->pace_id)->toBe($nextPace->id)
-        ->and($assignment->status)->toBe(PaceAssignmentStatus::Assigned);
+    expect($issued->status)->toBe(PaceAssignmentStatus::InProgress)
+        ->and($item->onHand())->toBe(0)
+        ->and($charge->amount)->toBe('-15000.00')
+        ->and($charge->balance_after)->toBe('0.00')
+        ->and(app(PaceAccountService::class)->balance($fixture['student']))->toBe('0.00');
+});
+
+test('valid issue reversal restores the exact price originally charged', function () {
+    $fixture = createReportFixture();
+    $accountant = createStaffWithRole(RoleName::Accountant);
+    $officer = createStaffWithRole(RoleName::PaceOfficer);
+    $fixture['active']->update([
+        'status' => PaceAssignmentStatus::Assigned,
+        'issued_at' => null,
+        'started_at' => null,
+    ]);
+    SchoolSetting::current()->update(['pace_cost' => 12000]);
+    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-REV', null, $officer);
+    app(PaceAccountService::class)->recordPayment($fixture['student'], '20000.00', now(), 'RCT-REV', null, $accountant);
+    app(PaceIssueService::class)->issue($fixture['active'], $officer);
+    $issue = $item->movements()->where('type', StockMovementType::Issue)->sole();
+
+    SchoolSetting::current()->update(['pace_cost' => 15000]);
+    app(PaceIssueService::class)->reverse($issue, 'Wrong student selected.', $officer);
+
+    $reversal = PaceAccountTransaction::query()->where('type', PaceAccountTransactionType::IssueReversal)->sole();
+    expect($reversal->amount)->toBe('12000.00')
+        ->and($reversal->balance_after)->toBe('20000.00')
+        ->and(app(PaceAccountService::class)->balance($fixture['student']))->toBe('20000.00');
 });

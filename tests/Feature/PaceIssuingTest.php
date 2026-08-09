@@ -7,13 +7,16 @@ use App\Models\InventoryItem;
 use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\Pace;
+use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
+use App\Models\SchoolSetting;
 use App\Models\StockMovement;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Subject;
 use App\Models\Term;
+use App\PaceAccountTransactionType;
 use App\PaceAssignmentStatus;
 use App\RoleName;
 use App\Services\PaceAssignmentService;
@@ -85,6 +88,17 @@ function paceIssuingFixture(): array
     $stock = app(StockLedgerService::class);
     $stock->postManual($scienceItem, StockMovementType::Receipt, 2, 'DEL-SCIENCE', null, $officer);
     $stock->postManual($mathItem, StockMovementType::Receipt, 1, 'DEL-MATH', null, $officer);
+    SchoolSetting::current()->update(['pace_cost' => 10000]);
+    collect([$aminaScience, $benScience, $claireMath])
+        ->map(fn (PaceAssignment $assignment): int => $assignment->studentCourse->enrollment->student_id)
+        ->unique()
+        ->each(fn (int $studentId) => PaceAccountTransaction::factory()->create([
+            'student_id' => $studentId,
+            'type' => PaceAccountTransactionType::Payment,
+            'amount' => '50000.00',
+            'balance_after' => '50000.00',
+            'recorded_by' => $officer->id,
+        ]));
 
     return compact(
         'lowerCenter',

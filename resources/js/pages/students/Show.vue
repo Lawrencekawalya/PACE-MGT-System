@@ -40,9 +40,6 @@ type Placement = {
         progress_percent: number;
         status: 'target_achieved' | 'on_track' | 'below_target';
         status_label: string;
-        clearance_status: 'unconfirmed' | 'partially_paid' | 'fully_paid';
-        clearance_status_label: string;
-        additional_pace_allowed: boolean;
     } | null;
     pace_assignments: Array<{
         id: number;
@@ -446,20 +443,10 @@ defineOptions({
                                     placement.term_progress.completed >=
                                     placement.term_progress.target
                                 "
-                                class="mt-2 text-xs"
-                                :class="
-                                    placement.term_progress
-                                        .additional_pace_allowed
-                                        ? 'text-muted-foreground'
-                                        : 'text-destructive'
-                                "
+                                class="mt-2 text-xs text-muted-foreground"
                             >
-                                {{
-                                    placement.term_progress
-                                        .additional_pace_allowed
-                                        ? `Additional PACEs eligible · ${placement.term_progress.clearance_status_label}`
-                                        : `Additional PACEs require full tuition clearance · ${placement.term_progress.clearance_status_label}`
-                                }}
+                                Minimum reached; the student may continue with
+                                additional PACEs.
                             </div>
                         </div>
                         <div class="text-sm sm:text-right">

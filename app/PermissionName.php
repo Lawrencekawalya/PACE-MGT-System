@@ -22,7 +22,7 @@ enum PermissionName: string
     case ReceivePurchaseOrders = 'receive-purchase-orders';
     case ViewAcademicReports = 'view-academic-reports';
     case ViewInventoryReports = 'view-inventory-reports';
-    case ManageTuitionClearance = 'manage-tuition-clearance';
+    case ManagePaceAccounts = 'manage-tuition-clearance';
 
     public function label(): string
     {
@@ -45,7 +45,7 @@ enum PermissionName: string
             self::ReceivePurchaseOrders => 'Receive purchase orders',
             self::ViewAcademicReports => 'View academic reports',
             self::ViewInventoryReports => 'View inventory reports',
-            self::ManageTuitionClearance => 'Manage tuition clearance',
+            self::ManagePaceAccounts => 'Manage PACE accounts',
         };
     }
 }

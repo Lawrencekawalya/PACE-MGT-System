@@ -31,7 +31,7 @@ class AccessControlSeeder extends Seeder
                         RoleName::Administrator => 'Full system oversight and configuration',
                         RoleName::Teacher => 'Student learning, PACE assignment, and assessment',
                         RoleName::PaceOfficer => 'PACE issuing, inventory, and ordering',
-                        RoleName::Accountant => 'Term tuition-clearance status management',
+                        RoleName::Accountant => 'Student PACE payments and account management',
                     },
                 ],
             );
@@ -58,7 +58,7 @@ class AccessControlSeeder extends Seeder
                 PermissionName::ViewInventoryReports,
             ],
             RoleName::Accountant->value => [
-                PermissionName::ManageTuitionClearance,
+                PermissionName::ManagePaceAccounts,
             ],
         ];
 

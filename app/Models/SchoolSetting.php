@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
     'pace_test_pass_mark',
     'self_test_retry_limit',
     'term_pace_target',
+    'pace_cost',
 ])]
 class SchoolSetting extends Model
 {
@@ -36,6 +37,7 @@ class SchoolSetting extends Model
             'pace_test_pass_mark' => 'decimal:2',
             'self_test_retry_limit' => 'integer',
             'term_pace_target' => 'integer',
+            'pace_cost' => 'decimal:2',
         ];
     }
 
@@ -61,6 +63,7 @@ class SchoolSetting extends Model
             'pace_test_pass_mark' => '80.00',
             'self_test_retry_limit' => 2,
             'term_pace_target' => 4,
+            'pace_cost' => '0.00',
         ];
     }
 }

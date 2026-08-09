@@ -1,12 +1,9 @@
 <?php
 
-use App\Models\Pace;
-use App\Models\PaceAssignment;
+use App\Models\SchoolSetting;
 use App\Models\User;
-use App\PaceAssignmentStatus;
 use App\RoleName;
-use App\Services\TuitionClearanceService;
-use App\TuitionClearanceStatus;
+use App\Services\PaceAccountService;
 use Database\Seeders\AccessControlSeeder;
 
 beforeEach(function () {
@@ -28,7 +25,7 @@ test('teacher dashboard shows academic metrics and overdue queue only', function
             ->where('academic.charts.target_status_by_subject.series.2.data', [1])
             ->has('academic.queue', 1)
             ->where('inventory', null)
-            ->where('clearance', null));
+            ->where('paceAccounts', null));
 });
 
 test('storekeeper dashboard shows inventory metrics but no academic data', function () {
@@ -45,7 +42,7 @@ test('storekeeper dashboard shows inventory metrics but no academic data', funct
             ->has('inventory.charts.issuance_trend.categories', 8)
             ->where('inventory.charts.issuance_trend.series.0.data', [0, 0, 0, 0, 0, 0, 0, 0])
             ->has('inventory.queue', 3)
-            ->where('clearance', null));
+            ->where('paceAccounts', null));
 });
 
 test('PACE Officer dashboard charts physical issues in weekly buckets', function () {
@@ -58,38 +55,14 @@ test('PACE Officer dashboard charts physical issues in weekly buckets', function
             ->where('inventory.charts.issuance_trend.series.0.data', [0, 0, 0, 0, 0, 0, 1, 0]));
 });
 
-test('Accountant dashboard shows active-term clearance workload and restrictions', function () {
+test('Accountant dashboard shows student PACE balances and funding attention', function () {
     $fixture = createReportFixture();
     $accountant = createStaffWithRole(RoleName::Accountant);
-    $fixture['active']->update([
-        'status' => PaceAssignmentStatus::Passed,
-        'completed_at' => now(),
-    ]);
-    PaceAssignment::factory()->create([
-        'student_course_id' => $fixture['studentCourse']->id,
-        'pace_id' => $fixture['paces'][2]->id,
-        'academic_year_id' => $fixture['year']->id,
-        'term_id' => $fixture['term']->id,
-        'status' => PaceAssignmentStatus::Passed,
-        'completed_at' => now(),
-    ]);
-    $fourthPace = Pace::factory()->create([
-        'course_id' => $fixture['course']->id,
-        'number' => '1004',
-        'sequence_order' => 4,
-    ]);
-    PaceAssignment::factory()->create([
-        'student_course_id' => $fixture['studentCourse']->id,
-        'pace_id' => $fourthPace->id,
-        'academic_year_id' => $fixture['year']->id,
-        'term_id' => $fixture['term']->id,
-        'status' => PaceAssignmentStatus::Passed,
-        'completed_at' => now(),
-    ]);
-    app(TuitionClearanceService::class)->record(
-        $fixture['enrollment'],
-        $fixture['term'],
-        TuitionClearanceStatus::PartiallyPaid,
+    SchoolSetting::current()->update(['pace_cost' => 15000]);
+    app(PaceAccountService::class)->recordPayment(
+        $fixture['student'],
+        '10000.00',
+        now(),
         'RCT-DASHBOARD',
         null,
         $accountant,
@@ -99,23 +72,20 @@ test('Accountant dashboard shows active-term clearance workload and restrictions
         ->assertInertia(fn ($page) => $page
             ->where('academic', null)
             ->where('inventory', null)
-            ->where('clearance.period.term', 'Term 1')
-            ->where('clearance.target', 4)
-            ->where('clearance.metrics.students', 1)
-            ->where('clearance.metrics.fully_paid', 0)
-            ->where('clearance.metrics.partially_paid', 1)
-            ->where('clearance.metrics.unconfirmed', 0)
-            ->where('clearance.metrics.restricted', 1)
-            ->where('clearance.metrics.approaching_or_at_target', 1)
-            ->where('clearance.charts.status_distribution.series', [0, 1, 0])
-            ->has('clearance.charts.target_pressure.categories', 1)
-            ->where('clearance.charts.target_pressure.series.0.data', [0])
-            ->where('clearance.charts.target_pressure.series.1.data', [1])
-            ->where('clearance.charts.target_pressure.series.2.data', [0])
-            ->has('clearance.queue', 1)
-            ->where('clearance.queue.0.student', 'Grace Auma')
-            ->where('clearance.queue.0.completed', 4)
-            ->where('clearance.queue.0.restricted', true));
+            ->where('paceAccounts.period.term', 'Term 1')
+            ->where('paceAccounts.pace_cost', '15000.00')
+            ->where('paceAccounts.metrics.students', 1)
+            ->where('paceAccounts.metrics.total_balance', '10000.00')
+            ->where('paceAccounts.metrics.funded', 0)
+            ->where('paceAccounts.metrics.insufficient', 1)
+            ->where('paceAccounts.metrics.zero', 0)
+            ->where('paceAccounts.charts.balance_status.series', [0, 1, 0])
+            ->has('paceAccounts.charts.balance_by_center.categories', 1)
+            ->where('paceAccounts.charts.balance_by_center.series.0.data', [10000])
+            ->has('paceAccounts.queue', 1)
+            ->where('paceAccounts.queue.0.student', 'Grace Auma')
+            ->where('paceAccounts.queue.0.balance', '10000.00')
+            ->where('paceAccounts.queue.0.shortfall', '5000.00'));
 });
 
 test('administrator dashboard includes all operational reporting domains', function () {
@@ -128,8 +98,8 @@ test('administrator dashboard includes all operational reporting domains', funct
             ->has('academic.charts')
             ->has('inventory.metrics')
             ->has('inventory.charts')
-            ->has('clearance.metrics')
-            ->has('clearance.charts')
+            ->has('paceAccounts.metrics')
+            ->has('paceAccounts.charts')
             ->has('setup'));
 });
 
@@ -141,9 +111,9 @@ test('dashboard charts provide stable empty data when no term is active', functi
 
     $this->actingAs($accountant)->get(route('dashboard'))->assertOk()
         ->assertInertia(fn ($page) => $page
-            ->where('clearance.period', null)
-            ->where('clearance.charts.status_distribution.series', [0, 0, 0])
-            ->where('clearance.charts.target_pressure.categories', []));
+            ->where('paceAccounts.period', null)
+            ->where('paceAccounts.charts.balance_status.series', [0, 0, 1])
+            ->has('paceAccounts.charts.balance_by_center.categories', 1));
 
     $this->actingAs($teacher)->get(route('dashboard'))->assertOk()
         ->assertInertia(fn ($page) => $page
@@ -158,5 +128,5 @@ test('user without reporting permissions receives no operational reporting data'
         ->assertInertia(fn ($page) => $page
             ->where('academic', null)
             ->where('inventory', null)
-            ->where('clearance', null));
+            ->where('paceAccounts', null));
 });

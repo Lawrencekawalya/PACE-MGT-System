@@ -33,7 +33,7 @@ test('approved role permission matrix is seeded', function () {
             PermissionName::ViewPaceCatalogue,
         ])->map->value->sort()->values()->all())
         ->and($accountant->permissions->pluck('name')->values()->all())
-        ->toBe([PermissionName::ManageTuitionClearance->value]);
+        ->toBe([PermissionName::ManagePaceAccounts->value]);
 });
 
 test('teachers and PACE Officers cannot manage administration screens', function (RoleName $role) {

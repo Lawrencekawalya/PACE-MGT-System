@@ -33,7 +33,7 @@ class DashboardController extends Controller
             ] : null,
             'academic' => $this->reports->academic($request->user()),
             'inventory' => $this->reports->inventory($request->user()),
-            'clearance' => $this->reports->clearance($request->user()),
+            'paceAccounts' => $this->reports->paceAccounts($request->user()),
         ]);
     }
 }
