@@ -7,20 +7,18 @@ const school = usePage().props.school;
 
 <template>
     <div
-        v-if="!school.logo_url"
-        class="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground"
+        class="flex h-10 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-sidebar-border bg-white"
     >
-        <AppLogoIcon class="size-5 fill-current text-white dark:text-black" />
+        <AppLogoIcon class="h-9 w-11" />
     </div>
-    <img
-        v-else
-        :src="school.logo_url"
-        :alt="`${school.short_name} logo`"
-        class="size-8 object-contain"
-    />
-    <div class="ml-1 grid flex-1 text-left text-sm">
-        <span class="mb-0.5 truncate leading-tight font-semibold">{{
-            school.short_name
-        }}</span>
+    <div class="ml-1 grid min-w-0 flex-1 text-left">
+        <span class="truncate text-sm leading-tight font-semibold">
+            {{ school.short_name }}
+        </span>
+        <span
+            class="truncate text-[11px] leading-tight text-sidebar-foreground/60"
+        >
+            PACE Management
+        </span>
     </div>
 </template>
