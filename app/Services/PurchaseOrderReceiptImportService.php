@@ -125,10 +125,6 @@ class PurchaseOrderReceiptImportService
                     if ($fileOutstanding !== $outstanding) {
                         $errors[] = 'Outstanding quantity is stale or was changed. Export a current copy of the order.';
                     }
-                    if ($quantity > $outstanding) {
-                        $errors[] = "Delivery quantity exceeds the {$outstanding} units outstanding.";
-                    }
-
                     $pace = $item->pace;
                     $normalized = [
                         'purchase_order_line_id' => $line->id,
@@ -144,6 +140,7 @@ class PurchaseOrderReceiptImportService
                         'quantity_received' => $quantity,
                         'outstanding_before' => $outstanding,
                         'outstanding_after' => max($outstanding - $quantity, 0),
+                        'excess_quantity' => max($quantity - $outstanding, 0),
                     ];
                 }
 
@@ -181,6 +178,7 @@ class PurchaseOrderReceiptImportService
                         'quantity_received' => 0,
                         'outstanding_before' => $outstanding,
                         'outstanding_after' => $outstanding,
+                        'excess_quantity' => 0,
                     ],
                     'status' => 'invalid',
                     'errors' => ['This purchase-order line is missing from the uploaded file. Export a current copy of the order.'],

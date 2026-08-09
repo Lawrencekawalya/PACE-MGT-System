@@ -121,7 +121,7 @@ test('a partial delivery keeps the order in the sent queue for later receipts', 
             ->where('orders.data.0.status', PurchaseOrderStatus::PartiallyReceived->value));
 });
 
-test('changed identity fields and over-deliveries fail validation without changing stock', function (string $cell, mixed $value) {
+test('changed identity fields and invalid quantities fail validation without changing stock', function (string $cell, mixed $value) {
     $fixture = receiptImportFixture([5]);
     $file = completedDeliveryWorkbook($fixture['order'], [3], [$cell => $value]);
 
@@ -138,10 +138,37 @@ test('changed identity fields and over-deliveries fail validation without changi
 })->with([
     'changed SKU' => ['C9', 'UNRELATED-SKU'],
     'changed inventory item' => ['B9', 999999],
-    'over delivery' => ['K9', 6],
     'formula quantity' => ['K9', '=2+1'],
     'text quantity' => ['K9', 'five'],
 ]);
+
+test('an over delivery is validated and posts all received stock', function () {
+    $fixture = receiptImportFixture([5]);
+    $file = completedDeliveryWorkbook($fixture['order'], [6]);
+
+    $this->actingAs($fixture['officer'])->post(
+        route('purchase-orders.receipt-imports.store', $fixture['order']),
+        ['workbook' => $file],
+    );
+
+    $import = PurchaseOrderReceiptImport::query()->sole();
+    expect($import->status)->toBe(GoodsReceiptImportStatus::Ready)
+        ->and($import->invalid_rows)->toBe(0)
+        ->and($import->rows()->sole()->normalized_data['outstanding_before'])->toBe(5)
+        ->and($import->rows()->sole()->normalized_data['outstanding_after'])->toBe(0)
+        ->and($import->rows()->sole()->normalized_data['excess_quantity'])->toBe(1);
+
+    $this->actingAs($fixture['officer'])
+        ->post(route('purchase-order-receipt-imports.commit', $import), [
+            'delivery_reference' => 'DELIVERY-OVER',
+            'received_at' => now()->subMinute()->toDateTimeString(),
+        ])
+        ->assertRedirect(route('purchase-order-receipt-imports.show', $import));
+
+    expect($fixture['item']->onHand())->toBe(6)
+        ->and($fixture['order']->fresh()->status)->toBe(PurchaseOrderStatus::Received)
+        ->and(GoodsReceipt::query()->sole()->lines()->sole()->quantity_received)->toBe(6);
+});
 
 test('removing an order line from the delivery workbook fails validation', function () {
     $fixture = receiptImportFixture([5]);

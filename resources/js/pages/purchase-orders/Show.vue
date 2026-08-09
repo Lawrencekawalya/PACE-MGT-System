@@ -431,6 +431,8 @@ defineOptions({
                             name="received_at"
                             type="datetime-local"
                             :default-value="localNow"
+                            :max="localNow"
+                            step="60"
                             required
                         />
                     </div>
@@ -477,7 +479,6 @@ defineOptions({
                                         :name="`lines[${position}][quantity_received]`"
                                         type="number"
                                         min="0"
-                                        :max="outstanding(line)"
                                         :default-value="0"
                                         class="text-right"
                                         required

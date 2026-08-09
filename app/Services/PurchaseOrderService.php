@@ -181,15 +181,6 @@ class PurchaseOrderService
                 throw ValidationException::withMessages(['lines' => 'One or more receipt lines do not belong to this order.']);
             }
 
-            foreach ($submittedLines as $lineId => $submittedLine) {
-                $outstanding = $orderLines[$lineId]->outstandingQuantity();
-                if ((int) $submittedLine['quantity_received'] > $outstanding) {
-                    throw ValidationException::withMessages([
-                        "lines.{$lineId}.quantity_received" => "Received quantity cannot exceed the {$outstanding} units outstanding.",
-                    ]);
-                }
-            }
-
             $receipt = GoodsReceipt::query()->create([
                 'purchase_order_id' => $order->id,
                 'delivery_reference' => trim($attributes['delivery_reference']),

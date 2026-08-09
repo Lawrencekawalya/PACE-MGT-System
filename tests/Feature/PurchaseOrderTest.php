@@ -134,7 +134,7 @@ test('a draft order accepts five thousand lines and rejects any additional line'
         ->and($overMaximumValidator->errors()->has('lines'))->toBeTrue();
 });
 
-test('an over receipt is rejected without posting stock', function () {
+test('an over receipt posts all delivered units to stock', function () {
     $officer = createStaffWithRole(RoleName::PaceOfficer);
     $supplier = Supplier::factory()->create();
     $order = PurchaseOrder::factory()->create([
@@ -153,11 +153,12 @@ test('an over receipt is rejected without posting stock', function () {
             'purchase_order_line_id' => $line->id,
             'quantity_received' => 6,
         ]],
-    ])->assertSessionHasErrors();
+    ])->assertRedirect();
 
-    expect(GoodsReceipt::query()->count())->toBe(0)
-        ->and(StockMovement::query()->count())->toBe(0)
-        ->and($order->fresh()->status)->toBe(PurchaseOrderStatus::Sent);
+    expect(GoodsReceipt::query()->sole()->lines()->sole()->quantity_received)->toBe(6)
+        ->and(StockMovement::query()->sole()->quantity)->toBe(6)
+        ->and($line->inventoryItem->onHand())->toBe(6)
+        ->and($order->fresh()->status)->toBe(PurchaseOrderStatus::Received);
 });
 
 test('correcting a goods receipt reopens the order quantity', function () {

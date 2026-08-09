@@ -33,6 +33,7 @@ type ImportRow = {
         quantity_received: number;
         outstanding_before: number;
         outstanding_after: number;
+        excess_quantity: number;
     } | null;
     errors: string[] | null;
 };
@@ -278,6 +279,17 @@ defineOptions({
                                     class="capitalize"
                                     >{{ row.status }}</Badge
                                 >
+                                <div
+                                    v-if="
+                                        Number(
+                                            rowValue(row, 'excess_quantity'),
+                                        ) > 0
+                                    "
+                                    class="mt-2 text-xs font-medium text-amber-600 dark:text-amber-400"
+                                >
+                                    {{ rowValue(row, 'excess_quantity') }} extra
+                                    units accepted into stock
+                                </div>
                                 <ul
                                     v-if="row.errors?.length"
                                     class="mt-2 space-y-1 text-xs text-red-500"
@@ -330,7 +342,9 @@ defineOptions({
                         id="received_at"
                         name="received_at"
                         type="datetime-local"
-                        :value="localNow"
+                        :default-value="localNow"
+                        :max="localNow"
+                        step="60"
                         required
                     /><InputError :message="errors.received_at" />
                 </div>
