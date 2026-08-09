@@ -9,7 +9,6 @@ use App\Models\InventoryItem;
 use App\Models\LearningCenter;
 use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
-use App\Models\SchoolSetting;
 use App\PaceAssignmentStatus;
 use App\Services\ActivityLogger;
 use App\Services\PaceIssueService;
@@ -51,6 +50,7 @@ class PaceIssuingController extends Controller
             ->whereNull('pace_assignments.issued_at')
             ->with([
                 'pace:id,course_id,number,title',
+                'term:id,name,pace_cost',
                 'studentCourse:id,student_enrollment_id,course_id',
                 'studentCourse.course:id,name',
                 'studentCourse.enrollment:id,student_id,learning_center_id,level_id',
@@ -116,12 +116,11 @@ class PaceIssuingController extends Controller
             ->selectRaw('student_id, SUM(amount) as balance')
             ->groupBy('student_id')
             ->pluck('balance', 'student_id');
-        $paceCost = (string) SchoolSetting::current()->pace_cost;
-
-        $assignments->through(function (PaceAssignment $assignment) use ($itemsByPace, $balances, $paceCost): PaceAssignment {
+        $assignments->through(function (PaceAssignment $assignment) use ($itemsByPace, $balances): PaceAssignment {
             $item = $itemsByPace->get($assignment->pace_id);
             $studentId = $assignment->studentCourse->enrollment->student->id;
             $balance = (string) ($balances->get($studentId) ?? '0.00');
+            $paceCost = (string) $assignment->term->pace_cost;
             $assignment->setAttribute('inventory', $item === null ? null : [
                 'id' => $item->id,
                 'sku' => $item->sku,
@@ -132,6 +131,7 @@ class PaceIssuingController extends Controller
             $assignment->setAttribute('pace_account', [
                 'balance' => number_format((float) $balance, 2, '.', ''),
                 'pace_cost' => $paceCost,
+                'term' => $assignment->term->name,
                 'can_issue' => (float) $paceCost > 0 && (float) $balance >= (float) $paceCost,
             ]);
 
@@ -147,7 +147,6 @@ class PaceIssuingController extends Controller
                 ->orderBy('name')
                 ->get(['id', 'name', 'code']),
             'courses' => Course::query()->where('is_active', true)->orderBy('name')->get(['id', 'name']),
-            'paceCost' => $paceCost,
         ]);
     }
 

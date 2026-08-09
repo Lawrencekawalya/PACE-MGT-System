@@ -126,12 +126,12 @@ class DashboardReportService
             return null;
         }
 
-        $paceCost = (float) SchoolSetting::current()->pace_cost;
         $term = Term::query()
             ->with('academicYear:id,name')
             ->where('is_active', true)
             ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
             ->first();
+        $paceCost = $term === null ? 0.0 : (float) $term->pace_cost;
         $academicYearId = $term?->academic_year_id;
         $balanceSql = '(select coalesce(sum(pace_account_transactions.amount), 0) from pace_account_transactions where pace_account_transactions.student_id = student_enrollments.student_id)';
         $enrollments = StudentEnrollment::query()

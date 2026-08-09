@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\SchoolSetting;
 use App\Models\User;
 use App\RoleName;
 use App\Services\PaceAccountService;
@@ -58,7 +57,7 @@ test('PACE Officer dashboard charts physical issues in weekly buckets', function
 test('Accountant dashboard shows student PACE balances and funding attention', function () {
     $fixture = createReportFixture();
     $accountant = createStaffWithRole(RoleName::Accountant);
-    SchoolSetting::current()->update(['pace_cost' => 15000]);
+    $fixture['term']->update(['pace_cost' => 15000]);
     app(PaceAccountService::class)->recordPayment(
         $fixture['student'],
         '10000.00',

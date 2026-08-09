@@ -9,7 +9,6 @@ use App\Models\Level;
 use App\Models\Pace;
 use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
-use App\Models\SchoolSetting;
 use App\Models\StockMovement;
 use App\Models\Student;
 use App\Models\StudentCourse;
@@ -88,7 +87,7 @@ function paceIssuingFixture(): array
     $stock = app(StockLedgerService::class);
     $stock->postManual($scienceItem, StockMovementType::Receipt, 2, 'DEL-SCIENCE', null, $officer);
     $stock->postManual($mathItem, StockMovementType::Receipt, 1, 'DEL-MATH', null, $officer);
-    SchoolSetting::current()->update(['pace_cost' => 10000]);
+    $term->update(['pace_cost' => 10000]);
     collect([$aminaScience, $benScience, $claireMath])
         ->map(fn (PaceAssignment $assignment): int => $assignment->studentCourse->enrollment->student_id)
         ->unique()

@@ -9,9 +9,9 @@ use App\Models\AcademicYear;
 use App\Models\LearningCenter;
 use App\Models\Level;
 use App\Models\PaceAccountTransaction;
-use App\Models\SchoolSetting;
 use App\Models\Student;
 use App\Models\StudentEnrollment;
+use App\Models\Term;
 use App\PermissionName;
 use App\RoleName;
 use App\Services\PaceAccountService;
@@ -41,8 +41,12 @@ class PaceAccountController extends Controller
         $academicYearId = (int) ($filters['academic_year_id']
             ?? AcademicYear::query()->where('is_active', true)->value('id'));
         $filters['academic_year_id'] = $academicYearId ?: null;
-        $settings = SchoolSetting::current();
-        $paceCost = (string) $settings->pace_cost;
+        $priceTerm = Term::query()
+            ->with('academicYear:id,name')
+            ->where('is_active', true)
+            ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
+            ->first();
+        $paceCost = $priceTerm === null ? '0.00' : (string) $priceTerm->pace_cost;
         $balanceSql = '(select coalesce(sum(pace_account_transactions.amount), 0) from pace_account_transactions where pace_account_transactions.student_id = student_enrollments.student_id)';
 
         $baseQuery = StudentEnrollment::query()
@@ -91,6 +95,11 @@ class PaceAccountController extends Controller
             ],
             'filters' => $filters,
             'paceCost' => $paceCost,
+            'priceTerm' => $priceTerm === null ? null : [
+                'id' => $priceTerm->id,
+                'name' => $priceTerm->name,
+                'academic_year' => $priceTerm->academicYear->name,
+            ],
             'canSetPaceCost' => $request->user()->hasRole(RoleName::Accountant),
             'today' => now()->toDateString(),
             'options' => [
@@ -123,13 +132,13 @@ class PaceAccountController extends Controller
 
     public function updateCost(UpdatePaceCostRequest $request): RedirectResponse
     {
-        $settings = $this->accounts->updatePaceCost(
+        $term = $this->accounts->updatePaceCost(
             (string) $request->validated('pace_cost'),
             $request->user(),
         );
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => 'Uniform PACE cost updated to UGX '.number_format((float) $settings->pace_cost, 0).'.',
+            'message' => "{$term->name} PACE cost updated to UGX ".number_format((float) $term->pace_cost, 0).'.',
         ]);
 
         return back();

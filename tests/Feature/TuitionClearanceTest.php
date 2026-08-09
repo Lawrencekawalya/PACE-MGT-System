@@ -3,7 +3,7 @@
 use App\Models\ActivityLog;
 use App\Models\InventoryItem;
 use App\Models\PaceAccountTransaction;
-use App\Models\SchoolSetting;
+use App\Models\Term;
 use App\PaceAccountTransactionType;
 use App\PaceAssignmentStatus;
 use App\RoleName;
@@ -36,6 +36,8 @@ test('Accountant sees student PACE accounts and can filter by school structure',
             ->where('summary.students', 1)
             ->where('summary.zero', 1)
             ->where('paceCost', '0.00')
+            ->where('priceTerm.name', 'Term 1')
+            ->where('priceTerm.academic_year', '2026')
             ->where('canSetPaceCost', true)
             ->has('enrollments.data', 1)
             ->where('enrollments.data.0.student.admission_number', 'FICA-0001')
@@ -44,6 +46,7 @@ test('Accountant sees student PACE accounts and can filter by school structure',
 });
 
 test('only an Accountant can set the uniform PACE cost', function () {
+    $fixture = createReportFixture();
     $accountant = createStaffWithRole(RoleName::Accountant);
     $administrator = createStaffWithRole(RoleName::Administrator);
 
@@ -52,7 +55,7 @@ test('only an Accountant can set the uniform PACE cost', function () {
         ->assertRedirect()
         ->assertSessionHasNoErrors();
 
-    expect(SchoolSetting::current()->fresh()->pace_cost)->toBe('15000.00')
+    expect($fixture['term']->fresh()->pace_cost)->toBe('15000.00')
         ->and(ActivityLog::query()->where('event', 'pace-account.cost-updated')->exists())->toBeTrue();
 
     $this->actingAs($administrator)
@@ -112,7 +115,7 @@ test('physical issue requires the full PACE cost and deducts it atomically', fun
         'issued_at' => null,
         'started_at' => null,
     ]);
-    SchoolSetting::current()->update(['pace_cost' => 15000]);
+    $fixture['term']->update(['pace_cost' => 15000]);
     $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-ACCOUNT', null, $officer);
     app(PaceAccountService::class)->recordPayment(
@@ -157,18 +160,74 @@ test('valid issue reversal restores the exact price originally charged', functio
         'issued_at' => null,
         'started_at' => null,
     ]);
-    SchoolSetting::current()->update(['pace_cost' => 12000]);
+    $fixture['term']->update(['pace_cost' => 12000]);
     $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-REV', null, $officer);
     app(PaceAccountService::class)->recordPayment($fixture['student'], '20000.00', now(), 'RCT-REV', null, $accountant);
     app(PaceIssueService::class)->issue($fixture['active'], $officer);
     $issue = $item->movements()->where('type', StockMovementType::Issue)->sole();
 
-    SchoolSetting::current()->update(['pace_cost' => 15000]);
+    $nextTerm = Term::factory()->create([
+        'academic_year_id' => $fixture['year']->id,
+        'name' => 'Term 2',
+        'sort_order' => 2,
+        'pace_cost' => 15000,
+    ]);
     app(PaceIssueService::class)->reverse($issue, 'Wrong student selected.', $officer);
 
     $reversal = PaceAccountTransaction::query()->where('type', PaceAccountTransactionType::IssueReversal)->sole();
     expect($reversal->amount)->toBe('12000.00')
         ->and($reversal->balance_after)->toBe('20000.00')
-        ->and(app(PaceAccountService::class)->balance($fixture['student']))->toBe('20000.00');
+        ->and(app(PaceAccountService::class)->balance($fixture['student']))->toBe('20000.00')
+        ->and($fixture['term']->fresh()->pace_cost)->toBe('12000.00')
+        ->and($nextTerm->pace_cost)->toBe('15000.00');
+});
+
+test('a delayed issue uses the cost retained on its assignment term', function () {
+    $fixture = createReportFixture();
+    $accountant = createStaffWithRole(RoleName::Accountant);
+    $officer = createStaffWithRole(RoleName::PaceOfficer);
+    $fixture['active']->update([
+        'status' => PaceAssignmentStatus::Assigned,
+        'issued_at' => null,
+        'started_at' => null,
+    ]);
+    $fixture['term']->update(['pace_cost' => 12000, 'is_active' => false]);
+    Term::factory()->create([
+        'academic_year_id' => $fixture['year']->id,
+        'name' => 'Term 2',
+        'sort_order' => 2,
+        'pace_cost' => 15000,
+        'is_active' => true,
+    ]);
+    $item = InventoryItem::query()->where('pace_id', $fixture['active']->pace_id)->sole();
+    app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'DEL-DELAYED', null, $officer);
+    app(PaceAccountService::class)->recordPayment($fixture['student'], '12000.00', now(), 'RCT-DELAYED', null, $accountant);
+
+    app(PaceIssueService::class)->issue($fixture['active'], $officer);
+
+    $charge = PaceAccountTransaction::query()->where('type', PaceAccountTransactionType::PaceIssue)->sole();
+    expect($charge->term_id)->toBe($fixture['term']->id)
+        ->and($charge->amount)->toBe('-12000.00')
+        ->and($charge->balance_after)->toBe('0.00');
+});
+
+test('PACE costs remain attached to their academic terms', function () {
+    $fixture = createReportFixture();
+    $accountant = createStaffWithRole(RoleName::Accountant);
+
+    app(PaceAccountService::class)->updatePaceCost('12000.00', $accountant);
+    $fixture['term']->update(['is_active' => false]);
+    $nextTerm = Term::factory()->create([
+        'academic_year_id' => $fixture['year']->id,
+        'name' => 'Term 2',
+        'sort_order' => 2,
+        'is_active' => true,
+        'pace_cost' => 0,
+    ]);
+
+    app(PaceAccountService::class)->updatePaceCost('15000.00', $accountant);
+
+    expect($fixture['term']->fresh()->pace_cost)->toBe('12000.00')
+        ->and($nextTerm->fresh()->pace_cost)->toBe('15000.00');
 });

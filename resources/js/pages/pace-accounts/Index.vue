@@ -63,6 +63,11 @@ const props = defineProps<{
         search?: string | null;
     };
     paceCost: string;
+    priceTerm: {
+        id: number;
+        name: string;
+        academic_year: string;
+    } | null;
     canSetPaceCost: boolean;
     today: string;
     options: {
@@ -125,7 +130,9 @@ defineOptions({
         <section class="grid gap-4 border-y py-4 lg:grid-cols-[1fr_auto]">
             <div>
                 <div class="text-sm text-muted-foreground">
-                    Uniform PACE cost
+                    {{
+                        priceTerm ? `${priceTerm.name} PACE cost` : 'PACE cost'
+                    }}
                 </div>
                 <div class="mt-1 text-2xl font-semibold">
                     {{
@@ -134,18 +141,27 @@ defineOptions({
                             : 'Not configured'
                     }}
                 </div>
+                <div
+                    v-if="priceTerm"
+                    class="mt-1 text-sm text-muted-foreground"
+                >
+                    {{ priceTerm.academic_year }} · {{ priceTerm.name }}
+                </div>
+                <div v-else class="mt-1 text-sm text-destructive">
+                    No active academic term is available for pricing.
+                </div>
             </div>
             <Form
-                v-if="canSetPaceCost"
+                v-if="canSetPaceCost && priceTerm"
                 v-bind="updateCost.form()"
                 class="flex items-end gap-2"
                 v-slot="{ errors, processing }"
                 :options="{ preserveScroll: true }"
             >
                 <div>
-                    <label for="pace_cost" class="text-sm font-medium"
-                        >New PACE cost (UGX)</label
-                    >
+                    <label for="pace_cost" class="text-sm font-medium">
+                        New {{ priceTerm.name }} cost (UGX)
+                    </label>
                     <Input
                         id="pace_cost"
                         name="pace_cost"

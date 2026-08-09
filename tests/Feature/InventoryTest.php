@@ -5,7 +5,6 @@ use App\Models\Course;
 use App\Models\InventoryItem;
 use App\Models\Pace;
 use App\Models\PaceAccountTransaction;
-use App\Models\SchoolSetting;
 use App\Models\StockMovement;
 use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
@@ -43,7 +42,7 @@ function inventoryAssignmentFixture(): array
     $storekeeper = createStaffWithRole(RoleName::PaceOfficer);
     $assignment = app(PaceAssignmentService::class)->assign($studentCourse, $pace, $teacher);
     $item = InventoryItem::query()->where('pace_id', $pace->id)->sole();
-    SchoolSetting::current()->update(['pace_cost' => 10000]);
+    $term->update(['pace_cost' => 10000]);
     PaceAccountTransaction::factory()->create([
         'student_id' => $enrollment->student_id,
         'type' => PaceAccountTransactionType::Payment,

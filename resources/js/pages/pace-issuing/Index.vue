@@ -41,6 +41,7 @@ type Assignment = {
     pace_account: {
         balance: string;
         pace_cost: string;
+        term: string;
         can_issue: boolean;
     };
     student_course: {
@@ -84,7 +85,6 @@ const props = defineProps<{
     };
     learningCenters: LearningCenter[];
     courses: Option[];
-    paceCost: string;
 }>();
 
 const formatMoney = (amount: string | number): string =>
@@ -173,24 +173,30 @@ const hasShortage = computed(() =>
 const hasBalanceShortage = computed(() => {
     const selectedByStudent = new Map<
         number,
-        { count: number; balance: number; cost: number }
+        { required: number; balance: number }
     >();
 
     for (const assignment of selectedAssignments.value) {
         const studentId = assignment.student_course.enrollment.student.id;
         const current = selectedByStudent.get(studentId) ?? {
-            count: 0,
+            required: 0,
             balance: Number(assignment.pace_account.balance),
-            cost: Number(assignment.pace_account.pace_cost),
         };
-        current.count += 1;
+        current.required += Number(assignment.pace_account.pace_cost);
         selectedByStudent.set(studentId, current);
     }
 
     return [...selectedByStudent.values()].some(
-        (account) => account.balance < account.count * account.cost,
+        (account) => account.balance < account.required,
     );
 });
+const selectedCost = computed(() =>
+    selectedAssignments.value.reduce(
+        (total, assignment) =>
+            total + Number(assignment.pace_account.pace_cost),
+        0,
+    ),
+);
 const searchPlaceholder = computed(() => {
     if (mode.value === 'pace') {
         return 'PACE number or title';
@@ -250,7 +256,7 @@ function togglePage(checked: boolean): void {
 function confirmIssue(event: globalThis.Event): void {
     if (
         !window.confirm(
-            `Confirm physical handover of ${selectedIds.value.length} PACE assignment(s)? Stock and ${formatMoney(Number(props.paceCost) * selectedIds.value.length)} in student PACE credit will be deducted immediately.`,
+            `Confirm physical handover of ${selectedIds.value.length} PACE assignment(s)? Stock and ${formatMoney(selectedCost.value)} in student PACE credit will be deducted immediately.`,
         )
     ) {
         event.preventDefault();

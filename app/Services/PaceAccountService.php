@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\AcademicYear;
 use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
-use App\Models\SchoolSetting;
 use App\Models\Student;
 use App\Models\Term;
 use App\Models\User;
@@ -96,11 +95,11 @@ class PaceAccountService
             $student = Student::query()->lockForUpdate()->findOrFail(
                 $assignment->studentCourse->enrollment->student_id,
             );
-            $settings = SchoolSetting::query()->lockForUpdate()->findOrFail(SchoolSetting::current()->id);
-            $costMinor = $this->toMinorUnits($settings->pace_cost);
+            $term = Term::query()->lockForUpdate()->findOrFail($assignment->term_id);
+            $costMinor = $this->toMinorUnits($term->pace_cost);
             if ($costMinor <= 0) {
                 throw ValidationException::withMessages([
-                    'balance' => 'The Accountant must set the PACE cost before any PACE can be issued.',
+                    'balance' => "The Accountant must set the PACE cost for {$term->name} before its PACEs can be issued.",
                 ]);
             }
 
@@ -167,25 +166,35 @@ class PaceAccountService
         }, 3);
     }
 
-    public function updatePaceCost(string $cost, User $actor): SchoolSetting
+    public function updatePaceCost(string $cost, User $actor): Term
     {
         if (! $actor->hasRole(RoleName::Accountant)) {
             throw ValidationException::withMessages(['pace_cost' => 'Only an Accountant can set the PACE cost.']);
         }
 
-        return DB::transaction(function () use ($cost, $actor): SchoolSetting {
-            $settings = SchoolSetting::query()->lockForUpdate()->findOrFail(SchoolSetting::current()->id);
-            $oldCost = $settings->pace_cost;
-            $settings->update(['pace_cost' => $this->fromMinorUnits($this->toMinorUnits($cost))]);
+        return DB::transaction(function () use ($cost, $actor): Term {
+            $term = Term::query()
+                ->where('is_active', true)
+                ->whereHas('academicYear', fn ($query) => $query->where('is_active', true))
+                ->lockForUpdate()
+                ->first();
+            if ($term === null) {
+                throw ValidationException::withMessages([
+                    'pace_cost' => 'An active academic term is required before setting the PACE cost.',
+                ]);
+            }
+
+            $oldCost = $term->pace_cost;
+            $term->update(['pace_cost' => $this->fromMinorUnits($this->toMinorUnits($cost))]);
             $this->activityLogger->record(
                 $actor,
                 'pace-account.cost-updated',
-                $settings,
+                $term,
                 ['pace_cost' => $oldCost],
-                ['pace_cost' => $settings->pace_cost],
+                ['pace_cost' => $term->pace_cost],
             );
 
-            return $settings;
+            return $term;
         }, 3);
     }
 

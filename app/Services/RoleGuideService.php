@@ -256,15 +256,15 @@ class RoleGuideService
             RoleName::Accountant->value => [
                 'role' => RoleName::Accountant->value,
                 'label' => RoleName::Accountant->label(),
-                'summary' => 'Set the uniform PACE cost, record student payments, and monitor the credit available for physical PACE issuing.',
+                'summary' => 'Set each term’s uniform PACE cost, record student payments, and monitor the credit available for physical PACE issuing.',
                 'workflows' => [
                     [
                         'title' => 'Set the PACE cost',
-                        'outcome' => 'Every future physical PACE issue uses the current approved price.',
+                        'outcome' => 'Every physical PACE issue uses the approved price retained on its academic term.',
                         'steps' => [
-                            'Open PACE accounts and review the current uniform PACE cost.',
-                            'Enter the new cost in Uganda shillings and save it before PACE issuing begins.',
-                            'Confirm the updated cost; previously issued PACEs retain the price charged at their issue time.',
+                            'Open PACE accounts and confirm the active academic term shown beside the current cost.',
+                            'Enter that term’s uniform cost in Uganda shillings and save it before PACE issuing begins.',
+                            'When a new term becomes active, set its cost without changing the price retained on earlier terms.',
                         ],
                     ],
                     [

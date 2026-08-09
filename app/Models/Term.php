@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $starts_on
  * @property Carbon $ends_on
  */
-#[Fillable(['academic_year_id', 'name', 'sort_order', 'starts_on', 'ends_on', 'is_active', 'is_closed'])]
+#[Fillable(['academic_year_id', 'name', 'sort_order', 'starts_on', 'ends_on', 'is_active', 'is_closed', 'pace_cost'])]
 class Term extends Model
 {
     /** @use HasFactory<TermFactory> */
@@ -34,6 +34,13 @@ class Term extends Model
 
     protected function casts(): array
     {
-        return ['sort_order' => 'integer', 'starts_on' => 'date', 'ends_on' => 'date', 'is_active' => 'boolean', 'is_closed' => 'boolean'];
+        return [
+            'sort_order' => 'integer',
+            'starts_on' => 'date',
+            'ends_on' => 'date',
+            'is_active' => 'boolean',
+            'is_closed' => 'boolean',
+            'pace_cost' => 'decimal:2',
+        ];
     }
 }

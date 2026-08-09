@@ -3,7 +3,6 @@
 use App\Models\InventoryItem;
 use App\Models\PaceAccountTransaction;
 use App\Models\PaceAssignment;
-use App\Models\SchoolSetting;
 use App\Models\User;
 use App\PaceAccountTransactionType;
 use App\RoleName;
@@ -38,7 +37,7 @@ test('storekeeper can physically issue while teacher cannot', function () {
     $assignment = app(PaceAssignmentService::class)->assign($fixture['studentCourse'], $fixture['paces'][1], $teacher);
     $item = InventoryItem::query()->where('pace_id', $fixture['paces'][1]->id)->sole();
     app(StockLedgerService::class)->postManual($item, StockMovementType::Receipt, 1, 'AUTH-ISSUE-001', null, $storekeeper);
-    SchoolSetting::current()->update(['pace_cost' => 10000]);
+    $fixture['term']->update(['pace_cost' => 10000]);
     PaceAccountTransaction::factory()->create([
         'student_id' => $fixture['student']->id,
         'type' => PaceAccountTransactionType::Payment,
