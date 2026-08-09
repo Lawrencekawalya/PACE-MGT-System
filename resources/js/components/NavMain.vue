@@ -29,7 +29,9 @@ const { currentUrl, isCurrentOrParentUrl, isCurrentUrl } = useCurrentUrl();
 const openGroup = ref<string | null>(null);
 
 function isGroupActive(group: NavGroup): boolean {
-    return group.items.some((item) => isCurrentOrParentUrl(item.href));
+    return group.items.some(
+        (item) => item.isActive ?? isCurrentOrParentUrl(item.href),
+    );
 }
 
 function setGroupOpen(title: string, open: boolean): void {
@@ -96,7 +98,10 @@ watch(
                             >
                                 <SidebarMenuSubButton
                                     as-child
-                                    :is-active="isCurrentOrParentUrl(item.href)"
+                                    :is-active="
+                                        item.isActive ??
+                                        isCurrentOrParentUrl(item.href)
+                                    "
                                 >
                                     <Link :href="item.href">
                                         <component :is="item.icon" />

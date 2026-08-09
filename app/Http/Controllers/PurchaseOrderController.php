@@ -57,7 +57,7 @@ class PurchaseOrderController extends Controller
         return redirect()->route('purchase-orders.show', $order);
     }
 
-    public function show(PurchaseOrder $purchaseOrder): Response
+    public function show(Request $request, PurchaseOrder $purchaseOrder): Response
     {
         Gate::authorize('view', $purchaseOrder);
         $purchaseOrder->load([
@@ -73,8 +73,19 @@ class PurchaseOrderController extends Controller
             'goodsReceipts' => fn ($query) => $query->with(['receivedBy:id,name', 'lines.purchaseOrderLine.inventoryItem:id,sku'])->latest('received_at'),
         ]);
 
+        $backLink = match ($request->string('from')->toString()) {
+            'submitted' => Gate::allows('viewSubmitted', PurchaseOrder::class)
+                ? ['label' => 'Submitted orders', 'url' => route('purchase-orders.submitted')]
+                : null,
+            'approved' => Gate::allows('viewApproved', PurchaseOrder::class)
+                ? ['label' => 'Approved orders', 'url' => route('purchase-orders.approved')]
+                : null,
+            default => null,
+        };
+
         return Inertia::render('purchase-orders/Show', [
             'order' => $purchaseOrder,
+            'backLink' => $backLink ?? ['label' => 'Purchase orders', 'url' => route('purchase-orders.index')],
             'inventoryItems' => InventoryItem::query()
                 ->where('is_active', true)
                 ->whereNotIn('id', $purchaseOrder->lines->pluck('inventory_item_id'))

@@ -88,8 +88,9 @@ class RoleGuideService
                         'outcome' => 'PACE stock can be issued, replenished, and audited.',
                         'steps' => [
                             'Maintain suppliers, inventory items, reorder points, and target stock levels.',
-                            'Review the reorder queue, create draft purchase orders, and approve or reject submitted orders.',
-                            'Track orders through approval, sending, partial receipt, and full receipt while preserving the stock ledger.',
+                            'Open Submitted orders to review each PACE Officer submission, then approve it or reject it with a reason.',
+                            'Use Approved orders to oversee the handoff back to the PACE Officer, who marks the order as sent to the supplier.',
+                            'Track orders through sending, partial receipt, and full receipt while preserving the stock ledger.',
                         ],
                     ],
                     [
@@ -253,7 +254,8 @@ class RoleGuideService
                         'outcome' => 'Shortages move through a controlled order and delivery trail.',
                         'steps' => [
                             'Select reorder suggestions, choose an active supplier, review quantities, and create the draft order.',
-                            'Submit the order for administrator approval, then mark an approved order as sent.',
+                            'Submit the order for administrator approval and monitor its decision in Purchase orders.',
+                            'Open Approved orders after approval, review the supplier handoff, and mark the order as sent.',
                             'Record each delivery against the sent order, including partial receipts, delivery reference, date, and received quantities.',
                             'Confirm that received quantities increase stock and outstanding quantities decrease.',
                         ],

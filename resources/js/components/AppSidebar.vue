@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
 import {
+    BadgeCheck,
     BookOpenText,
     BookKey,
     CalendarRange,
@@ -13,6 +14,7 @@ import {
     LayoutDashboard,
     Library,
     ListChecks,
+    ListTodo,
     ListTree,
     PackageCheck,
     PackageOpen,
@@ -55,7 +57,11 @@ import { index as inventoryIndex } from '@/routes/inventory';
 import { index as paceAccountsIndex } from '@/routes/pace-accounts';
 import { index as paceAssignmentsIndex } from '@/routes/pace-assignments';
 import { index as paceIssuingIndex } from '@/routes/pace-issuing';
-import { index as purchaseOrdersIndex } from '@/routes/purchase-orders';
+import {
+    approved as approvedPurchaseOrders,
+    index as purchaseOrdersIndex,
+    submitted as submittedPurchaseOrders,
+} from '@/routes/purchase-orders';
 import { index as reordersIndex } from '@/routes/reorders';
 import { index as reportsIndex } from '@/routes/reports';
 import { index as scoreKeyRequestsIndex } from '@/routes/score-key-requests';
@@ -64,9 +70,12 @@ import { index as suppliersIndex } from '@/routes/suppliers';
 import type { NavGroup, NavItem } from '@/types';
 
 const page = usePage();
-const { isCurrentUrl } = useCurrentUrl();
+const { isCurrentOrParentUrl, isCurrentUrl } = useCurrentUrl();
 const hasPermission = (permission: string): boolean =>
     page.props.auth.permissions.includes(permission);
+const purchaseOrderWorkflowSource = computed(
+    () => new URL(page.url, 'http://localhost').searchParams.get('from') ?? '',
+);
 
 const mainNavItems = computed<NavItem[]>(() => {
     const items: NavItem[] = [
@@ -177,6 +186,38 @@ const navGroups = computed<NavGroup[]>(() => {
             title: 'Purchase orders',
             href: purchaseOrdersIndex(),
             icon: ClipboardList,
+            isActive:
+                isCurrentOrParentUrl(purchaseOrdersIndex()) &&
+                !['submitted', 'approved'].includes(
+                    purchaseOrderWorkflowSource.value,
+                ) &&
+                !isCurrentUrl(submittedPurchaseOrders()) &&
+                !isCurrentUrl(approvedPurchaseOrders()),
+        });
+    }
+
+    if (hasPermission('approve-purchase-orders')) {
+        inventoryAndOrders.push({
+            title: 'Submitted orders',
+            href: submittedPurchaseOrders(),
+            icon: ListTodo,
+            isActive:
+                isCurrentUrl(submittedPurchaseOrders()) ||
+                purchaseOrderWorkflowSource.value === 'submitted',
+        });
+    }
+
+    if (
+        hasPermission('approve-purchase-orders') ||
+        hasPermission('manage-purchase-orders')
+    ) {
+        inventoryAndOrders.push({
+            title: 'Approved orders',
+            href: approvedPurchaseOrders(),
+            icon: BadgeCheck,
+            isActive:
+                isCurrentUrl(approvedPurchaseOrders()) ||
+                purchaseOrderWorkflowSource.value === 'approved',
         });
     }
 

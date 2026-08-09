@@ -77,6 +77,7 @@ type Order = {
 };
 const props = defineProps<{
     order: Order;
+    backLink: { label: string; url: string };
     inventoryItems: InventoryItem[];
     can: {
         update: boolean;
@@ -125,8 +126,8 @@ defineOptions({
     <Head :title="order.order_number" />
     <div class="flex max-w-[1450px] flex-1 flex-col gap-7 p-4 md:p-6">
         <Button variant="ghost" size="sm" class="w-fit" as-child>
-            <Link :href="index()">
-                <ArrowLeft class="size-4" />Purchase orders
+            <Link :href="backLink.url">
+                <ArrowLeft class="size-4" />{{ backLink.label }}
             </Link>
         </Button>
         <div class="flex flex-wrap items-start justify-between gap-3">

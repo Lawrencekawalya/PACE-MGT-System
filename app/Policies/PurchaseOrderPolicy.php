@@ -27,6 +27,17 @@ class PurchaseOrderPolicy
         return $this->viewAny($user);
     }
 
+    public function viewSubmitted(User $user): bool
+    {
+        return $user->hasPermission(PermissionName::ApprovePurchaseOrders);
+    }
+
+    public function viewApproved(User $user): bool
+    {
+        return $user->hasPermission(PermissionName::ApprovePurchaseOrders)
+            || $user->hasPermission(PermissionName::ManagePurchaseOrders);
+    }
+
     /**
      * Determine whether the user can create models.
      */
