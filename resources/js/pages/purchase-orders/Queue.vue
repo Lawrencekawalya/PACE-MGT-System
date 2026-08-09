@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { Form, Head, Link, router } from '@inertiajs/vue3';
-import { Check, Eye, Search, Send, ShieldCheck, X } from '@lucide/vue';
+import {
+    BadgeCheck,
+    Check,
+    ChevronRight,
+    Eye,
+    FilePenLine,
+    Search,
+    Send,
+    ShieldCheck,
+    X,
+} from '@lucide/vue';
 import { computed, ref } from 'vue';
 import PurchaseOrderWorkflowController from '@/actions/App/Http/Controllers/PurchaseOrderWorkflowController';
 import Heading from '@/components/Heading.vue';
@@ -60,10 +70,30 @@ const emptyMessage = computed(() =>
         : 'No approved orders are waiting to be sent.',
 );
 const stages = [
-    { key: 'draft', label: 'Draft', owner: 'PACE Officer' },
-    { key: 'submitted', label: 'Submitted', owner: 'Administrator' },
-    { key: 'approved', label: 'Approved', owner: 'PACE Officer' },
-    { key: 'sent', label: 'Sent', owner: 'Supplier delivery' },
+    {
+        key: 'draft',
+        label: 'Draft',
+        owner: 'PACE Officer',
+        icon: FilePenLine,
+    },
+    {
+        key: 'submitted',
+        label: 'Submitted',
+        owner: 'Administrator',
+        icon: ShieldCheck,
+    },
+    {
+        key: 'approved',
+        label: 'Approved',
+        owner: 'PACE Officer',
+        icon: BadgeCheck,
+    },
+    {
+        key: 'sent',
+        label: 'Sent',
+        owner: 'Supplier delivery',
+        icon: Send,
+    },
 ];
 
 function filter(): void {
@@ -107,26 +137,51 @@ defineOptions({
     <div class="flex max-w-[1600px] flex-1 flex-col gap-6 p-4 md:p-6">
         <Heading :title="title" :description="description" />
 
-        <ol
-            class="grid border-y sm:grid-cols-2 lg:grid-cols-4"
-            aria-label="Purchase-order workflow"
-        >
-            <li
-                v-for="(stage, index) in stages"
-                :key="stage.key"
-                class="border-b px-4 py-3 sm:border-r lg:border-b-0"
-                :class="
-                    stage.key === queue
-                        ? 'border-b-2 border-b-foreground bg-muted/30'
-                        : ''
-                "
+        <section class="space-y-2">
+            <h2 class="text-sm font-medium">Purchase order flow</h2>
+            <div
+                class="flex items-stretch overflow-x-auto border-y py-3"
+                aria-label="Purchase-order workflow"
             >
-                <div class="text-xs text-muted-foreground">
-                    {{ index + 1 }} · {{ stage.owner }}
-                </div>
-                <div class="font-medium">{{ stage.label }}</div>
-            </li>
-        </ol>
+                <template v-for="(stage, index) in stages" :key="stage.key">
+                    <div
+                        class="flex min-w-[12rem] flex-1 items-center gap-3 px-3 py-2"
+                        :class="
+                            stage.key === queue
+                                ? 'border-l-2 border-foreground bg-muted/40'
+                                : ''
+                        "
+                    >
+                        <div
+                            class="flex size-9 shrink-0 items-center justify-center border"
+                            :class="
+                                stage.key === queue
+                                    ? 'border-foreground bg-foreground text-background'
+                                    : 'text-muted-foreground'
+                            "
+                        >
+                            <component :is="stage.icon" class="size-4" />
+                        </div>
+                        <div class="min-w-0">
+                            <div class="font-medium">{{ stage.label }}</div>
+                            <div class="text-xs text-muted-foreground">
+                                {{ stage.owner }}
+                            </div>
+                            <div
+                                v-if="stage.key === queue"
+                                class="text-xs font-medium"
+                            >
+                                Current queue
+                            </div>
+                        </div>
+                    </div>
+                    <ChevronRight
+                        v-if="index < stages.length - 1"
+                        class="my-auto size-5 shrink-0 text-muted-foreground"
+                    />
+                </template>
+            </div>
+        </section>
 
         <form class="flex max-w-2xl gap-2" @submit.prevent="filter">
             <div class="relative flex-1">
