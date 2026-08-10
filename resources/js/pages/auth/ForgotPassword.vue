@@ -13,6 +13,7 @@ defineOptions({
     layout: {
         title: 'Forgot password',
         description: 'Enter your email to receive a password reset link',
+        brandedBackground: true,
     },
 });
 
