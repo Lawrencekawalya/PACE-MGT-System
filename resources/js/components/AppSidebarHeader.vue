@@ -24,6 +24,8 @@ withDefaults(
                 <Breadcrumbs :breadcrumbs="breadcrumbs" />
             </template>
         </div>
-        <NotificationMenu class="ml-auto" />
+        <div class="ml-auto flex shrink-0 items-center">
+            <NotificationMenu />
+        </div>
     </header>
 </template>
