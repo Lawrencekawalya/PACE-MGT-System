@@ -663,7 +663,7 @@ defineOptions({
             </div>
         </section>
 
-        <section v-if="setup" class="max-w-4xl border-t pt-7">
+        <section v-if="setup" class="border-t pt-7">
             <div class="mb-3 flex items-center justify-between gap-4">
                 <div>
                     <h2 class="font-semibold">System readiness</h2>
