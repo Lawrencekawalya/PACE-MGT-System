@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3';
 import { Bell } from '@lucide/vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -13,8 +13,11 @@ import {
 
 const page = usePage();
 const feed = computed(() => page.props.notificationFeed);
+const isOpen = ref(false);
 
 const openNotification = (notification: (typeof feed.value.recent)[number]) => {
+    isOpen.value = false;
+
     if (notification.read_at) {
         router.visit(notification.url);
 
@@ -35,6 +38,11 @@ const markAllRead = () => {
     router.patch('/notifications/read-all', {}, { preserveScroll: true });
 };
 
+const viewAllNotifications = () => {
+    isOpen.value = false;
+    router.visit('/notifications');
+};
+
 const formatTime = (value: string) =>
     new Intl.DateTimeFormat(undefined, {
         dateStyle: 'medium',
@@ -43,7 +51,7 @@ const formatTime = (value: string) =>
 </script>
 
 <template>
-    <DropdownMenu>
+    <DropdownMenu v-model:open="isOpen">
         <DropdownMenuTrigger as-child>
             <Button
                 variant="ghost"
@@ -121,7 +129,7 @@ const formatTime = (value: string) =>
             <button
                 type="button"
                 class="w-full px-3 py-2 text-center text-sm font-medium hover:bg-accent"
-                @click="router.visit('/notifications')"
+                @click="viewAllNotifications"
             >
                 View all notifications
             </button>
