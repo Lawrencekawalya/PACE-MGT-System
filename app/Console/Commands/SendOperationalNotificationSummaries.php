@@ -10,6 +10,7 @@ use App\Models\Term;
 use App\NotificationCategory;
 use App\NotificationPriority;
 use App\Notifications\OperationalNotification;
+use App\PermissionName;
 use App\PurchaseOrderStatus;
 use App\RoleName;
 use App\Services\NotificationDispatcher;
@@ -55,7 +56,7 @@ class SendOperationalNotificationSummaries extends Command
             return;
         }
 
-        $notifications->send($recipients->withRole(RoleName::PaceOfficer), new OperationalNotification(
+        $notifications->send($recipients->withPermission(PermissionName::AdjustInventory), new OperationalNotification(
             'Daily inventory and ordering attention',
             "{$lowStock} low-stock item(s), {$approved} approved order(s) awaiting sending, and {$overdue} overdue delivery or deliveries.",
             route('reorders.index'),
