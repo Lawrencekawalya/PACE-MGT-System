@@ -12,7 +12,7 @@ use App\Models\StudentCourse;
 use App\Models\StudentEnrollment;
 use App\Models\Subject;
 use App\Models\Term;
-use App\Notifications\PaceRetryApprovalRequestedNotification;
+use App\Notifications\OperationalNotification;
 use App\PaceAssignmentStatus;
 use App\RetryApprovalStatus;
 use App\RoleName;
@@ -85,18 +85,21 @@ test('ordinary Self Test retry requires approval and retains both attempts', fun
     $fixture = assessmentFixture();
     $service = app(PaceAssessmentService::class);
     $assignmentService = app(PaceAssignmentService::class);
+    $supervisor = createStaffWithRole(RoleName::Teacher);
+    $supervisor->learningCenters()->attach($fixture['studentCourse']->enrollment->learning_center_id);
     $service->finalize($fixture['assignment'], AssessmentType::SelfTest, 60, null, $fixture['teacher']);
     $approval = $service->requestRetry($fixture['assignment']->fresh(), AssessmentType::SelfTest, 'Student reviewed the missed work.', $fixture['teacher']);
-    Notification::assertSentTo($fixture['teacher'], PaceRetryApprovalRequestedNotification::class);
+    Notification::assertSentTo($supervisor, OperationalNotification::class, fn (OperationalNotification $notification): bool => $notification->eventKey === "pace-retry:{$approval->id}:requested");
+    Notification::assertNotSentTo($fixture['teacher'], OperationalNotification::class);
 
     expect(fn () => $assignmentService->transition($fixture['assignment']->fresh(), PaceAssignmentStatus::AwaitingSelfTest, $fixture['teacher']))
         ->toThrow(ValidationException::class);
 
-    $service->decideRetry($approval, RetryApprovalStatus::Approved, 'Review completed with supervisor.', $fixture['teacher']);
+    $service->decideRetry($approval, RetryApprovalStatus::Approved, 'Review completed with supervisor.', $supervisor);
     $assignmentService->transition($fixture['assignment']->fresh(), PaceAssignmentStatus::AwaitingSelfTest, $fixture['teacher']);
     $second = $service->finalize($fixture['assignment']->fresh(), AssessmentType::SelfTest, 90, null, $fixture['teacher']);
     expect($second->attempt_number)->toBe(2)
-        ->and($second->approved_by)->toBe($fixture['teacher']->id)
+        ->and($second->approved_by)->toBe($supervisor->id)
         ->and($fixture['assignment']->attempts()->where('assessment_type', AssessmentType::SelfTest)->count())->toBe(2);
 });
 

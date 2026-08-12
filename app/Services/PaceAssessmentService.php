@@ -16,6 +16,7 @@ use App\Notifications\OperationalNotification;
 use App\PaceAssignmentStatus;
 use App\PermissionName;
 use App\RetryApprovalStatus;
+use App\RoleName;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -103,7 +104,7 @@ class PaceAssessmentService
 
             $assignment->loadMissing('studentCourse.enrollment.student', 'pace');
             $recipients = $isOverLimit
-                ? $this->recipients->withRole(\App\RoleName::Administrator)
+                ? $this->recipients->withRole(RoleName::Administrator)
                 : $this->recipients->forLearningCenter(
                     (int) $assignment->studentCourse->enrollment->learning_center_id,
                     PermissionName::ApproveRetests,
@@ -148,7 +149,7 @@ class PaceAssessmentService
             if ($requester !== null) {
                 $this->notifications->send([$requester], new OperationalNotification(
                     'Assessment retry decision recorded',
-                    "Retry attempt {$approval->attempt_number} was {$decision->label()}: ".trim($reason),
+                    "Retry attempt {$approval->attempt_number} was {$decision->value}: ".trim($reason),
                     route('pace-assignments.show', $approval->pace_assignment_id),
                     NotificationCategory::Academic,
                     $decision === RetryApprovalStatus::Approved ? NotificationPriority::Information : NotificationPriority::Warning,
