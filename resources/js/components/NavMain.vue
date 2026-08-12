@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { ChevronRight } from '@lucide/vue';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { Badge } from '@/components/ui/badge';
 import {
     Collapsible,
     CollapsibleContent,
@@ -25,8 +26,18 @@ const props = defineProps<{
     groups: NavGroup[];
 }>();
 
+const page = usePage();
 const { currentUrl, isCurrentOrParentUrl, isCurrentUrl } = useCurrentUrl();
 const openGroup = ref<string | null>(null);
+const roleLabels: Record<string, string> = {
+    administrator: 'Administrator',
+    teacher: 'Teacher',
+    pace_officer: 'PACE Officer',
+    accountant: 'Accountant',
+};
+const currentRoles = computed(() =>
+    page.props.auth.roles.map((role) => roleLabels[role] ?? role),
+);
 
 function isGroupActive(group: NavGroup): boolean {
     return group.items.some(
@@ -54,7 +65,16 @@ watch(
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupLabel class="h-auto min-h-8 flex-wrap gap-1.5 py-1.5">
+            <Badge
+                v-for="role in currentRoles"
+                :key="role"
+                variant="outline"
+                class="bg-background"
+            >
+                {{ role }}
+            </Badge>
+        </SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton
