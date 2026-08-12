@@ -22,6 +22,7 @@ use App\Http\Controllers\GoodsReceiptController;
 use App\Http\Controllers\InventoryBulkSettingsController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryItemController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaceAccountController;
 use App\Http\Controllers\PaceAssignmentController;
 use App\Http\Controllers\PaceAssignmentStatusController;
@@ -55,6 +56,9 @@ Route::get('ready', ReadinessController::class)->name('ready');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
+    Route::patch('notifications/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
     Route::get('system-guide', DocumentationController::class)->name('documentation');
     Route::get('pace-accounts', [PaceAccountController::class, 'index'])->name('pace-accounts.index');
     Route::post('pace-accounts/{student}/payments', [PaceAccountController::class, 'storePayment'])->name('pace-accounts.payments.store');

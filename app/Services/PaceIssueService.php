@@ -7,7 +7,12 @@ use App\Models\InventoryItem;
 use App\Models\PaceAssignment;
 use App\Models\StockMovement;
 use App\Models\User;
+use App\NotificationCategory;
+use App\NotificationPriority;
+use App\Notifications\OperationalNotification;
 use App\PaceAssignmentStatus;
+use App\PermissionName;
+use App\RoleName;
 use App\StockMovementType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +24,8 @@ class PaceIssueService
         private PaceAssignmentService $assignments,
         private StockLedgerService $stock,
         private PaceAccountService $accounts,
+        private NotificationRecipientService $recipients,
+        private NotificationDispatcher $notifications,
     ) {}
 
     /**
@@ -95,10 +102,41 @@ class PaceIssueService
     {
         return DB::transaction(function () use ($assignment, $actor): PaceAssignment {
             $assignment = PaceAssignment::query()->lockForUpdate()->findOrFail($assignment->id);
-            $this->accounts->chargeIssue($assignment, $actor);
+            $charge = $this->accounts->chargeIssue($assignment, $actor);
             $this->stock->issueAssignment($assignment, $actor);
             $assignment = $this->assignments->transition($assignment, PaceAssignmentStatus::InProgress, $actor);
             $assignment->forceFill(['issued_by' => $actor->id, 'issued_at' => now()])->save();
+            $assignment->loadMissing('studentCourse.enrollment.student', 'studentCourse.course', 'pace');
+            $enrollment = $assignment->studentCourse->enrollment;
+            $student = $enrollment->student;
+            $this->notifications->send(
+                $this->recipients->forLearningCenter((int) $enrollment->learning_center_id, PermissionName::AssignPaces),
+                new OperationalNotification(
+                    'PACE issued to student',
+                    "PACE {$assignment->pace->number} was issued to {$student->full_name} and is now in progress.",
+                    route('students.show', ['student' => $student->id, 'tab' => 'progress']),
+                    NotificationCategory::Academic,
+                    NotificationPriority::Information,
+                    "pace-assignment:{$assignment->id}:issued",
+                    ['pace_assignment_id' => $assignment->id, 'student_id' => $student->id],
+                ),
+                $actor,
+            );
+            if ((float) $charge->balance_after < (float) $assignment->term->pace_cost) {
+                $this->notifications->send(
+                    $this->recipients->withRole(RoleName::Accountant),
+                    new OperationalNotification(
+                        'Student PACE balance needs attention',
+                        "{$student->full_name} has UGX ".number_format((float) $charge->balance_after, 0).' remaining, below the cost of another PACE.',
+                        route('pace-accounts.index', ['search' => $student->admission_number]),
+                        NotificationCategory::Finance,
+                        NotificationPriority::Warning,
+                        "pace-account:{$assignment->id}:low-balance",
+                        ['pace_assignment_id' => $assignment->id, 'student_id' => $student->id],
+                    ),
+                    $actor,
+                );
+            }
 
             return $assignment->refresh();
         }, 3);

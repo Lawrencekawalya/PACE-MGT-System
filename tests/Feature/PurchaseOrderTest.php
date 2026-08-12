@@ -7,6 +7,7 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderLine;
 use App\Models\StockMovement;
 use App\Models\Supplier;
+use App\Notifications\OperationalNotification;
 use App\PurchaseOrderStatus;
 use App\RoleName;
 use App\Services\PurchaseOrderService;
@@ -14,6 +15,7 @@ use App\Services\ReorderService;
 use App\Services\StockLedgerService;
 use App\StockMovementType;
 use Database\Seeders\AccessControlSeeder;
+use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->withoutVite();
@@ -21,6 +23,7 @@ beforeEach(function () {
 });
 
 test('an order requires approval and physical receipt before stock changes', function () {
+    Notification::fake();
     $officer = createStaffWithRole(RoleName::PaceOfficer);
     $administrator = createStaffWithRole(RoleName::Administrator);
     $supplier = Supplier::factory()->create();
@@ -47,10 +50,12 @@ test('an order requires approval and physical receipt before stock changes', fun
     $this->actingAs($officer)->post(route('purchase-orders.submit', $order))->assertRedirect();
     expect($order->fresh()->status)->toBe(PurchaseOrderStatus::Submitted)
         ->and($item->onHand())->toBe(0);
+    Notification::assertSentTo($administrator, OperationalNotification::class, fn (OperationalNotification $notification): bool => $notification->eventKey === "purchase-order:{$order->id}:submitted");
 
     $this->actingAs($administrator)->post(route('purchase-orders.decision', $order), [
         'decision' => 'approve',
     ])->assertRedirect();
+    Notification::assertSentTo($officer, OperationalNotification::class, fn (OperationalNotification $notification): bool => $notification->eventKey === "purchase-order:{$order->id}:approved");
     $this->actingAs($officer)->post(route('purchase-orders.send', $order))->assertRedirect();
     expect($order->fresh()->status)->toBe(PurchaseOrderStatus::Sent)
         ->and($item->onHand())->toBe(0)

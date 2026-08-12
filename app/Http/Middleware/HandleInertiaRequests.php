@@ -58,6 +58,18 @@ class HandleInertiaRequests extends Middleware
         }
 
         $settings = Schema::hasTable('school_settings') ? SchoolSetting::query()->first() : null;
+        $notifications = ['unread_count' => 0, 'recent' => []];
+        if ($user !== null && Schema::hasTable('notifications')) {
+            $notifications = [
+                'unread_count' => $user->unreadNotifications()->count(),
+                'recent' => $user->notifications()->latest()->limit(8)->get()->map(fn ($notification): array => [
+                    'id' => $notification->id,
+                    ...$notification->data,
+                    'read_at' => $notification->read_at?->toIso8601String(),
+                    'created_at' => $notification->created_at?->toIso8601String(),
+                ])->values()->all(),
+            ];
+        }
 
         return [
             ...parent::share($request),
@@ -74,6 +86,7 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $roleNames,
                 'permissions' => $permissionNames,
             ],
+            'notificationFeed' => $notifications,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

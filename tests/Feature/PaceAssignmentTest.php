@@ -149,6 +149,7 @@ test('stale assignment command creates one database alert per recipient per day'
     Notification::fake();
     $fixture = paceAssignmentFixture();
     $teacher = createStaffWithRole(RoleName::Teacher);
+    $teacher->learningCenters()->attach($fixture['studentCourse']->enrollment->learning_center_id);
     $assignment = app(PaceAssignmentService::class)->assign($fixture['studentCourse'], $fixture['paces'][1], $teacher);
     $assignment->update(['assigned_at' => now()->subDays(15)]);
 

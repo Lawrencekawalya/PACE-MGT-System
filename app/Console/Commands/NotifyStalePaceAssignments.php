@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\PaceAssignment;
-use App\Models\User;
 use App\Notifications\StalePaceAssignmentNotification;
 use App\PaceAssignmentStatus;
 use App\PermissionName;
+use App\Services\NotificationRecipientService;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -15,21 +15,23 @@ use Illuminate\Console\Command;
 #[Description('Notify academic staff about stale or awaiting-test PACE assignments')]
 class NotifyStalePaceAssignments extends Command
 {
-    public function handle(): int
+    public function handle(NotificationRecipientService $recipients): int
     {
-        $recipients = User::query()->where('is_active', true)->get()
-            ->filter(fn (User $user): bool => $user->hasPermission(PermissionName::AssignPaces));
         $assignments = PaceAssignment::query()
             ->where(fn ($query) => $query
                 ->where(fn ($query) => $query->whereIn('status', [PaceAssignmentStatus::Assigned, PaceAssignmentStatus::InProgress])->where('assigned_at', '<=', now()->subDays(14)))
                 ->orWhere(fn ($query) => $query->whereIn('status', [PaceAssignmentStatus::AwaitingSelfTest, PaceAssignmentStatus::AwaitingPaceTest])->where('updated_at', '<=', now()->subDays(2))))
+            ->with('studentCourse.enrollment:id,learning_center_id')
             ->get();
 
         foreach ($assignments as $assignment) {
-            foreach ($recipients as $recipient) {
+            $centerId = $assignment->studentCourse->enrollment->learning_center_id;
+            if ($centerId === null) {
+                continue;
+            }
+            foreach ($recipients->forLearningCenter($centerId, PermissionName::AssignPaces) as $recipient) {
                 $alreadySentToday = $recipient->notifications()
-                    ->whereDate('created_at', today())
-                    ->where('data', 'like', '%"pace_assignment_id":'.$assignment->id.'%')
+                    ->where('data->event_key', "pace-assignment:{$assignment->id}:stale:".today()->toDateString())
                     ->exists();
                 if (! $alreadySentToday) {
                     $recipient->notify(new StalePaceAssignmentNotification($assignment));

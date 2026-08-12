@@ -6,6 +6,7 @@ use App\Models\InventoryItem;
 use App\Models\LearningCenter;
 use App\Models\ScoreKeyRequest;
 use App\Models\StockMovement;
+use App\Notifications\OperationalNotification;
 use App\RoleName;
 use App\ScoreKeyRequestStatus;
 use App\ScoreKeyRequestType;
@@ -13,6 +14,7 @@ use App\Services\ScoreKeyRequestService;
 use App\Services\StockLedgerService;
 use App\StockMovementType;
 use Database\Seeders\AccessControlSeeder;
+use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->withoutVite();
@@ -45,6 +47,7 @@ function scoreKeyFixture(int $stock = 3): array
 }
 
 test('Teacher requests a matching Score Key for an assigned learning center', function () {
+    Notification::fake();
     $data = scoreKeyFixture();
     $unrelatedCenter = LearningCenter::factory()->create();
 
@@ -76,6 +79,7 @@ test('Teacher requests a matching Score Key for an assigned learning center', fu
         ->and($request->learning_center_id)->toBe($data['center']->id)
         ->and($request->status)->toBe(ScoreKeyRequestStatus::Pending)
         ->and(ActivityLog::query()->where('event', 'score-key-request.created')->exists())->toBeTrue();
+    Notification::assertSentTo($data['officer'], OperationalNotification::class, fn (OperationalNotification $notification): bool => $notification->eventKey === "score-key-request:{$request->id}:created");
 });
 
 test('Teacher cannot submit duplicates or request with an ambiguous center assignment', function () {

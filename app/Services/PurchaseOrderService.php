@@ -7,6 +7,10 @@ use App\Models\GoodsReceiptLine;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderLine;
 use App\Models\User;
+use App\NotificationCategory;
+use App\NotificationPriority;
+use App\Notifications\OperationalNotification;
+use App\PermissionName;
 use App\PurchaseOrderSource;
 use App\PurchaseOrderStatus;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +18,11 @@ use Illuminate\Validation\ValidationException;
 
 class PurchaseOrderService
 {
-    public function __construct(private StockLedgerService $stockLedger) {}
+    public function __construct(
+        private StockLedgerService $stockLedger,
+        private NotificationRecipientService $recipients,
+        private NotificationDispatcher $notifications,
+    ) {}
 
     /** @param array<string, mixed> $attributes */
     public function create(array $attributes, User $actor): PurchaseOrder
@@ -77,6 +85,19 @@ class PurchaseOrderService
                 'submitted_by' => $actor->id,
                 'submitted_at' => now(),
             ]);
+            $this->notifications->send(
+                $this->recipients->withPermission(PermissionName::ApprovePurchaseOrders),
+                new OperationalNotification(
+                    'Purchase order awaiting approval',
+                    "{$order->order_number} was submitted and requires an approval decision.",
+                    route('purchase-orders.show', $order),
+                    NotificationCategory::Ordering,
+                    NotificationPriority::ActionRequired,
+                    "purchase-order:{$order->id}:submitted",
+                    ['purchase_order_id' => $order->id],
+                ),
+                $actor,
+            );
 
             return $order->fresh();
         }, 3);
@@ -93,6 +114,23 @@ class PurchaseOrderService
                 'decided_at' => now(),
                 'decision_reason' => filled($reason) ? trim($reason) : null,
             ]);
+            $creator = User::query()->find($order->submitted_by ?? $order->created_by);
+            if ($creator !== null) {
+                $status = $approve ? 'approved' : 'rejected';
+                $this->notifications->send(
+                    [$creator],
+                    new OperationalNotification(
+                        "Purchase order {$status}",
+                        "{$order->order_number} was {$status}".(filled($reason) ? ': '.trim((string) $reason) : '.'),
+                        route($approve ? 'purchase-orders.approved' : 'purchase-orders.show', $approve ? [] : $order),
+                        NotificationCategory::Ordering,
+                        $approve ? NotificationPriority::ActionRequired : NotificationPriority::Warning,
+                        "purchase-order:{$order->id}:{$status}",
+                        ['purchase_order_id' => $order->id],
+                    ),
+                    $actor,
+                );
+            }
 
             return $order->fresh();
         }, 3);

@@ -7,6 +7,10 @@ use App\Models\InventoryItem;
 use App\Models\ScoreKeyRequest;
 use App\Models\StockMovement;
 use App\Models\User;
+use App\NotificationCategory;
+use App\NotificationPriority;
+use App\Notifications\OperationalNotification;
+use App\RoleName;
 use App\ScoreKeyRequestStatus;
 use App\ScoreKeyRequestType;
 use App\StockMovementType;
@@ -18,6 +22,8 @@ class ScoreKeyRequestService
     public function __construct(
         private StockLedgerService $stock,
         private ActivityLogger $activityLogger,
+        private NotificationRecipientService $recipients,
+        private NotificationDispatcher $notifications,
     ) {}
 
     /** @param array<string, mixed> $data */
@@ -86,6 +92,19 @@ class ScoreKeyRequestService
             $this->activityLogger->record($teacher, 'score-key-request.created', $request, newValues: $request->only([
                 'learning_center_id', 'inventory_item_id', 'request_type', 'quantity_requested',
             ]));
+            $this->notifications->send(
+                $this->recipients->withRole(RoleName::PaceOfficer),
+                new OperationalNotification(
+                    'Score Key request received',
+                    "{$teacher->name} requested {$request->quantity_requested} Score Key copy or copies.",
+                    route('score-key-requests.index', ['status' => ScoreKeyRequestStatus::Pending->value]),
+                    NotificationCategory::Inventory,
+                    NotificationPriority::ActionRequired,
+                    "score-key-request:{$request->id}:created",
+                    ['score_key_request_id' => $request->id, 'learning_center_id' => $center->id],
+                ),
+                $teacher,
+            );
 
             return $request;
         }, 3);
@@ -117,6 +136,18 @@ class ScoreKeyRequestService
                 'stock_movement_id' => $movement->id,
                 'status' => $request->status->value,
             ]);
+            $teacher = User::query()->find($request->teacher_id);
+            if ($teacher !== null) {
+                $this->notifications->send([$teacher], new OperationalNotification(
+                    $request->status === ScoreKeyRequestStatus::Issued ? 'Score Key request completed' : 'Score Key request partly issued',
+                    "{$quantity} Score Key copy or copies were issued for request #{$request->id}.",
+                    route('score-key-requests.index'),
+                    NotificationCategory::Inventory,
+                    $request->status === ScoreKeyRequestStatus::Issued ? NotificationPriority::Information : NotificationPriority::ActionRequired,
+                    "score-key-request:{$request->id}:issued:{$movement->id}",
+                    ['score_key_request_id' => $request->id],
+                ), $actor);
+            }
 
             return $request->refresh();
         }, 3);
@@ -136,6 +167,18 @@ class ScoreKeyRequestService
                 'rejected_at' => now(),
             ]);
             $this->activityLogger->record($actor, 'score-key-request.rejected', $request, reason: trim($reason));
+            $teacher = User::query()->find($request->teacher_id);
+            if ($teacher !== null) {
+                $this->notifications->send([$teacher], new OperationalNotification(
+                    'Score Key request rejected',
+                    "Request #{$request->id} was rejected: ".trim($reason),
+                    route('score-key-requests.index'),
+                    NotificationCategory::Inventory,
+                    NotificationPriority::Warning,
+                    "score-key-request:{$request->id}:rejected",
+                    ['score_key_request_id' => $request->id],
+                ), $actor);
+            }
 
             return $request;
         }, 3);

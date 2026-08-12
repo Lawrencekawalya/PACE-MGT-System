@@ -27,6 +27,19 @@ declare module '@inertiajs/core' {
                 time_format: string;
                 logo_url: string | null;
             };
+            notificationFeed: {
+                unread_count: number;
+                recent: Array<{
+                    id: string;
+                    category: string;
+                    priority: string;
+                    title: string;
+                    message: string;
+                    url: string;
+                    read_at: string | null;
+                    created_at: string;
+                }>;
+            };
             sidebarOpen: boolean;
             [key: string]: unknown;
         };

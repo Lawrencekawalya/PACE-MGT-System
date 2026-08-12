@@ -11,6 +11,9 @@ use App\Models\PaceAssignment;
 use App\Models\StudentCourse;
 use App\Models\Term;
 use App\Models\User;
+use App\NotificationCategory;
+use App\NotificationPriority;
+use App\Notifications\OperationalNotification;
 use App\PaceAssignmentStatus;
 use App\RetryApprovalStatus;
 use App\RoleName;
@@ -22,6 +25,11 @@ use Illuminate\Validation\ValidationException;
 
 class PaceAssignmentService
 {
+    public function __construct(
+        private NotificationRecipientService $recipients,
+        private NotificationDispatcher $notifications,
+    ) {}
+
     /** @return Collection<int, Pace> */
     public function sequence(StudentCourse $studentCourse): Collection
     {
@@ -116,6 +124,19 @@ class PaceAssignmentService
             ]);
             $studentCourse->update(['current_pace_id' => $pace->id]);
             $this->event($assignment, null, PaceAssignmentStatus::Assigned, $actor, $overrideReason);
+            $this->notifications->send(
+                $this->recipients->withRole(RoleName::PaceOfficer),
+                new OperationalNotification(
+                    'PACE ready for physical issue',
+                    "PACE {$pace->number} was assigned to {$studentCourse->enrollment->student->full_name}.",
+                    route('pace-issuing.index', ['search' => $studentCourse->enrollment->student->admission_number]),
+                    NotificationCategory::Academic,
+                    NotificationPriority::ActionRequired,
+                    "pace-assignment:{$assignment->id}:assigned",
+                    ['pace_assignment_id' => $assignment->id],
+                ),
+                $actor,
+            );
 
             return $assignment;
         }, 3);

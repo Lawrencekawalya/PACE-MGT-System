@@ -10,18 +10,22 @@ use App\Models\PaceAttemptCorrection;
 use App\Models\PaceRetryApproval;
 use App\Models\SchoolSetting;
 use App\Models\User;
-use App\Notifications\PaceRetryApprovalRequestedNotification;
+use App\NotificationCategory;
+use App\NotificationPriority;
+use App\Notifications\OperationalNotification;
 use App\PaceAssignmentStatus;
 use App\PermissionName;
 use App\RetryApprovalStatus;
-use App\RoleName;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 
 class PaceAssessmentService
 {
-    public function __construct(private PaceAssignmentService $assignments) {}
+    public function __construct(
+        private PaceAssignmentService $assignments,
+        private NotificationRecipientService $recipients,
+        private NotificationDispatcher $notifications,
+    ) {}
 
     public function finalize(PaceAssignment $assignment, AssessmentType $type, float $score, ?string $notes, User $actor): PaceAttempt
     {
@@ -97,12 +101,23 @@ class PaceAssessmentService
                 'decided_by' => null, 'decided_at' => null, 'decision_reason' => null,
             ])->save();
 
-            $recipients = User::query()->where('is_active', true)->get()->filter(
-                fn (User $user): bool => $isOverLimit
-                    ? $user->hasRole(RoleName::Administrator)
-                    : $user->hasPermission(PermissionName::ApproveRetests),
-            );
-            Notification::send($recipients, new PaceRetryApprovalRequestedNotification($approval));
+            $assignment->loadMissing('studentCourse.enrollment.student', 'pace');
+            $recipients = $isOverLimit
+                ? $this->recipients->withRole(\App\RoleName::Administrator)
+                : $this->recipients->forLearningCenter(
+                    (int) $assignment->studentCourse->enrollment->learning_center_id,
+                    PermissionName::ApproveRetests,
+                );
+            $student = $assignment->studentCourse->enrollment->student;
+            $this->notifications->send($recipients, new OperationalNotification(
+                'Assessment retry requires approval',
+                "{$type->label()} retry {$nextAttempt} for {$student->full_name} requires a decision.",
+                route('assessments.index', ['approvals' => 'pending']),
+                NotificationCategory::Academic,
+                NotificationPriority::ActionRequired,
+                "pace-retry:{$approval->id}:requested",
+                ['pace_retry_approval_id' => $approval->id, 'is_over_limit' => $isOverLimit],
+            ), $actor);
 
             return $approval;
         }, 3);
@@ -128,6 +143,18 @@ class PaceAssessmentService
             ]);
             if ($decision === RetryApprovalStatus::Approved && $approval->assessment_type === AssessmentType::PaceTest) {
                 $this->assignments->transition($approval->assignment, PaceAssignmentStatus::AwaitingPaceTest, $actor, "PACE Test retry {$approval->attempt_number} approved: {$reason}");
+            }
+            $requester = User::query()->find($approval->requested_by);
+            if ($requester !== null) {
+                $this->notifications->send([$requester], new OperationalNotification(
+                    'Assessment retry decision recorded',
+                    "Retry attempt {$approval->attempt_number} was {$decision->label()}: ".trim($reason),
+                    route('pace-assignments.show', $approval->pace_assignment_id),
+                    NotificationCategory::Academic,
+                    $decision === RetryApprovalStatus::Approved ? NotificationPriority::Information : NotificationPriority::Warning,
+                    "pace-retry:{$approval->id}:{$decision->value}",
+                    ['pace_retry_approval_id' => $approval->id],
+                ), $actor);
             }
 
             return $approval->refresh();
