@@ -14,7 +14,8 @@ class PurchaseOrderPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission(PermissionName::ManagePurchaseOrders)
+        return $user->hasPermission(PermissionName::ViewPurchaseOrders)
+            || $user->hasPermission(PermissionName::ManagePurchaseOrders)
             || $user->hasPermission(PermissionName::ApprovePurchaseOrders)
             || $user->hasPermission(PermissionName::ReceivePurchaseOrders);
     }

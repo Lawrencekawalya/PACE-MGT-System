@@ -4,9 +4,11 @@ namespace App\Http\Requests\Admin;
 
 use App\Models\User;
 use App\PermissionName;
+use App\RoleName;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateStaffRequest extends FormRequest
 {
@@ -44,5 +46,20 @@ class UpdateStaffRequest extends FormRequest
                 Rule::in([PermissionName::IssuePaces->value, PermissionName::ViewInventoryReports->value]),
             ],
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator): void {
+            $roles = $this->array('roles');
+
+            if (in_array(RoleName::Management->value, $roles, true) && count($roles) > 1) {
+                $validator->errors()->add('roles', 'The Management role must be assigned on its own to preserve read-only access.');
+            }
+
+            if (in_array(RoleName::Management->value, $roles, true) && $this->array('direct_permissions') !== []) {
+                $validator->errors()->add('direct_permissions', 'Direct permissions cannot be added to a Management account.');
+            }
+        });
     }
 }

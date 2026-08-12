@@ -69,6 +69,7 @@ const props = defineProps<{
         academic_year: string;
     } | null;
     canSetPaceCost: boolean;
+    canRecordPayments: boolean;
     today: string;
     options: {
         academicYears: Array<{ id: number; name: string }>;
@@ -296,13 +297,18 @@ defineOptions({
                         <th class="px-3 py-3">Learning center / grade</th>
                         <th class="px-3 py-3">Available balance</th>
                         <th class="px-3 py-3">Issue capacity</th>
-                        <th class="w-[38rem] px-3 py-3">Record payment</th>
+                        <th
+                            v-if="canRecordPayments"
+                            class="w-[38rem] px-3 py-3"
+                        >
+                            Record payment
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y">
                     <template v-for="row in enrollments.data" :key="row.id">
                         <tr>
-                            <td class="px-3 py-3">
+                            <td v-if="canRecordPayments" class="px-3 py-3">
                                 <Button
                                     type="button"
                                     size="icon"
@@ -403,7 +409,10 @@ defineOptions({
                             </td>
                         </tr>
                         <tr v-if="expandedId === row.id" class="bg-muted/10">
-                            <td colspan="6" class="px-6 py-4">
+                            <td
+                                :colspan="canRecordPayments ? 6 : 5"
+                                class="px-6 py-4"
+                            >
                                 <div class="mb-3 text-sm font-semibold">
                                     Recent account activity
                                 </div>
@@ -503,7 +512,7 @@ defineOptions({
                     </template>
                     <tr v-if="enrollments.data.length === 0">
                         <td
-                            colspan="6"
+                            :colspan="canRecordPayments ? 6 : 5"
                             class="px-4 py-14 text-center text-muted-foreground"
                         >
                             No students match these filters.

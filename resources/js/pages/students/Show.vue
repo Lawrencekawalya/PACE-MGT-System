@@ -82,6 +82,7 @@ const props = defineProps<{
     tab: string;
     statuses: Array<{ value: string; label: string }>;
     canAssign: boolean;
+    canUpdate: boolean;
 }>();
 const fullName = [
     props.student.first_name,
@@ -126,7 +127,7 @@ defineOptions({
                 </div>
             </div>
             <div class="flex flex-wrap gap-2">
-                <Button variant="outline" as-child
+                <Button v-if="canUpdate" variant="outline" as-child
                     ><Link :href="edit(student.id)"
                         ><Pencil class="size-4" />Edit profile</Link
                     ></Button
@@ -160,7 +161,7 @@ defineOptions({
             >
         </nav>
         <div v-if="tab === 'overview'" class="grid gap-8 lg:grid-cols-2">
-            <section class="space-y-4">
+            <section v-if="canUpdate" class="space-y-4">
                 <h2 class="text-base font-semibold">Student details</h2>
                 <dl class="grid grid-cols-[9rem_1fr] gap-x-4 gap-y-3 text-sm">
                     <dt class="text-muted-foreground">Admission number</dt>

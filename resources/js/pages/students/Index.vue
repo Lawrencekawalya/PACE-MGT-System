@@ -42,6 +42,7 @@ const props = defineProps<{
     levels: Option[];
     academicYears: Option[];
     statuses: Array<{ value: string; label: string }>;
+    canCreate: boolean;
 }>();
 const search = ref(props.filters.search);
 const status = ref(props.filters.status);
@@ -74,8 +75,8 @@ defineOptions({
         <div class="flex flex-wrap items-start justify-between gap-4">
             <Heading
                 title="Students"
-                description="Register students and review enrolment and course placement"
-            /><Button as-child
+                description="Review student enrolment and course placement"
+            /><Button v-if="canCreate" as-child
                 ><Link :href="create()"
                     ><UserPlus class="size-4" />Register student</Link
                 ></Button

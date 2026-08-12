@@ -30,7 +30,7 @@ class PaceAccountController extends Controller
 
     public function index(Request $request): Response
     {
-        Gate::authorize(PermissionName::ManagePaceAccounts->value);
+        Gate::authorize(PermissionName::ViewPaceAccounts->value);
         $filters = $request->validate([
             'academic_year_id' => ['nullable', 'integer', 'exists:academic_years,id'],
             'learning_center_id' => ['nullable', 'integer', 'exists:learning_centers,id'],
@@ -101,6 +101,7 @@ class PaceAccountController extends Controller
                 'academic_year' => $priceTerm->academicYear->name,
             ],
             'canSetPaceCost' => $request->user()->hasRole(RoleName::Accountant),
+            'canRecordPayments' => $request->user()->hasPermission(PermissionName::ManagePaceAccounts),
             'today' => now()->toDateString(),
             'options' => [
                 'academicYears' => AcademicYear::query()->latest('starts_on')->get(['id', 'name']),

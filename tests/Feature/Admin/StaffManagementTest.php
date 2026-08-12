@@ -57,6 +57,33 @@ test('administrator can create staff with roles and approved optional permission
         ->toBeTrue();
 });
 
+test('management role cannot be combined with operational access', function () {
+    $base = [
+        'name' => 'School Director',
+        'email' => 'director@fica.test',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ];
+
+    $this->actingAs($this->administrator)
+        ->post(route('admin.staff.store'), [
+            ...$base,
+            'roles' => [RoleName::Management->value, RoleName::Teacher->value],
+            'direct_permissions' => [],
+        ])
+        ->assertSessionHasErrors('roles');
+
+    $this->actingAs($this->administrator)
+        ->post(route('admin.staff.store'), [
+            ...$base,
+            'roles' => [RoleName::Management->value],
+            'direct_permissions' => [PermissionName::IssuePaces->value],
+        ])
+        ->assertSessionHasErrors('direct_permissions');
+
+    expect(User::query()->where('email', 'director@fica.test')->exists())->toBeFalse();
+});
+
 test('administrator can deactivate another staff account', function () {
     $teacher = createStaffWithRole(RoleName::Teacher);
 

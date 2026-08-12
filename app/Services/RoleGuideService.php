@@ -27,7 +27,7 @@ class RoleGuideService
         $roles = $user->hasRole(RoleName::Administrator)
             ? RoleName::cases()
             : array_filter(
-                [RoleName::Teacher, RoleName::PaceOfficer, RoleName::Accountant],
+                [RoleName::Teacher, RoleName::PaceOfficer, RoleName::Accountant, RoleName::Management],
                 fn (RoleName $role): bool => $user->hasRole($role),
             );
         $guides = $this->guides();
@@ -60,7 +60,7 @@ class RoleGuideService
                         'title' => 'Set up staff access',
                         'outcome' => 'Every staff member has only the access needed for their work.',
                         'steps' => [
-                            'Create staff accounts and assign the Administrator, Teacher, PACE Officer, or Accountant role.',
+                            'Create staff accounts and assign the Administrator, Teacher, PACE Officer, Accountant, or Management role.',
                             'Assign both Teacher and PACE Officer roles only when one person performs both duties.',
                             'Review active accounts, reset passwords when authorized, and remove access by deactivating accounts instead of deleting history.',
                         ],
@@ -108,7 +108,7 @@ class RoleGuideService
                         'steps' => [
                             'Use academic, issuing, and inventory reports with the appropriate period and export only the data required.',
                             'Use System status to review infrastructure, catalogue, stock-ledger, ownership, and active-period checks.',
-                            'Use the Teacher, PACE Officer, and Accountant guides on this page when training or supporting those users.',
+                            'Use the Teacher, PACE Officer, Accountant, and Management guides on this page when training or supporting those users.',
                         ],
                     ],
                 ],
@@ -325,6 +325,54 @@ class RoleGuideService
                     'The PACE account records prepaid PACE credit only; it does not manage tuition invoices, expenses, or full financial statements.',
                     'You cannot register students, assign or issue PACEs, record assessments, adjust inventory, or make promotion decisions.',
                     'Never overwrite a balance; record payments and retain automatic issue charges and reversals in the ledger.',
+                ],
+            ],
+            RoleName::Management->value => [
+                'role' => RoleName::Management->value,
+                'label' => RoleName::Management->label(),
+                'summary' => 'Review school-wide academic, PACE-account, inventory, catalogue, and procurement information without changing operational records.',
+                'workflows' => [
+                    [
+                        'title' => 'Review the executive dashboard',
+                        'outcome' => 'Current academic, stock, and PACE-account conditions are visible in one place.',
+                        'steps' => [
+                            'Open Dashboard to review active students, learning progress, assessment exceptions, and term-target performance.',
+                            'Review inventory totals, stock status, issuance activity, and the reorder attention queue.',
+                            'Review PACE-account balances and students who need funding attention before another physical issue.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Review students and learning',
+                        'outcome' => 'Management can follow student placement and progress across all learning centers.',
+                        'steps' => [
+                            'Open Students and filter by academic year, grade, status, name, or admission number.',
+                            'Open a student profile to review enrollment history, prescribed courses, PACE assignments, and term progress.',
+                            'Use academic reports to compare school-wide progress and export a filtered report when required.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Review stock and procurement',
+                        'outcome' => 'Stock exposure and purchasing progress can be checked without entering the operational workflow.',
+                        'steps' => [
+                            'Open Inventory to review PACE booklets, Score Keys, on-hand balances, reorder levels, and movement history.',
+                            'Open Purchase orders to review draft, submitted, approved, sent, partially received, received, rejected, and cancelled orders.',
+                            'Use inventory reports and approved order exports when a management review document is required.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Review PACE accounts and catalogue',
+                        'outcome' => 'Pricing exposure, student credit, and the academic catalogue remain visible for oversight.',
+                        'steps' => [
+                            'Open PACE accounts to review the active-term PACE cost, balances, issue capacity, and account transaction history.',
+                            'Open PACE catalogue to inspect the grade, subject, course, PACE, and Score Key reference data.',
+                            'Escalate incorrect data or an operational exception to the administrator or responsible officer for correction.',
+                        ],
+                    ],
+                ],
+                'boundaries' => [
+                    'Management access is read-only and school-wide; it does not create, edit, approve, issue, receive, correct, or delete records.',
+                    'Operational changes must be performed by the Administrator, Teacher, PACE Officer, or Accountant responsible for that workflow.',
+                    'Do not share exported student, account, inventory, or procurement information beyond authorized school business.',
                 ],
             ],
         ];

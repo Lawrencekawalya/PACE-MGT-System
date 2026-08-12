@@ -95,7 +95,10 @@ const mainNavItems = computed<NavItem[]>(() => {
         });
     }
 
-    if (hasPermission('manage-tuition-clearance')) {
+    if (
+        hasPermission('view-pace-accounts') ||
+        hasPermission('manage-tuition-clearance')
+    ) {
         items.push({
             title: 'PACE accounts',
             href: paceAccountsIndex(),
@@ -112,7 +115,7 @@ const navGroups = computed<NavGroup[]>(() => {
     const schoolAdministration: NavItem[] = [];
     const catalogueAndCurriculum: NavItem[] = [];
 
-    if (hasPermission('register-students')) {
+    if (hasPermission('view-students') || hasPermission('register-students')) {
         studentLearning.push({
             title: 'Students',
             href: studentsIndex(),
@@ -182,7 +185,8 @@ const navGroups = computed<NavGroup[]>(() => {
     if (
         hasPermission('manage-purchase-orders') ||
         hasPermission('approve-purchase-orders') ||
-        hasPermission('receive-purchase-orders')
+        hasPermission('receive-purchase-orders') ||
+        hasPermission('view-purchase-orders')
     ) {
         inventoryAndOrders.push({
             title: 'Purchase orders',

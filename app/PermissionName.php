@@ -10,6 +10,7 @@ enum PermissionName: string
     case ManagePaceCatalogue = 'manage-pace-catalogue';
     case ImportPaceCatalogue = 'import-pace-catalogue';
     case ViewPaceCatalogue = 'view-pace-catalogue';
+    case ViewStudents = 'view-students';
     case RegisterStudents = 'register-students';
     case AssignPaces = 'assign-paces';
     case IssuePaces = 'issue-paces';
@@ -22,9 +23,11 @@ enum PermissionName: string
     case ManagePurchaseOrders = 'manage-purchase-orders';
     case ApprovePurchaseOrders = 'approve-purchase-orders';
     case ReceivePurchaseOrders = 'receive-purchase-orders';
+    case ViewPurchaseOrders = 'view-purchase-orders';
     case ViewAcademicReports = 'view-academic-reports';
     case ViewInventoryReports = 'view-inventory-reports';
     case ManagePaceAccounts = 'manage-tuition-clearance';
+    case ViewPaceAccounts = 'view-pace-accounts';
 
     public function label(): string
     {
@@ -35,6 +38,7 @@ enum PermissionName: string
             self::ManagePaceCatalogue => 'Manage PACE catalogue',
             self::ImportPaceCatalogue => 'Import PACE catalogue',
             self::ViewPaceCatalogue => 'View PACE catalogue',
+            self::ViewStudents => 'View students',
             self::RegisterStudents => 'Register and enroll students',
             self::AssignPaces => 'Assign PACEs academically',
             self::IssuePaces => 'Physically issue PACEs',
@@ -47,9 +51,11 @@ enum PermissionName: string
             self::ManagePurchaseOrders => 'Prepare and send purchase orders',
             self::ApprovePurchaseOrders => 'Approve purchase orders',
             self::ReceivePurchaseOrders => 'Receive purchase orders',
+            self::ViewPurchaseOrders => 'View purchase orders',
             self::ViewAcademicReports => 'View academic reports',
             self::ViewInventoryReports => 'View inventory reports',
             self::ManagePaceAccounts => 'Manage PACE accounts',
+            self::ViewPaceAccounts => 'View PACE accounts',
         };
     }
 }

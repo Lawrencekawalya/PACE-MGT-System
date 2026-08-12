@@ -8,6 +8,7 @@ enum RoleName: string
     case Teacher = 'teacher';
     case PaceOfficer = 'pace_officer';
     case Accountant = 'accountant';
+    case Management = 'management';
 
     public function label(): string
     {
@@ -16,6 +17,7 @@ enum RoleName: string
             self::Teacher => 'Teacher',
             self::PaceOfficer => 'PACE Officer',
             self::Accountant => 'Accountant',
+            self::Management => 'Management',
         };
     }
 }

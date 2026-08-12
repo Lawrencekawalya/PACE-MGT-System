@@ -63,6 +63,7 @@ class StudentController extends Controller
             'levels' => Level::query()->orderBy('sort_order')->get(['id', 'name']),
             'academicYears' => AcademicYear::query()->orderByDesc('starts_on')->get(['id', 'name']),
             'statuses' => collect(StudentStatus::cases())->map(fn (StudentStatus $status) => ['value' => $status->value, 'label' => $status->label()]),
+            'canCreate' => Gate::allows('create', Student::class),
         ]);
     }
 
@@ -127,6 +128,7 @@ class StudentController extends Controller
                 ? $request->string('tab')->toString() : 'overview',
             'statuses' => collect(StudentStatus::cases())->map(fn (StudentStatus $status) => ['value' => $status->value, 'label' => $status->label()]),
             'canAssign' => $request->user()?->can('assign-paces') ?? false,
+            'canUpdate' => Gate::allows('update', $student),
         ]);
     }
 

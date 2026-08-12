@@ -38,7 +38,7 @@ test('non-administrators cannot view system status', function (RoleName $role) {
     $this->actingAs(createStaffWithRole($role))
         ->get(route('admin.system-status'))
         ->assertForbidden();
-})->with([RoleName::Teacher, RoleName::PaceOfficer, RoleName::Accountant]);
+})->with([RoleName::Teacher, RoleName::PaceOfficer, RoleName::Accountant, RoleName::Management]);
 
 test('scheduler heartbeat is recorded and reported as current', function () {
     $this->artisan('system:heartbeat')->assertSuccessful();

@@ -122,7 +122,7 @@ class DashboardReportService
     /** @return array<string, mixed>|null */
     public function paceAccounts(User $user): ?array
     {
-        if (! $user->can(PermissionName::ManagePaceAccounts->value)) {
+        if (! $user->can(PermissionName::ViewPaceAccounts->value)) {
             return null;
         }
 

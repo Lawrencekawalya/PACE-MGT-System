@@ -14,6 +14,7 @@ test('approved role permission matrix is seeded', function () {
     $teacher = Role::query()->where('name', RoleName::Teacher->value)->with('permissions')->sole();
     $paceOfficer = Role::query()->where('name', RoleName::PaceOfficer->value)->with('permissions')->sole();
     $accountant = Role::query()->where('name', RoleName::Accountant->value)->with('permissions')->sole();
+    $management = Role::query()->where('name', RoleName::Management->value)->with('permissions')->sole();
 
     expect($teacher->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
         PermissionName::RegisterStudents,
@@ -23,6 +24,7 @@ test('approved role permission matrix is seeded', function () {
         PermissionName::RequestScoreKeys,
         PermissionName::ViewAcademicReports,
         PermissionName::ViewPaceCatalogue,
+        PermissionName::ViewStudents,
     ])->map->value->sort()->values()->all())
         ->and($paceOfficer->display_name)->toBe('PACE Officer')
         ->and($paceOfficer->permissions->pluck('name')->sort()->values()->all())->toBe(collect([
@@ -33,9 +35,22 @@ test('approved role permission matrix is seeded', function () {
             PermissionName::IssueScoreKeys,
             PermissionName::ViewInventoryReports,
             PermissionName::ViewPaceCatalogue,
+            PermissionName::ViewPurchaseOrders,
         ])->map->value->sort()->values()->all())
-        ->and($accountant->permissions->pluck('name')->values()->all())
-        ->toBe([PermissionName::ManagePaceAccounts->value]);
+        ->and($accountant->permissions->pluck('name')->sort()->values()->all())
+        ->toBe(collect([
+            PermissionName::ManagePaceAccounts,
+            PermissionName::ViewPaceAccounts,
+        ])->map->value->sort()->values()->all())
+        ->and($management->permissions->pluck('name')->sort()->values()->all())
+        ->toBe(collect([
+            PermissionName::ViewStudents,
+            PermissionName::ViewAcademicReports,
+            PermissionName::ViewInventoryReports,
+            PermissionName::ViewPurchaseOrders,
+            PermissionName::ViewPaceAccounts,
+            PermissionName::ViewPaceCatalogue,
+        ])->map->value->sort()->values()->all());
 });
 
 test('teachers and PACE Officers cannot manage administration screens', function (RoleName $role) {
@@ -47,6 +62,7 @@ test('teachers and PACE Officers cannot manage administration screens', function
     'teacher' => RoleName::Teacher,
     'pace officer' => RoleName::PaceOfficer,
     'accountant' => RoleName::Accountant,
+    'management' => RoleName::Management,
 ]);
 
 test('optional inventory permission can be assigned directly to a teacher', function () {

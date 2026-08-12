@@ -34,6 +34,7 @@ const roleLabels: Record<string, string> = {
     teacher: 'Teacher',
     pace_officer: 'PACE Officer',
     accountant: 'Accountant',
+    management: 'Management',
 };
 const currentRoles = computed(() =>
     page.props.auth.roles.map((role) => roleLabels[role] ?? role),

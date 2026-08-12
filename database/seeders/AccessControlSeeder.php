@@ -32,6 +32,7 @@ class AccessControlSeeder extends Seeder
                         RoleName::Teacher => 'Student learning, PACE assignment, and assessment',
                         RoleName::PaceOfficer => 'PACE issuing, inventory, and ordering',
                         RoleName::Accountant => 'Student PACE payments and account management',
+                        RoleName::Management => 'Read-only school-wide operational and academic oversight',
                     },
                 ],
             );
@@ -43,6 +44,7 @@ class AccessControlSeeder extends Seeder
             RoleName::Administrator->value => PermissionName::cases(),
             RoleName::Teacher->value => [
                 PermissionName::ViewPaceCatalogue,
+                PermissionName::ViewStudents,
                 PermissionName::RegisterStudents,
                 PermissionName::AssignPaces,
                 PermissionName::RequestScoreKeys,
@@ -56,11 +58,21 @@ class AccessControlSeeder extends Seeder
                 PermissionName::IssueScoreKeys,
                 PermissionName::AdjustInventory,
                 PermissionName::ManagePurchaseOrders,
+                PermissionName::ViewPurchaseOrders,
                 PermissionName::ReceivePurchaseOrders,
                 PermissionName::ViewInventoryReports,
             ],
             RoleName::Accountant->value => [
+                PermissionName::ViewPaceAccounts,
                 PermissionName::ManagePaceAccounts,
+            ],
+            RoleName::Management->value => [
+                PermissionName::ViewStudents,
+                PermissionName::ViewAcademicReports,
+                PermissionName::ViewInventoryReports,
+                PermissionName::ViewPurchaseOrders,
+                PermissionName::ViewPaceAccounts,
+                PermissionName::ViewPaceCatalogue,
             ],
         ];
 
